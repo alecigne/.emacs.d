@@ -1,0 +1,22 @@
+#+TITLE: Git settings
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#magit][Magit]]
+- [[#wrapping-up][Wrapping up]]
+
+* Magit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package magit
+    :ensure t
+    :delight magit-status-mode "magit"
+    :bind
+    (("C-c g" . magit-status)))
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-git)
+#+END_SRC

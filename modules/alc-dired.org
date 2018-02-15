@@ -1,0 +1,68 @@
+#+TITLE: Dired settings
+#+AUTHOR: Anthony Le Cigne
+
+Useful links :
+
+- [[https://github.com/Fuco1/dired-hacks][dired-hacks]]
+
+* Table of contents                                            :toc:noexport:
+- [[#dired][=dired=]]
+- [[#dired-narrow][=dired-narrow=]]
+- [[#dired-collapse][=dired-collapse=]]
+- [[#wrapping-up][Wrapping up]]
+
+* =dired=
+
+=dired= can benefit from a new map based on the [[https://github.com/Fuco1/dired-hacks][dired-hacks]] page. I
+use the =h= key as a keybinding since it was originally bound to
+=describe-mode=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (define-prefix-command 'alc-dired-hacks-map)
+
+  (use-package dired
+    :bind
+    (:map dired-mode-map
+          ("h" . alc-dired-hacks-map))
+    :config
+    (put 'dired-find-alternate-file 'disabled nil)
+    (setq dired-listing-switches "-lha"))
+
+  (use-package dired+
+    :ensure t
+    :after dired
+    :config
+    (diredp-toggle-find-file-reuse-dir 1))
+#+END_SRC
+
+* =dired-narrow=
+
+See this [[https://github.com/Fuco1/dired-hacks#dired-narrow][section]] on [[https://github.com/Fuco1/dired-hacks#dired-narrow][dired hacks]] and an [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][article]] about it on [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Pragmatic
+Emacs]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dired-narrow
+    :ensure t
+    :after dired
+    :bind (:map alc-dired-hacks-map
+                ("n" . dired-narrow)
+                ("f" . dired-narrow-fuzzy)
+                ("r" . dired-narrow-regexp)))
+#+END_SRC
+
+* =dired-collapse=
+
+https://github.com/Fuco1/dired-hacks#dired-collapse
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dired-collapse
+    :ensure t
+    :bind (:map alc-dired-hacks-map
+                ("c" . dired-collapse-mode)))
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-dired)
+#+END_SRC

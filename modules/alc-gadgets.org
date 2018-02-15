@@ -1,0 +1,55 @@
+#+TITLE: Fun and convenient packages
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#google-this][=google-this=]]
+- [[#writeroom-mode][=writeroom-mode=]]
+- [[#emojify][=emojify=]]
+- [[#fireplace][=fireplace=]]
+- [[#lorem-ipsum][=lorem-ipsum=]]
+
+* =google-this=
+
+[[https://github.com/Malabarba/emacs-google-this][A set of emacs functions and bindings to google under point]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package google-this
+    :ensure t
+    :defer 5)
+#+END_SRC
+
+* =writeroom-mode=
+
+[[https://github.com/joostkremers/writeroom-mode][Distraction-free writing for Emacs.]]
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package writeroom-mode
+    :ensure t
+    :config
+    (setq writeroom-restore-window-config t))
+#+END_SRC
+
+* =emojify=
+
+[[https://github.com/iqbalansari/emacs-emojify][Display emojis in Emacs]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package emojify
+    :ensure t)
+#+END_SRC
+
+* =fireplace=
+
+[[https://github.com/johanvts/emacs-fireplace][A cozy fireplace for emacs]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package fireplace
+    :ensure t)
+#+END_SRC
+
+* =lorem-ipsum=
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package lorem-ipsum
+    :ensure t)
+#+END_SRC

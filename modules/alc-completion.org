@@ -1,0 +1,48 @@
+#+TITLE: Completion settings
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#company][=company=]]
+  - [[#company-quickhelp][=company-quickhelp=]]
+- [[#yasnippet][=yasnippet=]]
+- [[#wrapping-up][Wrapping up]]
+
+* =company=
+
+Check the [[https://company-mode.github.io/][website]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company
+    :ensure t
+    :demand
+    :delight
+    :config
+    (global-company-mode))
+#+END_SRC
+
+** =company-quickhelp=
+
+[[https://github.com/expez/company-quickhelp][Documentation popup for Company]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-quickhelp
+    :ensure t
+    :hook (company-mode . company-quickhelp-mode))
+#+END_SRC
+
+* =yasnippet=
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package yasnippet
+    :ensure t
+    :delight yas-minor-mode
+    :demand
+    :config
+    (yas-global-mode 1))
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-company)
+#+END_SRC

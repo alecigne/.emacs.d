@@ -1,0 +1,27 @@
+#+TITLE: Web settings
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#basics][Basics]]
+- [[#impatient-mode][Impatient mode]]
+- [[#wrapping-up][Wrapping up]]
+
+* Basics
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package web-mode
+    :ensure t)
+#+END_SRC
+
+* Impatient mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package impatient-mode
+    :ensure t)
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-web)
+#+END_SRC

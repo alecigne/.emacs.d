@@ -1,0 +1,28 @@
+#+TITLE: Communication settings
+#+AUTHOR: Anthony Le Cigne
+
+Things to stay in touch.
+
+* Table of contents                                            :toc:noexport:
+- [[#erc][ERC]]
+- [[#jabber][Jabber]]
+
+* ERC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package erc
+    :config
+    (setq erc-track-position-in-mode-line 'before-modes
+          erc-track-shorten-names nil
+          erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+                                    "324" "329" "332" "333" "353" "477")
+          erc-hide-list '("JOIN" "PART" "QUIT")))
+#+END_SRC
+
+* Jabber
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package jabber
+    :ensure t)
+#+END_SRC
+

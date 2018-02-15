@@ -1,0 +1,72 @@
+#+TITLE: Programming settings
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#lisp][Lisp]]
+  - [[#all-lisps][All Lisps]]
+  - [[#common-lisp][Common Lisp]]
+  - [[#emacs-lisp][Emacs Lisp]]
+  - [[#scheme][Scheme]]
+- [[#python][Python]]
+
+* Lisp
+
+** All Lisps
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (delight '((lisp-mode "λ" :major)
+             (lisp-interaction-mode "λ" :major)
+             (emacs-lisp-mode "el" :major)))
+
+#+END_SRC
+
+** Common Lisp
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package slime
+    :ensure t)
+#+END_SRC
+
+** Emacs Lisp
+** Scheme
+
+http://www.nongnu.org/geiser/
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package geiser
+    :ensure t)
+#+END_SRC
+
+* Python
+
+You need to install Python on your system first, of course, but also
+[[https://github.com/davidhalter/jedi][=jedi=]] for autocompletion and static analysis.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package elpy
+    :ensure t
+    :init
+    (with-eval-after-load 'python (elpy-enable))
+    :config
+    (setq elpy-rpc-python-command "python3"
+          python-shell-interpreter "python3"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package pyvenv
+    :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-jedi
+    :ensure t
+    ;; :after company
+    :init
+    (defun alc-prog-add-company-jedi ()
+      (add-to-list 'company-backends 'company-jedi))
+
+    (add-hook 'python-mode-hook 'alc-prog-add-company-jedi)
+    (add-hook 'python-mode-hook 'jedi:setup)
+    :config
+    (setq jedi:complete-on-dot t))
+#+END_SRC

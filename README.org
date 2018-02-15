@@ -1,0 +1,46 @@
+#+TITLE: alecigne's Emacs config
+#+AUTHOR: Anthony Le Cigne
+
+This is my Emacs config, based on a network of Org files.
+
+- =init.org=...
+
+  + ...initializes [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
+
+  + ...uses =package-install= to install and/or load John Wiegley's
+    [[https://github.com/jwiegley/use-package][=use-package=]].
+
+  + ...uses =use-package= to install and/or load Org.
+
+  + ...uses Org to tangle and load every Org file in my config:
+    personal config first, then modules (see below).
+
+- The =personal= directory contains the settings I consider
+  idiosyncratic (keybindings, paths, workflow-related settings, etc.)
+  and above all, modules that will be activated. I separate it from
+  the rest so my config can stay more or less "neutral". If you are
+  curious enough to try this config (!) you can put your own settings
+  there. Keep in mind that it is loaded *before* the modules!
+
+  For example, an =.org= file containing this code will load all the
+  modules:
+
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (setq alc-enabled-modules
+	  '(alc-basic
+	    alc-dired
+	    alc-helm
+	    alc-completion
+	    alc-projectile
+	    alc-git
+	    alc-org
+	    alc-prog
+	    alc-latex
+	    alc-web
+	    alc-ess
+	    alc-communication
+	    alc-gadgets
+	    ))
+  #+END_SRC
+
+- The =modules= directory contains the main config; take a look.
