@@ -149,7 +149,8 @@
         ("HOLD" . alc-org-in-progress-kwd)
         ("DONE" . alc-org-done-kwd)
         ("COMPLETED" . alc-org-done-kwd)
-        ("CANCELED" . alc-org-done-kwd)))
+        ("CANCELED" . alc-org-done-kwd)
+        ("ABORTED" . alc-org-done-kwd)))
 
 (setq org-capture-templates
       '(;; Notes
