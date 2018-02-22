@@ -1,5 +1,33 @@
 #+TITLE: Personal settings
 
+* Table of contents                                            :noexport:toc:
+- [[#activated-modules][Activated modules]]
+- [[#main-directories-and-files][Main directories and files]]
+  - [[#systems][Systems]]
+  - [[#path][Path]]
+  - [[#root-directory][Root directory]]
+  - [[#subdirectories][Subdirectories]]
+  - [[#org-files][Org files]]
+- [[#safe-local-variables][Safe local variables]]
+- [[#recentf][Recentf]]
+- [[#backups][Backups]]
+- [[#basic-settings][Basic settings]]
+- [[#helm][=helm=]]
+- [[#org][=org=]]
+  - [[#keybindings][Keybindings]]
+  - [[#keywords][keywords]]
+  - [[#capture-templates][Capture templates]]
+  - [[#agenda-views][Agenda views]]
+  - [[#org-publish][Org publish]]
+  - [[#org-crypt][=org-crypt=]]
+  - [[#org-pomodoro][=org-pomodoro=]]
+- [[#lisp][Lisp]]
+- [[#communication][Communication]]
+  - [[#erc][ERC]]
+- [[#projectile][Projectile]]
+- [[#gadgets][Gadgets]]
+- [[#wrapping-up][Wrapping up]]
+
 * Activated modules
 
 #+BEGIN_SRC emacs-lisp :tangle yes
