@@ -161,6 +161,9 @@
 #+END_SRC
 
 ** Todo keywords
+:PROPERTIES:
+:CUSTOM_ID: todokw
+:END:
 
 Keywords for tasks:
 

@@ -118,7 +118,7 @@ From [[https://emacs.stackexchange.com/a/10714][here]].
 
 **** Todo keywords
 
-Todo keywords are personal IMHO. They are in my [[file:alc-personal.org::*Todo%20keywords][personal config]].
+Todo keywords are personal IMHO. They are in my [[file:../personal/config.org::#todokw][personal config]].
 
 **** Todo dependencies
 
