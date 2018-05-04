@@ -55,15 +55,17 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun alc-find-current-system ()
     (cond ((and (equal (system-name) "LAPTOP-OJ0VN1KH")
-		(eq system-type 'windows-nt))
-	   "laptop-windows")
-	  ((and (equal (system-name) "debian")
-		(eq system-type 'gnu/linux))
-	   "laptop-linux")
-	  ((and (equal (system-name) "PC-KARINE")
-		(eq system-type 'windows-nt))
-	   "pc-karine")
-	  (t (error "Unknown system!"))))
+                (eq system-type 'windows-nt))
+           "laptop-windows")
+          ((and (equal (system-name) "debian")
+                (eq system-type 'gnu/linux))
+           "laptop-linux")
+          ((and (equal (system-name) "PC-KARINE")
+                (eq system-type 'windows-nt))
+           "pc-karine")
+          (t (if (eq system-type 'windows-nt)
+                 "unknown-windows-system")
+             "unknown-linux-system")))
 
   (setq alc-current-system (alc-find-current-system))
 #+END_SRC
@@ -78,36 +80,48 @@
 ** Root directory
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq alc-root-dir
-        (cond ((equal alc-current-system "laptop-windows")
-               "e:/")
-              ((equal alc-current-system "laptop-linux")
-               "/media/storage/")
-              ((equal alc-current-system "pc-karine")
-               "C:/Users/Karine/Desktop/alc/")))
+  (cond ((equal alc-current-system "laptop-windows")
+         (setq alc-root-dir "e:/"))
+        ((equal alc-current-system "laptop-linux")
+         (setq alc-root-dir "/media/storage/"))
+        ((equal alc-current-system "pc-karine")
+         (setq alc-root-dir "C:/Users/Karine/Desktop/alc/"))
+        ((or (equal alc-current-system "unknown-windows-system")
+             (equal alc-current-system "unknown-linux-system"))
+         (setq alc-root-dir "~/alc/")
+         (unless (file-exists-p alc-root-dir)
+           (make-directory alc-root-dir))))
 #+END_SRC
 
 ** Subdirectories
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; Org dir
-  (setq alc-org-main-dir (concat alc-root-dir "org/"))
+  (setq alc-org-main-dir (concat alc-root-dir "org/")
+        alc-org-note-dir (concat alc-org-main-dir "notes/")
+        alc-tmp-dir (concat alc-root-dir "tmp/")
+        alc-backup-directory (concat alc-tmp-dir "stk/emacs-backup/"))
 
-  ;; Temp dir
-  (setq alc-tmp-dir (concat alc-root-dir "tmp/"))
+  (setq alc-website-base-dir (concat alc-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
+        alc-website-pub-dir (concat alc-root-dir "pub/anthony.lecigne.net/")
+        alc-emacs-config-pub-dir (concat alc-root-dir "pub/emacs-config/"))
 
-  (unless (file-exists-p alc-tmp-dir)
-    (make-directory alc-tmp-dir))
+  (setq alc-all-dir (list alc-org-main-dir
+                          alc-org-note-dir
+                          alc-tmp-dir
+                          alc-backup-directory
+                          alc-website-base-dir
+                          alc-website-pub-dir
+                          alc-emacs-config-pub-dir))
+
+  (dolist (dir alc-all-dir)
+    (unless (file-exists-p dir)
+      (make-directory dir)))
 #+END_SRC
 
 ** Org files
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; Main files
-  (setq alc-org-todo-file (concat alc-org-main-dir "todo.org"))
-
-  ;; Notes
-  (setq alc-org-note-dir (concat alc-org-main-dir "notes/")
+  (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
         alc-org-note-file (concat alc-org-note-dir "notes.org")
         alc-org-anki-file (concat alc-org-note-dir "anki.org")
         alc-org-music-file (concat alc-org-note-dir "music.org"))
@@ -137,11 +151,6 @@
 * Backups
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq alc-backup-directory (concat alc-tmp-dir "stk/emacs-backup/"))
-
-  (when (not (file-exists-p alc-backup-directory))
-    (make-directory alc-backup-directory))
-
   (setq backup-directory-alist `(("." . ,alc-backup-directory)))
 #+END_SRC
 
@@ -516,10 +525,6 @@ cf. https://github.com/fniessen/emacs-leuven
 ** Org publish
 
  #+BEGIN_SRC emacs-lisp :tangle yes
-   (setq alc-website-base-dir (concat alc-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
-         alc-website-pub-dir (concat alc-root-dir "pub/anthony.lecigne.net/")
-         alc-emacs-config-pub-dir (concat alc-root-dir "pub/emacs-config/"))
-
    (setq org-publish-project-alist
          `(("org-notes"
             :base-directory ,alc-website-base-dir
