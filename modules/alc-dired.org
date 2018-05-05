@@ -27,9 +27,27 @@ use the =h= key as a keybinding since it was originally bound to
     :config
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-lha"))
+#+END_SRC
 
+From [[https://github.com/jwiegley/use-package#loading-packages-in-sequence][here]]:
+
+#+BEGIN_QUOTE
+Note: Pay attention if you set use-package-always-defer to t, and also
+use the :after keyword, as you will need to specify how the declared
+package is to be loaded: e.g., by some :bind. If you're not using one
+of tho mechanisms that registers autoloads, such as :bind or :hook,
+and your package manager does not provide autoloads, it's possible
+that without adding :demand t to those declarations, your package will
+never be loaded.
+#+END_QUOTE
+
+Since I set =use-package-always-defer= to =t=, I need =:demand t=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired+
-    :ensure t
+    :load-path "~/.emacs.d/lisp/dired+/"
+    :ensure nil
+    :demand t
     :after dired
     :config
     (diredp-toggle-find-file-reuse-dir 1))

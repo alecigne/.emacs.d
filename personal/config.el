@@ -21,7 +21,7 @@
         ((and (equal (system-name) "debian")
               (eq system-type 'gnu/linux))
          "laptop-linux")
-        ((and (equal (system-name) "PC-KARINE")
+        ((and (equal (system-name) "PC-Karine")
               (eq system-type 'windows-nt))
          "pc-karine")
         (t (if (eq system-type 'windows-nt)
@@ -64,7 +64,7 @@
 
 (dolist (dir alc-all-dir)
   (unless (file-exists-p dir)
-    (make-directory dir)))
+    (make-directory dir t)))
 
 (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
       alc-org-note-file (concat alc-org-note-dir "notes.org")

@@ -52,14 +52,6 @@
 (unless (file-exists-p alc-lisp-dir)
   (make-directory alc-lisp-dir))
 
-(let ((default-directory alc-lisp-dir))
-  (if (file-exists-p default-directory)
-      (setq load-path
-            (append
-             (let ((load-path (copy-sequence load-path))) ;; Shadow
-               (normal-top-level-add-subdirs-to-load-path))
-             load-path))))
-
 (use-package server
   :demand t
   :config

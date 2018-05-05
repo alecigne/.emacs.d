@@ -183,26 +183,10 @@ automatically created if it doesn't exist.
     (make-directory alc-lisp-dir))
 #+END_SRC
 
-=normal-top-level-add-subdirs-to-load-path= will add all subdirectories
-of this lisp directory to "load-path".
+I use the =:load-path= keyword from =use-package= to load these
+packages.
 
-The code is from [[http://emacswiki.org/emacs/LoadPath][here]]. Explanation:
-
-#+BEGIN_QUOTE
-To have libraries in particular paths take precedence over other
-libraries elsewhere with the same name, put those paths at the
-beginning of 'load-path'.
-#+END_QUOTE
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (let ((default-directory alc-lisp-dir))
-    (if (file-exists-p default-directory)
-        (setq load-path
-              (append
-               (let ((load-path (copy-sequence load-path))) ;; Shadow
-                 (normal-top-level-add-subdirs-to-load-path))
-               load-path))))
-#+END_SRC
+I should use [[https://github.com/quelpa/quelpa][Quelpa]] in order to manage them from source.
 
 ** Server start
 

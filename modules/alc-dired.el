@@ -9,7 +9,9 @@
   (setq dired-listing-switches "-lha"))
 
 (use-package dired+
-  :ensure t
+  :load-path "~/.emacs.d/lisp/dired+/"
+  :ensure nil
+  :demand t
   :after dired
   :config
   (diredp-toggle-find-file-reuse-dir 1))
