@@ -1,11 +1,9 @@
 #+TITLE: Personal settings
 
 * Table of contents                                            :noexport:toc:
-- [[#activated-modules][Activated modules]]
 - [[#main-directories-and-files][Main directories and files]]
-  - [[#systems][Systems]]
   - [[#path][Path]]
-  - [[#root-directory][Root directory]]
+  - [[#system-info][System info]]
   - [[#subdirectories][Subdirectories]]
   - [[#org-files][Org files]]
 - [[#safe-local-variables][Safe local variables]]
@@ -28,69 +26,21 @@
 - [[#gadgets][Gadgets]]
 - [[#wrapping-up][Wrapping up]]
 
-* Activated modules
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq alc-enabled-modules
-	'(alc-basic
-	  alc-dired
-	  alc-helm
-	  alc-completion
-	  alc-projectile
-	  alc-git
-	  alc-org
-	  alc-prog
-	  alc-latex
-	  alc-web
-	  alc-ess
-	  alc-communication
-	  alc-gadgets
-	  ))
-#+END_SRC
-
 * Main directories and files
-
-** Systems
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun alc-find-current-system ()
-    (cond ((and (equal (system-name) "LAPTOP-OJ0VN1KH")
-                (eq system-type 'windows-nt))
-           "laptop-windows")
-          ((and (equal (system-name) "debian")
-                (eq system-type 'gnu/linux))
-           "laptop-linux")
-          ((and (equal (system-name) "PC-Karine")
-                (eq system-type 'windows-nt))
-           "pc-karine")
-          (t (if (eq system-type 'windows-nt)
-                 "unknown-windows-system")
-             "unknown-linux-system")))
-
-  (setq alc-current-system (alc-find-current-system))
-#+END_SRC
 
 ** Path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (equal alc-current-system "laptop-linux")
+  (when (eq system-type 'gnu/linux)
     (add-to-list 'exec-path "~/.local/bin"))
 #+END_SRC
 
-** Root directory
+** System info
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (cond ((equal alc-current-system "laptop-windows")
-         (setq alc-root-dir "e:/"))
-        ((equal alc-current-system "laptop-linux")
-         (setq alc-root-dir "/media/storage/"))
-        ((equal alc-current-system "pc-karine")
-         (setq alc-root-dir "C:/Users/Karine/Desktop/alc/"))
-        ((or (equal alc-current-system "unknown-windows-system")
-             (equal alc-current-system "unknown-linux-system"))
-         (setq alc-root-dir "~/alc/")
-         (unless (file-exists-p alc-root-dir)
-           (make-directory alc-root-dir))))
+  (unless (and (bound-and-true-p alc-root-dir)
+               (bound-and-true-p alc-current-system))
+    (error "Missing system info."))
 #+END_SRC
 
 ** Subdirectories
