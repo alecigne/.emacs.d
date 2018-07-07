@@ -49,30 +49,21 @@ What appears in the UI, and how it looks.
 
 ** Themes
 
-Install the [[https://github.com/waymondo/apropospriate-theme][=apropospriate=]] themes if they're not installed.
+Install the [[https://github.com/waymondo/apropospriate-theme][=apropospriate=]] and =monokai= themes if they're not
+installed.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package apropospriate-theme
     :ensure t)
+
+  (use-package monokai-theme
+    :ensure t)
+
+  (load-theme 'monokai t)
 #+END_SRC
 
-I use [[https://github.com/guidoschmidt/circadian.el][=circadian.el=]] with these themes. If =calendar-longitude= and
-=calendar-latitude= are set in the personal config, use sunrise and
-sunset time to switch themes. Otherwise, use the time of day.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package circadian
-    :ensure t
-    :demand
-    :config
-    (setq circadian-themes (if (and (bound-and-true-p calendar-latitude)
-                                    (bound-and-true-p calendar-longitude))
-                               '((:sunrise . apropospriate-light)
-                                 (:sunset . apropospriate-dark))
-                             '(("08:00" . apropospriate-light)
-                               ("20:00" . apropospriate-dark))))
-    (circadian-setup))
-#+END_SRC
+I used [[https://github.com/guidoschmidt/circadian.el][=circadian.el=]] before, see previous commits. Now I just use
+=monokai= all the time.
 
 ** Modeline content
 

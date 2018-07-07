@@ -1,17 +1,10 @@
 (use-package apropospriate-theme
   :ensure t)
 
-(use-package circadian
-  :ensure t
-  :demand
-  :config
-  (setq circadian-themes (if (and (bound-and-true-p calendar-latitude)
-                                  (bound-and-true-p calendar-longitude))
-                             '((:sunrise . apropospriate-light)
-                               (:sunset . apropospriate-dark))
-                           '(("08:00" . apropospriate-light)
-                             ("20:00" . apropospriate-dark))))
-  (circadian-setup))
+(use-package monokai-theme
+  :ensure t)
+
+(load-theme 'monokai t)
 
 (setq-default mode-line-buffer-identification
               '("%Z %b %1*%1+ %I"))
