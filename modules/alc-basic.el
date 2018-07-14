@@ -40,6 +40,7 @@
 (delight '(;; Major modes
            (text-mode "txt" :major)
            ;; Minor modes
+           (eldoc-mode nil t)
            (auto-fill-function nil t)))
 
 (use-package autorevert
