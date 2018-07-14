@@ -279,6 +279,14 @@
                                 ; numbered backup is made
       version-control t)        ; version numbers for backup files
 
+(use-package treemacs
+  :ensure t
+  :defer t)
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
 (use-package recentf
   :config
   (setq recentf-max-saved-items 50))

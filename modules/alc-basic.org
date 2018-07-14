@@ -36,6 +36,7 @@ consider important for my basic config.
 - [[#programming][Programming]]
 - [[#basic-fileproject-management][Basic file/project management]]
   - [[#projectile][=projectile=]]
+  - [[#treemacs][Treemacs]]
   - [[#recentf][Recentf]]
   - [[#dired][Dired]]
 - [[#help][Help]]
@@ -515,6 +516,20 @@ Managing files or projects. Check also:
 ** =projectile=
 
 Check the [[file:alc-projectile.org][=projectile= module]].
+
+** Treemacs
+
+The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package treemacs
+    :ensure t
+    :defer t)
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+#+END_SRC
 
 ** Recentf
 
