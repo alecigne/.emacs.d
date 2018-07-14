@@ -59,9 +59,14 @@
   (tool-bar-mode 0))
 (fringe-mode '(2 . 0))
 
-(let ((font "Source Code Pro"))
+(defun alc-set-font (font height)
   (when (member font (font-family-list))
-    (set-face-attribute 'default nil :font font :height 100)))
+    (set-face-attribute 'default nil :font font :height height)))
+
+(cond ((eq system-type 'windows-nt)
+       (alc-set-font "Consolas" 100))
+      ((eq system-type 'gnu/linux)
+       (alc-set-font "Source Code Pro" 100)))
 
 (use-package popwin
   :ensure t

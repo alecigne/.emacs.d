@@ -157,9 +157,14 @@ Get rid of unwanted messages.
 ** Fonts
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (let ((font "Source Code Pro"))
+  (defun alc-set-font (font height)
     (when (member font (font-family-list))
-      (set-face-attribute 'default nil :font font :height 100)))
+      (set-face-attribute 'default nil :font font :height height)))
+
+  (cond ((eq system-type 'windows-nt)
+         (alc-set-font "Consolas" 100))
+        ((eq system-type 'gnu/linux)
+         (alc-set-font "Source Code Pro" 100)))
 #+END_SRC
 
 * Window management
