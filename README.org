@@ -3,6 +3,8 @@
 
 This is my Emacs config, based on a network of Org files.
 
+* Structure
+
 - =init.org=...
 
   + ...initializes [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
@@ -16,31 +18,102 @@ This is my Emacs config, based on a network of Org files.
     personal config first, then modules (see below).
 
 - The =personal= directory contains the settings I consider
-  idiosyncratic (keybindings, paths, workflow-related settings, etc.)
-  and above all, modules that will be activated. I separate it from
-  the rest so my config can stay more or less "neutral". If you are
-  curious enough to try this config (!) you can put your own settings
-  there. Keep in mind that it is loaded *before* the modules!
+  idiosyncratic: keybindings, paths, workflow-related settings,
+  etc. and above all, modules that will be activated. I separate this
+  settings from the modules so my config can stay more or less
+  "neutral".
 
-  For example, an =.org= file containing this code will load all the
-  modules:
+  If you want to try this config, clone the repo, delete all =.org=
+  files in the =./personal= directory and create a single =.org= file
+  in which you can, for example, set the activated modules:
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (setq alc-enabled-modules
-	  '(alc-basic
-	    alc-dired
-	    alc-helm
-	    alc-completion
-	    alc-projectile
-	    alc-git
-	    alc-org
-	    alc-prog
-	    alc-latex
-	    alc-web
-	    alc-ess
-	    alc-communication
-	    alc-gadgets
-	    ))
+          '(alc-basic
+            ;; alc-dired
+            ;; alc-helm
+            ;; alc-completion
+            ;; alc-projectile
+            ;; alc-git
+            ;; alc-org
+            ;; alc-prog
+            ;; alc-latex
+            ;; alc-web
+            ;; alc-ess
+            ;; alc-communication
+            ;; alc-gadgets
+            ))
   #+END_SRC
 
-- The =modules= directory contains the main config; take a look.
+  This should download and load the packages in the basic module.
+
+  Keep in mind that the =.org= files in the =./personal= directory are
+  loaded *in order* and *before* the modules! =with-eval-after-load=
+  could be your friend here; take a look at my personal files for
+  reference.
+
+- Finally, the =modules= directory contains the main config; take a
+  look.
+
+* About Noweb
+
+Since I make heavy use of =use-package=, sometimes I have to write
+big, top-level =use-package= s-expressions. It is hard to reconcile
+this with an Org-based self-documenting configuration, where small
+blocks of code should be wrapped in Org syntax.
+
+Here is a small example from my =init.org=. I want this form in my
+=init.el= file:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package server
+    :demand t
+    :config
+    (when (and (>= emacs-major-version 23)
+               (eq system-type 'windows-nt))
+      (defun server-ensure-safe-dir (dir) "Noop" t))
+    (unless (server-running-p)
+      (server-start)))
+#+END_SRC
+
+In order to document it, however, I need to split it in multiple Org
+code blocks in my =init.org=. Here is the source code from my
+=init.org= achieving this:
+
+#+BEGIN_EXAMPLE
+  On Windows, sometimes running =server-start= causes the following error:
+  "=The directory ~/.emacs.d/server is unsafe=". This code seems to fix
+  the problem (taken from https://stackoverflow.com/a/2944197):
+
+  ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
+    (when (and (>= emacs-major-version 23)
+               (eq system-type 'windows-nt))
+      (defun server-ensure-safe-dir (dir) "Noop" t))
+  ,#+END_SRC
+
+  The server can then be started unless it is running.
+
+  ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
+    (unless (server-running-p)
+      (server-start))
+  ,#+END_SRC
+
+  Let's feed these blocks to =use-package= thanks to Noweb:
+
+  ,#+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
+    (use-package server
+      :demand t
+      :config
+      <<server-config>>)
+  ,#+END_SRC
+#+END_EXAMPLE
+
+Every individual block is not tangled, but has a noweb reference
+(=:noweb-ref server-config=). Then, in the final tangled block, the
+=<<server-config>>= noweb placeholder will be replaced with a
+concatenation of all the code blocks that have a =server-config=
+=:noweb-ref= keyword. The resulting Emacs Lisp code will look exactly
+like above.
+
+So if you find a Noweb placeholder in my config, just look at the
+Emacs Lisp file to see the result!
