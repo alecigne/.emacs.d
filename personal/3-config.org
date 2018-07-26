@@ -16,6 +16,7 @@
   - [[#keywords][keywords]]
   - [[#capture-templates][Capture templates]]
   - [[#agenda-views][Agenda views]]
+  - [[#exporting][Exporting]]
   - [[#org-publish][Org publish]]
   - [[#org-crypt][=org-crypt=]]
   - [[#org-pomodoro][=org-pomodoro=]]
@@ -471,6 +472,12 @@ cf. https://github.com/fniessen/emacs-leuven
            ;; Cleaning
            ("c" "[C]leaning" ,@alc-org-acc-cleaning-today)))
  #+END_SRC
+
+** Exporting
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-ascii-links-to-notes nil)
+#+END_SRC
 
 ** Org publish
 

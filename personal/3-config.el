@@ -351,6 +351,8 @@
         ;; Cleaning
         ("c" "[C]leaning" ,@alc-org-acc-cleaning-today)))
 
+(setq org-ascii-links-to-notes nil)
+
 (setq org-publish-project-alist
       `(("org-notes"
          :base-directory ,alc-website-base-dir
