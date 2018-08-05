@@ -6,7 +6,6 @@
   (error "Missing system info."))
 
 (setq alc-org-main-dir (concat alc-root-dir "org/")
-      alc-org-note-dir (concat alc-org-main-dir "notes/")
       alc-tmp-dir (concat alc-root-dir "tmp/")
       alc-backup-directory (concat alc-tmp-dir "stk/emacs-backup/"))
 
@@ -15,7 +14,6 @@
       alc-emacs-config-pub-dir (concat alc-root-dir "pub/emacs-config/"))
 
 (setq alc-all-dir (list alc-org-main-dir
-                        alc-org-note-dir
                         alc-tmp-dir
                         alc-backup-directory
                         alc-website-base-dir
@@ -27,9 +25,7 @@
     (make-directory dir t)))
 
 (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
-      alc-org-note-file (concat alc-org-note-dir "notes.org")
-      alc-org-anki-file (concat alc-org-note-dir "anki.org")
-      alc-org-music-file (concat alc-org-note-dir "music.org"))
+      alc-org-note-file (concat alc-org-main-dir "notes.org"))
 
 (setq safe-local-variable-values
       '((eval add-hook 'after-save-hook
@@ -122,24 +118,7 @@
         ("ABORTED" . alc-org-done-kwd)))
 
 (setq org-capture-templates
-      '(;; Notes
-        ("n" "Notes")
-        ("na" "Anki"
-         entry
-         (file alc-org-anki-file)
-         "* ANKI %?\nStored on %U"
-         :append t :kill-buffer t)
-        ("nd" "Dette"
-         table-line
-         (file+olp alc-org-note-file "Dettes")
-         "|%?|||"
-         :append t :kill-buffer t)
-        ("nm" "Musique"
-         item
-         (file+olp alc-org-music-file "A trouver")
-         "- %?\n  Stored on %U"
-         :prepend t :kill-buffer t)
-        ;; Tâches
+      '(;; Tâches
         ("t" "Nouvelle tâche"
          entry
          (file+olp alc-org-todo-file "Todo" "Inbox")
