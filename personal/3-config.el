@@ -25,7 +25,8 @@
     (make-directory dir t)))
 
 (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
-      alc-org-note-file (concat alc-org-main-dir "notes.org"))
+      alc-org-note-file (concat alc-org-main-dir "notes.org")
+      alc-org-entourage-file (concat alc-org-main-dir "Entourage.org"))
 
 (setq safe-local-variable-values
       '((eval add-hook 'after-save-hook
@@ -129,7 +130,7 @@
 (setq org-agenda-files
       (delq nil
             (mapcar (lambda (x) (when (file-exists-p x) x))
-                    (list alc-org-todo-file))))
+                    (list alc-org-todo-file alc-org-entourage-file))))
 
 (setq org-agenda-include-diary nil
       org-agenda-todo-ignore-with-date nil

@@ -71,7 +71,8 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
-        alc-org-note-file (concat alc-org-main-dir "notes.org"))
+        alc-org-note-file (concat alc-org-main-dir "notes.org")
+        alc-org-entourage-file (concat alc-org-main-dir "Entourage.org"))
 #+END_SRC
 
 * Safe local variables
@@ -240,7 +241,7 @@ Faces:
    (setq org-agenda-files
          (delq nil
                (mapcar (lambda (x) (when (file-exists-p x) x))
-                       (list alc-org-todo-file))))
+                       (list alc-org-todo-file alc-org-entourage-file))))
  #+END_SRC
 
 *** Built-in
