@@ -1,106 +1,8 @@
-#+TITLE: Personal settings
+#+TITLE: Personal settings - postload
 
-* Table of contents                                            :noexport:toc:
-- [[#main-directories-and-files][Main directories and files]]
-  - [[#path][Path]]
-  - [[#system-info][System info]]
-  - [[#subdirectories][Subdirectories]]
-  - [[#org-files][Org files]]
-- [[#safe-local-variables][Safe local variables]]
-- [[#recentf][Recentf]]
-- [[#backups][Backups]]
-- [[#basic-settings][Basic settings]]
-- [[#helm][=helm=]]
-- [[#org][=org=]]
-  - [[#keybindings][Keybindings]]
-  - [[#keywords][keywords]]
-  - [[#capture-templates][Capture templates]]
-  - [[#agenda-views][Agenda views]]
-  - [[#exporting][Exporting]]
-  - [[#org-publish][Org publish]]
-  - [[#org-crypt][=org-crypt=]]
-  - [[#org-pomodoro][=org-pomodoro=]]
-- [[#lisp][Lisp]]
-- [[#communication][Communication]]
-  - [[#erc][ERC]]
-- [[#projectile][Projectile]]
-- [[#gadgets][Gadgets]]
-- [[#wrapping-up][Wrapping up]]
-
-* Main directories and files
-
-** Path
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (when (eq system-type 'gnu/linux)
-    (add-to-list 'exec-path "~/.local/bin"))
-#+END_SRC
-
-** System info
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (and (bound-and-true-p alc-root-dir)
-               (bound-and-true-p alc-current-system))
-    (error "Missing system info."))
-#+END_SRC
-
-** Subdirectories
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq alc-org-main-dir (concat alc-root-dir "org/")
-        alc-tmp-dir (concat alc-root-dir "tmp/")
-        alc-backup-directory (concat alc-tmp-dir "stk/emacs-backup/"))
-
-  (setq alc-website-base-dir (concat alc-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
-        alc-website-pub-dir (concat alc-root-dir "pub/anthony.lecigne.net/")
-        alc-emacs-config-pub-dir (concat alc-root-dir "pub/emacs-config/"))
-
-  (setq alc-all-dir (list alc-org-main-dir
-                          alc-tmp-dir
-                          alc-backup-directory
-                          alc-website-base-dir
-                          alc-website-pub-dir
-                          alc-emacs-config-pub-dir))
-
-  (dolist (dir alc-all-dir)
-    (unless (file-exists-p dir)
-      (make-directory dir t)))
-#+END_SRC
-
-** Org files
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
-        alc-org-note-file (concat alc-org-main-dir "notes.org")
-        alc-org-entourage-file (concat alc-org-main-dir "Entourage.org"))
-#+END_SRC
-
-* Safe local variables
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq safe-local-variable-values
-        '((eval add-hook 'after-save-hook
-                (lambda () (org-babel-tangle))
-                nil t)))
-
-  (put 'org-inlinetask-min-level 'safe-local-variable #'numberp)
-#+END_SRC
-
-* Recentf
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  ;; One recentf file for every system I work on. This is not perfect
-  ;; but better than having non-existent files from other systems in my
-  ;; recentf list.
-  (setq recentf-save-file (locate-user-emacs-file
-                           (concat "recentf/recentf-" alc-current-system)))
-#+END_SRC
-
-* Backups
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq backup-directory-alist `(("." . ,alc-backup-directory)))
-#+END_SRC
+Postload personal settings. This is where the vast majority of
+personal settings should go - especially settings that override the
+modules, if necessary.
 
 * Basic settings
 
@@ -124,6 +26,22 @@
     (global-set-key (kbd "M-<f6>") 'alc-basic-kill-other-buffer-and-window)
     (global-set-key (kbd "C-<f6>") 'alc-basic-kill-other-window)
     (key-chord-define-global "jh" 'alc-basic-switch-to-previous-buffer))
+#+END_SRC
+
+* Backups
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq backup-directory-alist `(("." . ,alc-backup-directory)))
+#+END_SRC
+
+* Recentf
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; One recentf file for every system I work on. This is not perfect
+  ;; but better than having non-existent files from other systems in my
+  ;; recentf list.
+  (setq recentf-save-file (locate-user-emacs-file
+                           (concat "recentf/recentf-" alc-current-system)))
 #+END_SRC
 
 * =helm=
@@ -561,34 +479,10 @@ cf. https://github.com/fniessen/emacs-leuven
                                          ))))
 #+END_SRC
 
-* Projectile
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq projectile-known-projects-file
-        (locate-user-emacs-file (concat "projectile/projectile-bookmarks-"
-                                        alc-current-system
-                                        ".eld")))
-  (with-eval-after-load 'projectile
-    (setq projectile-indexing-method 'native
-          projectile-enable-caching t
-          projectile-track-known-projects-automatically nil)
-
-    (setq projectile-cache-file
-          (locate-user-emacs-file (concat "projectile/projectile-"
-                                          alc-current-system
-                                          ".cache"))))
-#+END_SRC
-
 * Gadgets
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (with-eval-after-load "alc-gadgets"
     (define-key global-map (kbd "H-<f10>") 'writeroom-mode))
 #+END_SRC
-
-* Wrapping up
-
-  #+BEGIN_SRC emacs-lisp :tangle no
-    (provide 'alc-personal)
-  #+END_SRC
 

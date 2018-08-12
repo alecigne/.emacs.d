@@ -1,4 +1,6 @@
-A list of activated modules.
+#+TITLE: Modules
+
+The list of activated modules.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq alc-enabled-modules

@@ -10,14 +10,22 @@
 (defvar alc-personal-dir nil
   "Personal Emacs configuration directory.")
 
+(defvar alc-personal-preload-dir nil
+  "Personal Emacs configuration directory - preload.")
+
+(defvar alc-personal-postload-dir nil
+  "Personal Emacs configuration directory - postload.")
+
 (defvar alc-lisp-dir nil
   "Elisp directory, for packages outside ELPA.")
 
 (setq alc-modules-dir (expand-file-name "modules/" user-emacs-directory)
       alc-personal-dir (expand-file-name "personal/" user-emacs-directory)
+      alc-personal-preload-dir (expand-file-name "preload/" alc-personal-dir)
+      alc-personal-postload-dir (expand-file-name "postload/" alc-personal-dir)
       alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory))
 
-(setq custom-file (expand-file-name "custom.el" alc-personal-dir))
+(setq custom-file (expand-file-name "custom.el" alc-personal-postload-dir))
 
 (prefer-coding-system 'utf-8-unix)
 
@@ -69,8 +77,9 @@
 (defvar alc-enabled-modules nil
   "List of enabled modules.")
 
-(when (file-exists-p alc-personal-dir)
-  (mapc 'org-babel-load-file (directory-files alc-personal-dir t "^[^#\.].*org$")))
+(let ((dir alc-personal-preload-dir))
+  (when (file-exists-p dir)
+    (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
 
 (if (not (file-exists-p alc-modules-dir))
     (error "Modules directory not found!")
@@ -81,6 +90,10 @@
 		(error "%s doesn't exist!" path)
 	      (org-babel-load-file path))))
 	alc-enabled-modules))
+
+(let ((dir alc-personal-postload-dir))
+  (when (file-exists-p dir)
+    (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
 
 (when (file-exists-p custom-file)
   (load custom-file))

@@ -5,55 +5,85 @@ This is my Emacs config, based on a network of Org files.
 
 * Structure
 
-- =init.org=...
+- =init.org= :
 
-  + ...initializes [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
+  + Initializes [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
 
-  + ...uses =package-install= to install and/or load John Wiegley's
+  + Uses =package-install= to install and/or load John Wiegley's
     [[https://github.com/jwiegley/use-package][=use-package=]].
 
-  + ...uses =use-package= to install and/or load Org.
+  + Uses =use-package= to install and/or load Org.
 
-  + ...uses Org to tangle and load every Org file in my config:
-    personal config first, then modules (see below).
+  + Uses Org to tangle and load every Org file in my config.
+
+- The =modules= directory contains the core config.
 
 - The =personal= directory contains the settings I consider
   idiosyncratic: keybindings, paths, workflow-related settings,
-  etc. and above all, modules that will be activated. I separate this
-  settings from the modules so my config can stay more or less
-  "neutral".
+  etc. and above all, modules that will be activated. I separate these
+  settings from the modules so other people can use my config with
+  their own tweaks.
 
-  If you want to try this config, clone the repo, delete all =.org=
-  files in the =./personal= directory and create a single =.org= file
-  in which you can, for example, set the activated modules:
+  The personal settings are separated in two directories; =preload=
+  (loaded before everything else) and =postload= (loaded after
+  everything else). The preload config typically sets the modules that
+  will be activated afterwards.
 
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq alc-enabled-modules
-          '(alc-basic
-            ;; alc-dired
-            ;; alc-helm
-            ;; alc-completion
-            ;; alc-projectile
-            ;; alc-git
-            ;; alc-org
-            ;; alc-prog
-            ;; alc-latex
-            ;; alc-web
-            ;; alc-ess
-            ;; alc-communication
-            ;; alc-gadgets
-            ))
-  #+END_SRC
+* Trying the config
 
-  This should download and load the packages in the basic module.
+Of course, this is by no means an Emacs distribution, like [[http://spacemacs.org/][Spacemacs]]
+or [[https://github.com/hlissner/doom-emacs][Doom]], but you can still try it out :)
 
-  Keep in mind that the =.org= files in the =./personal= directory are
-  loaded *in order* and *before* the modules! =with-eval-after-load=
-  could be your friend here; take a look at my personal files for
-  reference.
+1. *Backup your Emacs config*:
 
-- Finally, the =modules= directory contains the main config; take a
-  look.
+   #+BEGIN_SRC sh
+     mv ~/.emacs.d/ ~/.emacs.d_backup/
+   #+END_SRC
+
+2. Clone the repo:
+
+   #+BEGIN_SRC sh
+     git clone https://github.com/alecigne/.emacs.d
+   #+END_SRC
+
+3. Delete all files in the =./personal/= subdirectories. You can
+   launch Emacs at this point; it should only download a few packages
+   such as the last version of Org.
+
+4. In =./preload/=, create an Org file that will activate the modules:
+
+   #+BEGIN_SRC org
+     ,#+BEGIN_SRC emacs-lisp :tangle yes
+       (setq alc-enabled-modules
+             '(alc-basic
+               ;; alc-dired
+               ;; alc-helm
+               ;; alc-completion
+               ;; alc-projectile
+               ;; alc-git
+               ;; alc-org
+               ;; alc-prog
+               ;; alc-latex
+               ;; alc-web
+               ;; alc-ess
+               ;; alc-communication
+               ;; alc-gadgets
+               ))
+     ,#+END_SRC
+   #+END_SRC
+
+   Here the =alc-basic= module is activated.
+
+5. Launch Emacs and pray :)
+
+   The packages associated to the modules you activated should be
+   automatically downloaded and loaded.
+   
+6. Tweak the config by adding =.org= files in the =./personal/preload=
+   and =./personal/postload/= directories.
+
+   Keep in mind that the =.org= files in the =./personal/=
+   subdirectories will be loaded *in order*.
 
 * About Noweb
 

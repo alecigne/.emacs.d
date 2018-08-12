@@ -20,8 +20,9 @@ shouldn't have to be edited by hand.
   - [[#keybindings-metaconfig][Keybindings metaconfig]]
 - [[#modules-and-personal-config][Modules and personal config]]
   - [[#list-of-activated-modules][List of activated modules]]
-  - [[#personal-config][Personal config]]
+  - [[#personal-config---preload][Personal config - preload]]
   - [[#modules][Modules]]
+  - [[#personal-config---postload][Personal config - postload]]
   - [[#customel][=custom.el=]]
 - [[#a-final-message][A final message]]
 - [[#local-config][Local config]]
@@ -56,12 +57,20 @@ Temporary increase of GC threshold during Emacs init, from 800 kB to
   (defvar alc-personal-dir nil
     "Personal Emacs configuration directory.")
 
+  (defvar alc-personal-preload-dir nil
+    "Personal Emacs configuration directory - preload.")
+
+  (defvar alc-personal-postload-dir nil
+    "Personal Emacs configuration directory - postload.")
+
   (defvar alc-lisp-dir nil
     "Elisp directory, for packages outside ELPA.")
 
   (setq alc-modules-dir (expand-file-name "modules/" user-emacs-directory)
-        alc-personal-dir (expand-file-name "personal/" user-emacs-directory)
-        alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory))
+	alc-personal-dir (expand-file-name "personal/" user-emacs-directory)
+	alc-personal-preload-dir (expand-file-name "preload/" alc-personal-dir)
+	alc-personal-postload-dir (expand-file-name "postload/" alc-personal-dir)
+	alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory))
 #+END_SRC
 
 *** =custom.el=
@@ -70,7 +79,7 @@ Emacs will keep the custom settings in a separate =custom.el= file in
 the personal directory:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq custom-file (expand-file-name "custom.el" alc-personal-dir))
+  (setq custom-file (expand-file-name "custom.el" alc-personal-postload-dir))
 #+END_SRC
 
 ** Coding system
@@ -258,20 +267,15 @@ The list of activated modules is stored in a variable called
 This variable is set to =nil= (no modules at all by default). If
 modules are needed this variable must be set in the personal config.
 
-** Personal config
+** Personal config - preload
 
-Let's load the personal config. I have to take care of how I evaluate
-Lisp code in there, since the files are loaded *before* everything
-else (=with-eval-after-load= is useful).
-
-A minimal personal config can just choose the modules that will be
-activated, by setting =alc-activated-modules= to a list of
-modules. The personal directory can be missing or empty for a bare
-Emacs experience :)
+A typical preload config sets =alc-activated-modules= in order to
+choose the modules that will be loaded from the config.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (file-exists-p alc-personal-dir)
-    (mapc 'org-babel-load-file (directory-files alc-personal-dir t "^[^#\.].*org$")))
+  (let ((dir alc-personal-preload-dir))
+    (when (file-exists-p dir)
+      (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
 #+END_SRC
 
 ** Modules
@@ -288,6 +292,14 @@ Now let's load the activated modules:
 		  (error "%s doesn't exist!" path)
 		(org-babel-load-file path))))
 	  alc-enabled-modules))
+#+END_SRC
+
+** Personal config - postload
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (let ((dir alc-personal-postload-dir))
+    (when (file-exists-p dir)
+      (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
 #+END_SRC
 
 ** =custom.el=

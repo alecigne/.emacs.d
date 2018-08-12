@@ -6,3 +6,4 @@
 /recentf
 /projectile
 /.cache
+*.elc
