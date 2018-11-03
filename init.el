@@ -7,25 +7,25 @@
 (defvar alc-modules-dir nil
   "Emacs modules directory.")
 
+(defvar alc-lisp-dir nil
+  "Elisp directory, for packages outside ELPA.")
+
 (defvar alc-personal-dir nil
   "Personal Emacs configuration directory.")
 
 (defvar alc-personal-preload-dir nil
   "Personal Emacs configuration directory - preload.")
 
-(defvar alc-personal-postload-dir nil
-  "Personal Emacs configuration directory - postload.")
-
-(defvar alc-lisp-dir nil
-  "Elisp directory, for packages outside ELPA.")
+(defvar alc-personal-init-org-files nil
+  "A regex for detecting Org init files.")
 
 (setq alc-modules-dir (expand-file-name "modules/" user-emacs-directory)
-      alc-personal-dir (expand-file-name "personal/" user-emacs-directory)
+      alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
+      alc-personal-dir (concat (file-name-directory (directory-file-name user-emacs-directory)) ".emacs-personal.d/")
       alc-personal-preload-dir (expand-file-name "preload/" alc-personal-dir)
-      alc-personal-postload-dir (expand-file-name "postload/" alc-personal-dir)
-      alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory))
+      alc-personal-init-org-files "^[^#\.].*.init.org$")
 
-(setq custom-file (expand-file-name "custom.el" alc-personal-postload-dir))
+(setq custom-file (expand-file-name "custom.el" alc-personal-dir))
 
 (prefer-coding-system 'utf-8-unix)
 
@@ -79,7 +79,7 @@
 
 (let ((dir alc-personal-preload-dir))
   (when (file-exists-p dir)
-    (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
+    (mapc 'org-babel-load-file (directory-files dir t alc-personal-init-org-files))))
 
 (if (not (file-exists-p alc-modules-dir))
     (error "Modules directory not found!")
@@ -91,9 +91,9 @@
 	      (org-babel-load-file path))))
 	alc-enabled-modules))
 
-(let ((dir alc-personal-postload-dir))
+(let ((dir alc-personal-dir))
   (when (file-exists-p dir)
-    (mapc 'org-babel-load-file (directory-files dir t "^[^#\.].*org$"))))
+    (mapc 'org-babel-load-file (directory-files dir t alc-personal-init-org-files))))
 
 (when (file-exists-p custom-file)
   (load custom-file))

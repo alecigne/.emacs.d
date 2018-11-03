@@ -1,7 +1,20 @@
-#+TITLE: alecigne's Emacs config
+#+TITLE: alecigne's Emacs core config
 #+AUTHOR: Anthony Le Cigne
 
-This is my Emacs config, based on a network of Org files.
+This is my Emacs core config. Although suited to my own personal
+preferences, it can still be used by somebody else out-of-the-box,
+since it is:
+
+- Self-installable - thanks to John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]
+- Self-documenting - it is based on a network of [[https://orgmode.org/][Org]] files that are
+  tangled into Emacs Lisp by [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]
+- Free from idiosyncratic settings - these are stored in an [[https://github.com/alecigne/.emacs-personal.d][external
+  repository]] and loaded by the core config.
+
+However, do not expect it to meet the power and quality requirements
+of an Emacs distribution ([[http://spacemacs.org/][Spacemacs]], [[https://github.com/hlissner/doom-emacs][Doom]], etc.) :) This is still a
+personal config. It is simply designed in a modular way to help
+friends who are starting with Emacs and need better default settings.
 
 * Structure
 
@@ -14,25 +27,24 @@ This is my Emacs config, based on a network of Org files.
 
   + Uses =use-package= to install and/or load Org.
 
-  + Uses Org to tangle and load every Org file in my config.
+  + Uses Org to tangle and load...
 
-- The =modules= directory contains the core config.
+    * ...the "preload" external config where modules are activated
 
-- The =personal= directory contains the settings I consider
-  idiosyncratic: keybindings, paths, workflow-related settings,
-  etc. and above all, modules that will be activated. I separate these
-  settings from the modules so other people can use my config with
-  their own tweaks.
+    * ...the modules
 
-  The personal settings are separated in two directories; =preload=
-  (loaded before everything else) and =postload= (loaded after
-  everything else). The preload config typically sets the modules that
-  will be activated afterwards.
+    * ..the rest of the external config.
+
+- The =modules= directory contains Org files that load packages
+  related to an Emacs functionality (Org mode, Dired, etc. - take a
+  look).
+
+- An external config, loaded from =../.emacs-personal.d/= - that is, a
+  =.emacs-personal.d/= directory located in the directory that
+  contains your =.emacs.d/=. You can put your own config in there -
+  see the section about trying the config below.
 
 * Trying the config
-
-Of course, this is by no means an Emacs distribution, like [[http://spacemacs.org/][Spacemacs]]
-or [[https://github.com/hlissner/doom-emacs][Doom]], but you can still try it out :)
 
 1. *Backup your Emacs config*:
 
@@ -46,11 +58,17 @@ or [[https://github.com/hlissner/doom-emacs][Doom]], but you can still try it ou
      git clone https://github.com/alecigne/.emacs.d
    #+END_SRC
 
-3. Delete all files in the =./personal/= subdirectories. You can
-   launch Emacs at this point; it should only download a few packages
-   such as the last version of Org.
+3. You should be able to launch Emacs at this point. Since no modules
+   have been activated, it should only download a few mandatory
+   packages such as the latest version of Org. Emacs will not respond
+   during that phase - but it is only done once.
 
-4. In =./preload/=, create an Org file that will activate the modules:
+4. Create a =../.emacs-personal.d/= directory containing a =preload=
+   directory. The settings in =preload= are loaded *before* the
+   modules. Look at [[https://github.com/alecigne/.emacs-personal.d][my external config]] for an example.
+
+   In =./preload/=, create an Org file ending with =.init.org= that
+   will activate the modules of your choice:
 
    #+BEGIN_SRC org
      ,#+BEGIN_SRC emacs-lisp :tangle yes
@@ -74,16 +92,11 @@ or [[https://github.com/hlissner/doom-emacs][Doom]], but you can still try it ou
 
    Here the =alc-basic= module is activated.
 
-5. Launch Emacs and pray :)
-
-   The packages associated to the modules you activated should be
-   automatically downloaded and loaded.
+5. Launch Emacs; the packages associated with the modules you
+   activated should be automatically downloaded and loaded.
    
-6. Tweak the config by adding =.org= files in the =./personal/preload=
-   and =./personal/postload/= directories.
-
-   Keep in mind that the =.org= files in the =./personal/=
-   subdirectories will be loaded *in order*.
+6. Tweak the config by adding files ending with =.init.org= in the
+   =.emacs-personal.d/= directory. *These files are loaded in order*.
 
 * About Noweb
 
