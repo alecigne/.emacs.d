@@ -1,4 +1,4 @@
-#+TITLE: Programming settings
+#+TITLE: Emacs programming settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -8,6 +8,7 @@
   - [[#emacs-lisp][Emacs Lisp]]
   - [[#scheme][Scheme]]
 - [[#python][Python]]
+- [[#wrapping-up][Wrapping up]]
 
 * Lisp
 
@@ -69,4 +70,10 @@ You need to install Python on your system first, of course, but also
     (add-hook 'python-mode-hook 'jedi:setup)
     :config
     (setq jedi:complete-on-dot t))
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-prog)
 #+END_SRC

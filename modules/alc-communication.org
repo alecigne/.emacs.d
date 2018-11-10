@@ -1,4 +1,4 @@
-#+TITLE: Communication settings
+#+TITLE: Emacs communication settings
 #+AUTHOR: Anthony Le Cigne
 
 Things to stay in touch.
@@ -6,6 +6,7 @@ Things to stay in touch.
 * Table of contents                                            :toc:noexport:
 - [[#erc][ERC]]
 - [[#jabber][Jabber]]
+- [[#wrapping-up][Wrapping up]]
 
 * ERC
 
@@ -26,3 +27,8 @@ Things to stay in touch.
     :ensure t)
 #+END_SRC
 
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-communication)
+#+END_SRC

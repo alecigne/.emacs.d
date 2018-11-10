@@ -8,3 +8,5 @@
 
 (use-package jabber
   :ensure t)
+
+(provide 'alc-communication)

@@ -1,4 +1,4 @@
-#+TITLE: Fun and convenient packages
+#+TITLE: Emacs "gadget" settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -7,6 +7,7 @@
 - [[#emojify][=emojify=]]
 - [[#fireplace][=fireplace=]]
 - [[#lorem-ipsum][=lorem-ipsum=]]
+- [[#wrapping-up][Wrapping up]]
 
 * =google-this=
 
@@ -52,4 +53,10 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package lorem-ipsum
     :ensure t)
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-gadgets)
 #+END_SRC

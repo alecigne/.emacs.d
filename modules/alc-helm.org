@@ -1,4 +1,4 @@
-#+TITLE: Helm settings
+#+TITLE: Emacs Helm settings
 #+AUTHOR: Anthony Le Cigne
 
 Emacs incremental completion and selection narrowing framework. Read

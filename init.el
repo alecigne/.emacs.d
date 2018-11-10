@@ -47,8 +47,6 @@
 (eval-when-compile
   (require 'use-package))
 
-;; (require 'bind-key)
-
 (use-package delight
   :ensure t)
 

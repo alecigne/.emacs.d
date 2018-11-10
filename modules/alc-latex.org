@@ -1,4 +1,4 @@
-#+TITLE: LaTeX settings
+#+TITLE: Emacs LaTeX settings
 #+AUTHOR: Anthony Le Cigne
 
 Work in progress.
@@ -14,4 +14,10 @@ Work in progress.
 
   ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   ;; (setq reftex-plug-into-AUCTeX t)
+#+END_SRC
+
+* Wrapping up
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (provide 'alc-latex)
 #+END_SRC

@@ -150,12 +150,13 @@ autoloaded function, no =:bind= or =:command= keywords in the
     (require 'use-package))
 #+END_SRC
 
-=use-package= takes advantage of [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][=bind-key=]] and the very useful
-[[https://elpa.gnu.org/packages/delight.html][=delight=]] package:
+=use-package= takes advantage of the [[https://elpa.gnu.org/packages/delight.html][=delight=]] package:
+
+#+BEGIN_QUOTE
+Enables you to customise the mode names displayed in the mode line.
+#+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; (require 'bind-key)
-
   (use-package delight
     :ensure t)
 #+END_SRC

@@ -1,4 +1,4 @@
-#+TITLE: Completion settings
+#+TITLE: Emacs completion settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -44,5 +44,5 @@ Check the [[https://company-mode.github.io/][website]].
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-company)
+  (provide 'alc-completion)
 #+END_SRC

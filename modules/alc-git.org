@@ -1,4 +1,4 @@
-#+TITLE: Git settings
+#+TITLE: Emacs Git settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:

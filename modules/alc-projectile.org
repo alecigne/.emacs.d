@@ -1,4 +1,4 @@
-#+TITLE: Projectile settings
+#+TITLE: Emacs Projectile settings
 #+AUTHOR: Anthony Le Cigne
 
 #+BEGIN_SRC emacs-lisp :tangle yes

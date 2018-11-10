@@ -16,4 +16,4 @@
   :config
   (yas-global-mode 1))
 
-(provide 'alc-company)
+(provide 'alc-completion)

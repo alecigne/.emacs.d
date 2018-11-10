@@ -15,3 +15,5 @@
 
 (use-package lorem-ipsum
   :ensure t)
+
+(provide 'alc-gadgets)
