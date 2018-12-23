@@ -23,6 +23,7 @@
 - [[#org-sticky-header][=org-sticky-header=]]
 - [[#org-ref][=org-ref=]]
 - [[#toc-org][=toc-org=]]
+- [[#org-tree-slide-and-demo-it][=org-tree-slide= and =demo-it=]]
 - [[#wrapping-up][Wrapping up]]
 
 * =org-mode=
@@ -373,6 +374,22 @@ GitHub)
   (use-package toc-org
     :ensure t
     :hook (org-mode . toc-org-enable))
+#+END_SRC
+
+* =org-tree-slide= and =demo-it=
+
+[[https://github.com/takaxp/org-tree-slide][=org-tree-slide=]]'s GitHub page.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-tree-slide
+    :ensure t)
+#+END_SRC
+
+[[https://github.com/howardabrams/demo-it][=demo-it=]]'s GitHub page.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package demo-it
+    :ensure t)
 #+END_SRC
 
 * Wrapping up

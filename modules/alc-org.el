@@ -183,4 +183,10 @@
   :ensure t
   :hook (org-mode . toc-org-enable))
 
+(use-package org-tree-slide
+  :ensure t)
+
+(use-package demo-it
+  :ensure t)
+
 (provide 'alc-org)
