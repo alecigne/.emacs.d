@@ -53,11 +53,12 @@
 (global-hl-line-mode 1)
 (blink-cursor-mode 0)
 
-(scroll-bar-mode 0)
+(when (display-graphic-p)
+  (scroll-bar-mode 0)
+  (fringe-mode '(2 . 0)))
+
 (menu-bar-mode 0)
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode 0))
-(fringe-mode '(2 . 0))
+(tool-bar-mode 0)
 
 (defun swanemacs-basic-set-font (font height)
   "Use FONT if installed, with height HEIGHT."
