@@ -23,12 +23,12 @@
   :ensure t
   ;; :after company
   :init
-  (defun alc-prog-add-company-jedi ()
+  (defun swanemacs-prog-add-company-jedi ()
     (add-to-list 'company-backends 'company-jedi))
 
-  (add-hook 'python-mode-hook 'alc-prog-add-company-jedi)
+  (add-hook 'python-mode-hook 'swanemacs-prog-add-company-jedi)
   (add-hook 'python-mode-hook 'jedi:setup)
   :config
   (setq jedi:complete-on-dot t))
 
-(provide 'alc-prog)
+(provide 'swanemacs-prog)

@@ -1,4 +1,4 @@
-#+TITLE: Emacs Org-mode settings
+#+TITLE: SwanEmacs Org-mode settings
 #+AUTHOR: Anthony Le Cigne
 
 [[http://orgmode.org/][Org-mode]]!
@@ -67,7 +67,7 @@ The following sections describe the =<<config>>= Noweb reference.
 From [[https://emacs.stackexchange.com/a/10714][here]].
 
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
-  (defun alc-org-replace-link-by-link-description ()
+  (defun swanemacs-org-replace-link-by-link-description ()
     "Replace an org link by its description or if empty its address"
     (interactive)
     (if (org-in-regexp org-bracket-link-regexp 1)
@@ -286,5 +286,5 @@ GitHub)
 
 * Wrapping up
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-org)
+  (provide 'swanemacs-org)
 #+END_SRC

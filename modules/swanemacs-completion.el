@@ -16,4 +16,4 @@
   :config
   (yas-global-mode 1))
 
-(provide 'alc-completion)
+(provide 'swanemacs-completion)

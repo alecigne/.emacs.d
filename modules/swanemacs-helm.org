@@ -1,4 +1,4 @@
-#+TITLE: Emacs Helm settings
+#+TITLE: SwanEmacs Helm settings
 #+AUTHOR: Anthony Le Cigne
 
 Emacs incremental completion and selection narrowing framework. Read
@@ -127,5 +127,5 @@ Config taken [[https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#h
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-helm)
+  (provide 'swanemacs-helm)
 #+END_SRC

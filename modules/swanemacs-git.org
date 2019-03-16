@@ -1,4 +1,4 @@
-#+TITLE: Emacs Git settings
+#+TITLE: SwanEmacs Git settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -18,5 +18,5 @@
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-git)
+  (provide 'swanemacs-git)
 #+END_SRC

@@ -1,4 +1,4 @@
-#+TITLE: Emacs Dired settings
+#+TITLE: SwanEmacs Dired settings
 #+AUTHOR: Anthony Le Cigne
 
 Useful links :
@@ -18,12 +18,12 @@ use the =h= key as a keybinding since it was originally bound to
 =describe-mode=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (define-prefix-command 'alc-dired-hacks-map)
+  (define-prefix-command 'swanemacs-dired-hacks-map)
 
   (use-package dired
     :bind
     (:map dired-mode-map
-          ("h" . alc-dired-hacks-map))
+          ("h" . swanemacs-dired-hacks-map))
     :config
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-lha"))
@@ -62,7 +62,7 @@ Emacs]].
   (use-package dired-narrow
     :ensure t
     :after dired
-    :bind (:map alc-dired-hacks-map
+    :bind (:map swanemacs-dired-hacks-map
                 ("n" . dired-narrow)
                 ("f" . dired-narrow-fuzzy)
                 ("r" . dired-narrow-regexp)))
@@ -75,12 +75,12 @@ https://github.com/Fuco1/dired-hacks#dired-collapse
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired-collapse
     :ensure t
-    :bind (:map alc-dired-hacks-map
+    :bind (:map swanemacs-dired-hacks-map
                 ("c" . dired-collapse-mode)))
 #+END_SRC
 
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-dired)
+  (provide 'swanemacs-dired)
 #+END_SRC

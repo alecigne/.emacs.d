@@ -14,4 +14,4 @@
                                        "")))
   (projectile-mode))
 
-(provide 'alc-projectile)
+(provide 'swanemacs-projectile)

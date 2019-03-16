@@ -4,4 +4,4 @@
   :bind
   (("C-c g" . magit-status)))
 
-(provide 'alc-git)
+(provide 'swanemacs-git)

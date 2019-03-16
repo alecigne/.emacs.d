@@ -9,4 +9,4 @@
 ;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 ;; (setq reftex-plug-into-AUCTeX t)
 
-(provide 'alc-latex)
+(provide 'swanemacs-latex)

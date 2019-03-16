@@ -1,4 +1,4 @@
-#+TITLE: Emacs communication settings
+#+TITLE: SwanEmacs communication settings
 #+AUTHOR: Anthony Le Cigne
 
 Things to stay in touch.
@@ -30,5 +30,5 @@ Things to stay in touch.
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-communication)
+  (provide 'swanemacs-communication)
 #+END_SRC

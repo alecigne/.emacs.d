@@ -1,4 +1,4 @@
-#+TITLE: Emacs programming settings
+#+TITLE: SwanEmacs programming settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -63,10 +63,10 @@ You need to install Python on your system first, of course, but also
     :ensure t
     ;; :after company
     :init
-    (defun alc-prog-add-company-jedi ()
+    (defun swanemacs-prog-add-company-jedi ()
       (add-to-list 'company-backends 'company-jedi))
 
-    (add-hook 'python-mode-hook 'alc-prog-add-company-jedi)
+    (add-hook 'python-mode-hook 'swanemacs-prog-add-company-jedi)
     (add-hook 'python-mode-hook 'jedi:setup)
     :config
     (setq jedi:complete-on-dot t))
@@ -75,5 +75,5 @@ You need to install Python on your system first, of course, but also
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-prog)
+  (provide 'swanemacs-prog)
 #+END_SRC

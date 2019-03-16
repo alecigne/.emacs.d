@@ -1,4 +1,4 @@
-#+TITLE: alecigne's Emacs core config
+#+TITLE: SwanEmacs - alecigne's Emacs core config
 #+AUTHOR: Anthony Le Cigne
 
 This is my Emacs core config. Although suited to my own personal
@@ -72,11 +72,11 @@ friends who are starting with Emacs and need better default settings.
 
    #+BEGIN_SRC org
      ,#+BEGIN_SRC emacs-lisp :tangle yes
-       (setq alc-enabled-modules '(alc-basic))
+       (setq swanemacs-enabled-modules '(swanemacs-basic))
      ,#+END_SRC
    #+END_SRC
 
-   Here the =alc-basic= module is activated.
+   Here the =swanemacs-basic= module is activated.
 
 5. Launch Emacs; the packages associated with the modules you
    activated should be automatically downloaded and loaded.

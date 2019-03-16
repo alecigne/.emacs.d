@@ -18,7 +18,7 @@
           (wl . wl-other-frame)))
   
   (setq org-link-file-path-type 'relative)
-  (defun alc-org-replace-link-by-link-description ()
+  (defun swanemacs-org-replace-link-by-link-description ()
     "Replace an org link by its description or if empty its address"
     (interactive)
     (if (org-in-regexp org-bracket-link-regexp 1)
@@ -110,4 +110,4 @@
 (use-package demo-it
   :ensure t)
 
-(provide 'alc-org)
+(provide 'swanemacs-org)

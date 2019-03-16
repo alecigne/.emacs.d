@@ -56,4 +56,4 @@
                       :foreground 'unspecified
                       :inherit 'isearch))
 
-(provide 'alc-helm)
+(provide 'swanemacs-helm)

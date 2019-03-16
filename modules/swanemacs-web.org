@@ -1,4 +1,4 @@
-#+TITLE: Emacs web settings
+#+TITLE: SwanEmacs web settings
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
@@ -23,5 +23,5 @@
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-web)
+  (provide 'swanemacs-web)
 #+END_SRC

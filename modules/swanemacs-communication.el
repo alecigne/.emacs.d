@@ -9,4 +9,4 @@
 (use-package jabber
   :ensure t)
 
-(provide 'alc-communication)
+(provide 'swanemacs-communication)

@@ -1,4 +1,4 @@
-#+TITLE: Emacs Projectile settings
+#+TITLE: SwanEmacs Projectile settings
 #+AUTHOR: Anthony Le Cigne
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -22,5 +22,5 @@
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-projectile)
+  (provide 'swanemacs-projectile)
 #+END_SRC

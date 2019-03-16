@@ -59,16 +59,16 @@
   (tool-bar-mode 0))
 (fringe-mode '(2 . 0))
 
-(defun alc-basic-set-font (font height)
+(defun swanemacs-basic-set-font (font height)
   "Use FONT if installed, with height HEIGHT."
   (when (member font (font-family-list))
     (set-face-attribute 'default nil :font font :height height)))
 
 (cond ((eq system-type 'windows-nt)
-       (alc-basic-set-font "Consolas" 100))
+       (swanemacs-basic-set-font "Consolas" 100))
       ;; Source Code Pro doesn't look good (for me) on Windows
       ((eq system-type 'gnu/linux)
-       (alc-basic-set-font "Source Code Pro" 100)))
+       (swanemacs-basic-set-font "Source Code Pro" 100)))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -90,7 +90,7 @@
   :defer 1				; probably not needed right away
   :config (popwin-mode 1))
 
-(defun alc-basic-kill-other-buffers ()
+(defun swanemacs-basic-kill-other-buffers ()
   "Kill all normal buffers but the current one."
   (interactive)
   (dolist (buffer (buffer-list))
@@ -98,26 +98,26 @@
                 (not (buffer-file-name buffer)))
       (kill-buffer buffer))))
 
-(defun alc-basic-kill-other-buffer-and-window (count)
+(defun swanemacs-basic-kill-other-buffer-and-window (count)
   "Switch to the other window, and kill it, with the associated buffer."
   (interactive "p")
   (other-window count)
   (kill-buffer-and-window))
 
-(defun alc-basic-kill-buffer-in-other-window ()
+(defun swanemacs-basic-kill-buffer-in-other-window ()
   "Kill the buffer in the other window."
   (interactive)
   (other-window 1)
   (kill-this-buffer)
   (other-window 1))
 
-(defun alc-basic-kill-other-window ()
+(defun swanemacs-basic-kill-other-window ()
   "Kill the other window but don't kill its buffer."
   (interactive)
   (other-window 1)
   (delete-window))
 
-(defun alc-basic-switch-to-previous-buffer ()
+(defun swanemacs-basic-switch-to-previous-buffer ()
   "Switch to the most recently selected buffer other than current
 buffer, unless the previous buffer is visible."
   (interactive)
@@ -201,7 +201,7 @@ buffer, unless the previous buffer is visible."
 
 (setq isearch-allow-scroll t)
 
-(defun alc-basic-eval-and-replace ()
+(defun swanemacs-basic-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
   (backward-kill-sexp)
@@ -211,7 +211,7 @@ buffer, unless the previous buffer is visible."
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
-(defun alc-basic-unfill-region (beg end)
+(defun swanemacs-basic-unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
 logical line. This is useful, e.g., for use with
 `visual-line-mode'."
@@ -219,7 +219,7 @@ logical line. This is useful, e.g., for use with
   (let ((fill-column (point-max)))
     (fill-region beg end)))
 
-(defun alc-basic-duplicate-line (arg)
+(defun swanemacs-basic-duplicate-line (arg)
   "Duplicate current line, leaving point in lower line."
   (interactive "*p")
   (setq buffer-undo-list (cons (point) buffer-undo-list)) ; save the point for undo
@@ -344,4 +344,4 @@ logical line. This is useful, e.g., for use with
 (global-set-key (kbd "C-h C-f") 'find-function)
 (global-set-key (kbd "C-h C-v") 'find-variable)
 
-(provide 'alc-basic)
+(provide 'swanemacs-basic)

@@ -1,4 +1,4 @@
-#+TITLE: Emacs basic settings
+#+TITLE: SwanEmacs basic settings
 #+AUTHOR: Anthony Le Cigne
 
 Basics settings, mainly related to basic, vanilla variables and
@@ -166,16 +166,16 @@ Minimalitic window settings: no menu, toolbar, scroll bars or [[https://www.gnu.
 ** Fonts
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun alc-basic-set-font (font height)
+  (defun swanemacs-basic-set-font (font height)
     "Use FONT if installed, with height HEIGHT."
     (when (member font (font-family-list))
       (set-face-attribute 'default nil :font font :height height)))
 
   (cond ((eq system-type 'windows-nt)
-         (alc-basic-set-font "Consolas" 100))
+         (swanemacs-basic-set-font "Consolas" 100))
         ;; Source Code Pro doesn't look good (for me) on Windows
         ((eq system-type 'gnu/linux)
-         (alc-basic-set-font "Source Code Pro" 100)))
+         (swanemacs-basic-set-font "Source Code Pro" 100)))
 #+END_SRC
 
 * Interaction
@@ -225,7 +225,7 @@ Resources).
 
 ** =helm=
 
-Check the [[file:alc-helm.org][=helm= module]].
+Check the [[file:swanemacs-helm.org][=helm= module]].
 
 ** Which-key
 
@@ -268,7 +268,7 @@ Managing buffers.
 ** Useful commands
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun alc-basic-kill-other-buffers ()
+  (defun swanemacs-basic-kill-other-buffers ()
     "Kill all normal buffers but the current one."
     (interactive)
     (dolist (buffer (buffer-list))
@@ -276,26 +276,26 @@ Managing buffers.
                   (not (buffer-file-name buffer)))
         (kill-buffer buffer))))
 
-  (defun alc-basic-kill-other-buffer-and-window (count)
+  (defun swanemacs-basic-kill-other-buffer-and-window (count)
     "Switch to the other window, and kill it, with the associated buffer."
     (interactive "p")
     (other-window count)
     (kill-buffer-and-window))
 
-  (defun alc-basic-kill-buffer-in-other-window ()
+  (defun swanemacs-basic-kill-buffer-in-other-window ()
     "Kill the buffer in the other window."
     (interactive)
     (other-window 1)
     (kill-this-buffer)
     (other-window 1))
 
-  (defun alc-basic-kill-other-window ()
+  (defun swanemacs-basic-kill-other-window ()
     "Kill the other window but don't kill its buffer."
     (interactive)
     (other-window 1)
     (delete-window))
 
-  (defun alc-basic-switch-to-previous-buffer ()
+  (defun swanemacs-basic-switch-to-previous-buffer ()
     "Switch to the most recently selected buffer other than current
   buffer, unless the previous buffer is visible."
     (interactive)
@@ -411,7 +411,7 @@ What happens right around the cursor.
 ** Useful commands
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun alc-basic-eval-and-replace ()
+  (defun swanemacs-basic-eval-and-replace ()
     "Replace the preceding sexp with its value."
     (interactive)
     (backward-kill-sexp)
@@ -421,7 +421,7 @@ What happens right around the cursor.
       (error (message "Invalid expression")
              (insert (current-kill 0)))))
 
-  (defun alc-basic-unfill-region (beg end)
+  (defun swanemacs-basic-unfill-region (beg end)
     "Unfill the region, joining text paragraphs into a single
   logical line. This is useful, e.g., for use with
   `visual-line-mode'."
@@ -433,7 +433,7 @@ What happens right around the cursor.
 Duplicate a line - taken from [[https://stackoverflow.com/a/998472][this SO answer]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun alc-basic-duplicate-line (arg)
+  (defun swanemacs-basic-duplicate-line (arg)
     "Duplicate current line, leaving point in lower line."
     (interactive "*p")
     (setq buffer-undo-list (cons (point) buffer-undo-list)) ; save the point for undo
@@ -485,7 +485,7 @@ Duplicate a line - taken from [[https://stackoverflow.com/a/998472][this SO answ
 
 ** Completion
 
-See the [[file:alc-completion.org][=alc-completion=]] module.
+See the [[file:swanemacs-completion.org][=swanemacs-completion=]] module.
 
 ** Undoing things
 
@@ -536,7 +536,7 @@ See [[http://stackoverflow.com/a/151946/4288408][this link]] and [[http://stacko
 
 * Programming
 
-Check the [[file:alc-prog.org][=alc-prog=]] module.
+Check the [[file:swanemacs-prog.org][=swanemacs-prog=]] module.
 
 * Basic file/project management
 
@@ -544,7 +544,7 @@ Managing files or projects. Check also:
 
 ** =projectile=
 
-Check the [[file:alc-projectile.org][=projectile= module]].
+Check the [[file:swanemacs-projectile.org][=swanemacs-projectile= module]].
 
 ** Treemacs
 
@@ -611,7 +611,7 @@ The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
 
 ** Dired
 
-Check the [[file:alc-dired.org][=dired module=]].
+Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 
 * Help
 
@@ -624,20 +624,20 @@ Check the [[file:alc-dired.org][=dired module=]].
 
 ** =company-quickhelp=
 
-See this [[file:alc-company.org::*=company-quickhelp=][section]] in the =company= module.
+See this [[file:swanemacs-company.org::*=company-quickhelp=][section]] in the =swanemacs-company= module.
 
 * Wrapping up
 
-Declare =alc-basic= as a feature.
+Declare =swanemacs-basic= as a feature.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-basic)
+  (provide 'swanemacs-basic)
 #+END_SRC
 
 Use =with-eval-after-load= in your personal config in case the
-=alc-basic= module is not activated. An example:
+=swanemacs-basic= module is not activated. An example:
 
 #+BEGIN_SRC emacs-lisp :tangle no
-  (with-eval-after-load "alc-basic"
-    (global-set-key (kbd "C-c d") 'alc-basic-duplicate-line))
+  (with-eval-after-load "swanemacs-basic"
+    (global-set-key (kbd "C-c d") 'swanemacs-basic-duplicate-line))
 #+END_SRC

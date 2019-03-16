@@ -1,4 +1,4 @@
-#+TITLE: Emacs LaTeX settings
+#+TITLE: SwanEmacs LaTeX settings
 #+AUTHOR: Anthony Le Cigne
 
 Work in progress.
@@ -19,5 +19,5 @@ Work in progress.
 * Wrapping up
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (provide 'alc-latex)
+  (provide 'swanemacs-latex)
 #+END_SRC

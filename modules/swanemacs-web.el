@@ -4,4 +4,4 @@
 (use-package impatient-mode
   :ensure t)
 
-(provide 'alc-web)
+(provide 'swanemacs-web)
