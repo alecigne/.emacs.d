@@ -1,0 +1,20 @@
+#+TITLE: SwanEmacs email and news settings
+#+AUTHOR: Anthony Le Cigne
+
+* Table of contents                                            :toc:noexport:
+- [[#elfeed][Elfeed]]
+- [[#wrapping-up][Wrapping up]]
+
+* Elfeed
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package elfeed
+    :ensure   t
+    :commands elfeed)
+#+end_src
+
+* Wrapping up
+
+#+begin_src emacs-lisp :tangle yes
+  (provide 'swanemacs-mail-news)
+#+end_src
