@@ -1,5 +1,6 @@
 /.org-id-locations
 /abbrev_defs
+/custom.el
 /elpa
 /auto-save-list
 /server/server
@@ -10,4 +11,4 @@
 /bookmarks
 /eshell
 /transient
-/personal/preload/2-system.*
+/preload/1-system.*

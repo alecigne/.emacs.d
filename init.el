@@ -16,16 +16,15 @@
 (defvar swanemacs-personal-preload-dir nil
   "Personal Emacs configuration directory - preload.")
 
-(defvar swanemacs-personal-init-org-files nil
+(defvar swanemacs-init-org-files nil
   "A regex for detecting Org init files.")
 
 (setq swanemacs-modules-dir (expand-file-name "modules/" user-emacs-directory)
       swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
-      swanemacs-personal-dir (expand-file-name "personal/" user-emacs-directory)
-      swanemacs-personal-preload-dir (expand-file-name "preload/" swanemacs-personal-dir)
-      swanemacs-personal-init-org-files "^[^#\.].*.init.org$")
+      swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
+      swanemacs-init-org-files "^[^#\.].*.org$")
 
-(setq custom-file (expand-file-name "custom.el" swanemacs-personal-dir))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (prefer-coding-system 'utf-8-unix)
 
@@ -92,9 +91,9 @@
         swanemacs-science
         ))
 
-(let ((dir swanemacs-personal-preload-dir))
+(let ((dir swanemacs-preload-dir))
   (when (file-exists-p dir)
-    (mapc 'org-babel-load-file (directory-files dir t swanemacs-personal-init-org-files))))
+    (mapc 'org-babel-load-file (directory-files dir t swanemacs-init-org-files))))
 
 (if (not (file-exists-p swanemacs-modules-dir))
     (error "Modules directory not found!")
@@ -105,10 +104,6 @@
                 (error "%s doesn't exist!" path)
               (org-babel-load-file path))))
         swanemacs-enabled-modules))
-
-(let ((dir swanemacs-personal-dir))
-  (when (file-exists-p dir)
-    (mapc 'org-babel-load-file (directory-files dir t swanemacs-personal-init-org-files))))
 
 (when (file-exists-p custom-file)
   (load custom-file))

@@ -20,9 +20,8 @@ shouldn't have to be edited by hand.
   - [[#keybindings-metaconfig][Keybindings metaconfig]]
 - [[#modules-and-personal-config][Modules and personal config]]
   - [[#list-of-activated-modules][List of activated modules]]
-  - [[#personal-config---preload][Personal config - preload]]
+  - [[#preload][Preload]]
   - [[#modules][Modules]]
-  - [[#personal-config][Personal config]]
   - [[#customel][=custom.el=]]
 - [[#a-final-message][A final message]]
 - [[#local-config][Local config]]
@@ -63,14 +62,13 @@ Temporary increase of GC threshold during Emacs init, from 800 kB to
   (defvar swanemacs-personal-preload-dir nil
     "Personal Emacs configuration directory - preload.")
 
-  (defvar swanemacs-personal-init-org-files nil
+  (defvar swanemacs-init-org-files nil
     "A regex for detecting Org init files.")
 
   (setq swanemacs-modules-dir (expand-file-name "modules/" user-emacs-directory)
         swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
-        swanemacs-personal-dir (expand-file-name "personal/" user-emacs-directory)
-        swanemacs-personal-preload-dir (expand-file-name "preload/" swanemacs-personal-dir)
-        swanemacs-personal-init-org-files "^[^#\.].*.init.org$")
+        swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
+        swanemacs-init-org-files "^[^#\.].*.org$")
 #+END_SRC
 
 *** =custom.el=
@@ -79,7 +77,7 @@ Emacs will keep the custom settings in a separate =custom.el= file in
 the personal directory:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq custom-file (expand-file-name "custom.el" swanemacs-personal-dir))
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 #+END_SRC
 
 ** Coding system
@@ -282,15 +280,15 @@ The list of activated modules is stored in a variable called
           ))
 #+END_SRC
 
-** Personal config - preload
+** Preload
 
 Load the Org init files in the =preload= config. Theses files are
 loaded *in order*!
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (let ((dir swanemacs-personal-preload-dir))
+  (let ((dir swanemacs-preload-dir))
     (when (file-exists-p dir)
-      (mapc 'org-babel-load-file (directory-files dir t swanemacs-personal-init-org-files))))
+      (mapc 'org-babel-load-file (directory-files dir t swanemacs-init-org-files))))
 #+END_SRC
 
 ** Modules
@@ -307,17 +305,6 @@ Now let's load the activated modules:
                   (error "%s doesn't exist!" path)
                 (org-babel-load-file path))))
           swanemacs-enabled-modules))
-#+END_SRC
-
-** Personal config
-
-Load the Org init files in the personal config. Theses files are
-loaded *in order*!
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (let ((dir swanemacs-personal-dir))
-    (when (file-exists-p dir)
-      (mapc 'org-babel-load-file (directory-files dir t swanemacs-personal-init-org-files))))
 #+END_SRC
 
 ** =custom.el=
