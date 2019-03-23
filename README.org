@@ -1,88 +1,27 @@
 #+TITLE: SwanEmacs
 #+AUTHOR: Anthony Le Cigne
 
-This is my Emacs "core" config. Although suited to my own personal
-preferences, it can still be used by somebody else out-of-the-box,
-since it is:
-
-- Self-installable - thanks to John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]
-- Self-documenting - it is based on a network of [[https://orgmode.org/][Org]] files that are
-  tangled into Emacs Lisp by [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]
-- Free from idiosyncratic settings (hence "core" config) - these are
-  stored in an [[https://github.com/alecigne/.emacs-personal.d][external repository]] and loaded by the core config.
-
-However, do not expect it to meet the power and quality requirements
-of an Emacs distribution ([[http://spacemacs.org/][Spacemacs]], [[https://github.com/hlissner/doom-emacs][Doom]], etc.) :) This is still a
-personal config. It is simply designed in a modular way to help
-friends who are starting with Emacs.
+This is my Emacs config. It is self-installable (thanks to John
+Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]) and self-documenting (it consists of a
+network of [[https://orgmode.org/][Org]] files that are tangled into Emacs Lisp by [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]).
 
 * Structure
 
-- =init.org= :
+=init.org= will...
 
-  + Initializes [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
+- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
 
-  + Uses =package-install= to install and/or load John Wiegley's
-    [[https://github.com/jwiegley/use-package][=use-package=]].
+- Use =package-install= to install and/or load John Wiegley's
+  [[https://github.com/jwiegley/use-package][=use-package=]].
 
-  + Uses =use-package= to install and/or load Org.
+- Use =use-package= to install and/or load Org.
 
-  + Uses Org to tangle and load...
+- Use Org to tangle and load the modules activated in the
+  =swanemacs-enabled-modules= variable.
 
-    * ...the "preload" external config where modules are activated
-
-    * ...the modules
-
-    * ..the rest of the external config.
-
-- The =modules= directory contains Org files that load packages
-  related to an Emacs functionality (Org mode, Dired, etc. - take a
-  look).
-
-- An external config, loaded from =../.emacs-personal.d/= - that is, a
-  =.emacs-personal.d/= directory located in the directory that
-  contains your =.emacs.d/=. You can put your own config in there -
-  see the section about trying the config below.
-
-* Trying the config
-
-1. *Backup your Emacs config*:
-
-   #+BEGIN_SRC sh
-     mv ~/.emacs.d/ ~/.emacs.d_backup/
-   #+END_SRC
-
-2. Clone the repo:
-
-   #+BEGIN_SRC sh
-     git clone https://github.com/alecigne/.emacs.d
-   #+END_SRC
-
-3. You should be able to launch Emacs at this point. Since no modules
-   have been activated, it should only download a few mandatory
-   packages such as the latest version of Org. Emacs will not respond
-   during that phase - but it is only done once.
-
-4. Create a =../.emacs-personal.d/= directory containing a =preload=
-   directory. The settings in =preload= are loaded *before* the
-   modules. Look at [[https://github.com/alecigne/.emacs-personal.d][my external config]] for an example.
-
-   In =./preload/=, create an Org file ending with =.init.org= that
-   will activate the modules of your choice:
-
-   #+BEGIN_SRC org
-     ,#+BEGIN_SRC emacs-lisp :tangle yes
-       (setq swanemacs-enabled-modules '(swanemacs-basic))
-     ,#+END_SRC
-   #+END_SRC
-
-   Here the =swanemacs-basic= module is activated.
-
-5. Launch Emacs; the packages associated with the modules you
-   activated should be automatically downloaded and loaded.
-   
-6. Tweak the config by adding files ending with =.init.org= in the
-   =.emacs-personal.d/= directory. *These files are loaded in order*.
+The modules themselves are stored in the =modules= directory in the
+form of Org files that load packages related to an Emacs functionality
+(Org mode, Dired, etc. - take a look).
 
 * About Noweb
 

@@ -21,7 +21,7 @@
 
 (setq swanemacs-modules-dir (expand-file-name "modules/" user-emacs-directory)
       swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
-      swanemacs-personal-dir (concat (file-name-directory (directory-file-name user-emacs-directory)) ".emacs-personal.d/")
+      swanemacs-personal-dir (expand-file-name "personal/" user-emacs-directory)
       swanemacs-personal-preload-dir (expand-file-name "preload/" swanemacs-personal-dir)
       swanemacs-personal-init-org-files "^[^#\.].*.init.org$")
 
