@@ -366,13 +366,13 @@ logical line. This is useful, e.g., for use with
   :config
   (setq recentf-max-saved-items 50))
 
-(setq backup-directory-alist `(("." . ,alc-backup-directory)))
+(setq backup-directory-alist `(("." . ,swanemacs-backup-directory)))
 
 ;; One recentf file for every system I work on. This is not perfect
 ;; but better than having non-existent files from other systems in my
 ;; recentf list.
 (setq recentf-save-file (locate-user-emacs-file
-                         (concat "recentf/recentf-" alc-current-system)))
+                         (concat "recentf/recentf-" swanemacs-current-system)))
 
 (global-set-key (kbd "C-h C-f") 'find-function)
 (global-set-key (kbd "C-h C-v") 'find-variable)

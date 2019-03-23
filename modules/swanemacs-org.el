@@ -8,12 +8,12 @@
          ("C-c c" . org-capture)
          ("<f7>" . org-agenda)
          :map org-mode-map
-         ("C-c C-x D" . alc-org-insert-drawer-note)
-         ("C-c C" . alc-org-insert-cookie-end-of-heading)
+         ("C-c C-x D" . swanemacs-org-insert-drawer-note)
+         ("C-c C" . swanemacs-org-insert-cookie-end-of-heading)
          ("C-c s" . helm-org-in-buffer-headings))
   :config
   (setq org-M-RET-may-split-line t)
-  (defun alc-org-insert-drawer-note ()
+  (defun swanemacs-org-insert-drawer-note ()
     (interactive)
     (org-insert-drawer nil "NOTES"))
   (delight '((org-src-mode " org-src" "org-src")
@@ -40,7 +40,7 @@
   (setq org-agenda-files
         (delq nil
               (mapcar (lambda (x) (when (file-exists-p x) x))
-                      (list alc-org-todo-file alc-org-entourage-file))))
+                      (list swanemacs-org-todo-file swanemacs-org-entourage-file))))
   (setq org-agenda-include-diary nil
         org-agenda-todo-ignore-with-date nil
         org-agenda-skip-scheduled-if-done nil
@@ -52,20 +52,20 @@
         org-agenda-start-with-follow-mode nil
         org-agenda-format-date "\n%Y-%m-%d %a\n")
   
-  (defun alc-org-place-agenda-tags ()
+  (defun swanemacs-org-place-agenda-tags ()
     "Put the agenda tags by the right border of the agenda window."
     (setq org-agenda-tags-column (- 4 (window-width)))
     (org-agenda-align-tags))
   
-  (add-hook 'org-finalize-agenda-hook 'alc-org-place-agenda-tags)
-  (defun alc-org-add-option (view option)
+  (add-hook 'org-finalize-agenda-hook 'swanemacs-org-place-agenda-tags)
+  (defun swanemacs-org-add-option (view option)
     (list (car view)
           (cadr view)
           (cons option (nth 2 view))))
   
   (setq org-agenda-custom-commands nil)
   
-  (defconst alc-org-completed-date-regexp
+  (defconst swanemacs-org-completed-date-regexp
     (concat "\\("
             "CLOSED: \\[%Y-%m-%d"
             "\\|"
@@ -78,28 +78,28 @@
   ;; Simple views
   
   ;; Events today
-  (setq alc-org-acc-events-today
+  (setq swanemacs-org-acc-events-today
         '(agenda ""
                  ((org-agenda-overriding-header "Events today")
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-span 'day))))
   
   ;; Events this week
-  (setq alc-org-acc-events-week
+  (setq swanemacs-org-acc-events-week
         '(agenda ""
                  ((org-agenda-overriding-header "Events this week")
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-span 'week))))
   
   ;; Events this month
-  (setq alc-org-acc-events-month
+  (setq swanemacs-org-acc-events-month
         '(agenda ""
                  ((org-agenda-overriding-header "Events this month")
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-span 'month))))
   
   ;; Deadlines
-  (setq alc-org-acc-deadlines
+  (setq swanemacs-org-acc-deadlines
         '(agenda ""
                  ((org-agenda-overriding-header "Deadlines")
                   (org-agenda-span 'day)
@@ -109,7 +109,7 @@
                   (org-agenda-sorting-strategy '(deadline-up)))))
   
   ;; Scheduled today
-  (setq alc-org-acc-scheduled-today
+  (setq swanemacs-org-acc-scheduled-today
         '(agenda ""
                  ((org-agenda-overriding-header "Scheduled today")
                   (org-agenda-entry-types '(:scheduled))
@@ -120,7 +120,7 @@
                   (org-agenda-time-grid nil))))
   
   ;; Scheduled this month
-  (setq alc-org-acc-scheduled-fortnight
+  (setq swanemacs-org-acc-scheduled-fortnight
         '(agenda ""
                  ((org-agenda-overriding-header "Scheduled these next 2 weeks")
                   (org-agenda-entry-types '(:scheduled))
@@ -137,37 +137,37 @@
                   (org-agenda-time-grid nil))))
   
   ;; Waiting
-  (setq alc-org-acc-waiting
+  (setq swanemacs-org-acc-waiting
         '(todo "WAITING"
                ((org-agenda-overriding-header "Waiting for something\n"))))
   
   ;; Cleaning tasks today
-  (setq alc-org-acc-cleaning-today
+  (setq swanemacs-org-acc-cleaning-today
         '(agenda ""
                  ((org-agenda-overriding-header "Cleaning today")
                   (org-agenda-entry-types '(:scheduled))
                   (org-agenda-span 'day)
                   (org-agenda-skip-function
-                   'alc-org-acc-cleaning-today-filter)
+                   'swanemacs-org-acc-cleaning-today-filter)
                   (org-agenda-sorting-strategy
                    '(priority-down time-down))
                   (org-agenda-start-on-weekday nil)
                   (org-agenda-time-grid nil)
                   (org-agenda-format-date ""))))
   
-  (defun alc-org-acc-cleaning-today-filter ()
+  (defun swanemacs-org-acc-cleaning-today-filter ()
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
       (if (member "ménage" (org-get-tags-at))
           nil		; do no skip
         subtree-end)))	; skip
   
   ;; High priority
-  (setq alc-org-acc-high-priority
+  (setq swanemacs-org-acc-high-priority
         '(tags-todo "PRIORITY={A}"
                     ((org-agenda-overriding-header "Important\n"))))
   
   ;; Medium priority
-  (setq alc-org-acc-medium-priority
+  (setq swanemacs-org-acc-medium-priority
         '(tags-todo "PRIORITY={B}"
                     ((org-agenda-overriding-header "Somewhat important\n")
                      (org-agenda-skip-function
@@ -175,12 +175,12 @@
                                                  'timestamp)))))
   
   ;; Low priority
-  (setq alc-org-acc-low-priority
+  (setq swanemacs-org-acc-low-priority
         '(tags-todo "PRIORITY={C}"
                     ((org-agenda-overriding-header "Not important\n"))))
   
   ;; No priority
-  (setq alc-org-acc-no-priority
+  (setq swanemacs-org-acc-no-priority
         '(todo ""
                ((org-agenda-overriding-header "No priority\n")
                 (org-agenda-skip-function
@@ -188,24 +188,24 @@
                                             'todo '("TOCOMPLETE" "COMPLETING"))))))
   
   ;; Tasks in the inbox
-  (setq alc-org-acc-inbox
+  (setq swanemacs-org-acc-inbox
         '(tags-todo "inbox"
                ((org-agenda-overriding-header "Tasks in the inbox\n"))))
   
   ;; Block views
   
   ;; Daily digest
-  (setq alc-org-acc-block-today
-        `((,alc-org-acc-events-today
-           ,(alc-org-add-option
-             alc-org-acc-scheduled-today
-             '(org-agenda-skip-function 'alc-org-acc-scheduled-today-filter))
-           ,alc-org-acc-inbox
-           ,alc-org-acc-deadlines
-           ,alc-org-acc-waiting)
+  (setq swanemacs-org-acc-block-today
+        `((,swanemacs-org-acc-events-today
+           ,(swanemacs-org-add-option
+             swanemacs-org-acc-scheduled-today
+             '(org-agenda-skip-function 'swanemacs-org-acc-scheduled-today-filter))
+           ,swanemacs-org-acc-inbox
+           ,swanemacs-org-acc-deadlines
+           ,swanemacs-org-acc-waiting)
           ((org-agenda-format-date ""))))
   
-  (defun alc-org-acc-scheduled-today-filter ()
+  (defun swanemacs-org-acc-scheduled-today-filter ()
       (let ((subtree-end (save-excursion (org-end-of-subtree t))))
         (if (or (member "ménage" (org-get-tags-at))
                 (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED")))
@@ -213,31 +213,31 @@
           nil)))		; don't skip
   
   ;; No timestamp (by priority)
-  (setq alc-org-acc-block-priority
-        `((,alc-org-acc-high-priority
-           ,alc-org-acc-medium-priority
-           ,alc-org-acc-low-priority
-           ,alc-org-acc-no-priority)
+  (setq swanemacs-org-acc-block-priority
+        `((,swanemacs-org-acc-high-priority
+           ,swanemacs-org-acc-medium-priority
+           ,swanemacs-org-acc-low-priority
+           ,swanemacs-org-acc-no-priority)
           ((org-agenda-skip-function
             '(org-agenda-skip-entry-if 'timestamp)))))
   
   ;; Wrapping up
   (setq org-agenda-custom-commands
         `(;; Daily digest
-          ("d" "To[d]ay" ,@alc-org-acc-block-today)
+          ("d" "To[d]ay" ,@swanemacs-org-acc-block-today)
           ;; No timestamp
-          ("n" "[N]o timestamp" ,@alc-org-acc-block-priority)
+          ("n" "[N]o timestamp" ,@swanemacs-org-acc-block-priority)
           ;; Events
           ("v" . "E[v]ents...")
-          ("vt" "Events [t]oday" ,@alc-org-acc-events-today)     
-          ("vw" "Events this [w]eek" ,@alc-org-acc-events-week)
-          ("vm" "Events this [m]onth" ,@alc-org-acc-events-month)
+          ("vt" "Events [t]oday" ,@swanemacs-org-acc-events-today)     
+          ("vw" "Events this [w]eek" ,@swanemacs-org-acc-events-week)
+          ("vm" "Events this [m]onth" ,@swanemacs-org-acc-events-month)
           ;; Scheduled tasks
           ("h" . "Sc[h]eduled tasks...")
-          ("hd" "Scheduled to[d]ay" ,@alc-org-acc-scheduled-today)
-          ("hf" "Scheduled for the next fortnight" ,@alc-org-acc-scheduled-fortnight)
+          ("hd" "Scheduled to[d]ay" ,@swanemacs-org-acc-scheduled-today)
+          ("hf" "Scheduled for the next fortnight" ,@swanemacs-org-acc-scheduled-fortnight)
           ;; Cleaning
-          ("c" "[C]leaning" ,@alc-org-acc-cleaning-today)))
+          ("c" "[C]leaning" ,@swanemacs-org-acc-cleaning-today)))
   (setq org-treat-S-cursor-todo-selection-as-state-change nil
         org-treat-insert-todo-heading-as-state-change t
         org-src-fontify-natively t
@@ -264,35 +264,35 @@
                     "|"
                     "COMPLETED(c!)"
                     "ABORTED(X@)")))
-  (defface alc-org-todo-kwd
+  (defface swanemacs-org-todo-kwd
     '((t (:weight bold :foreground "red")))
     "Face used to display tasks yet to be worked on.")
   
-  (defface alc-org-in-progress-kwd
+  (defface swanemacs-org-in-progress-kwd
     '((t (:weight bold :foreground "orange")))
     "Face used to display tasks in progress.")
   
-  (defface alc-org-someday-kwd
+  (defface swanemacs-org-someday-kwd
     '((t (:weight bold :foreground "dark red")))
     "Face used to display tasks that might be done someday.")
   
-  (defface alc-org-done-kwd
+  (defface swanemacs-org-done-kwd
     '((t (:weight bold :foreground "forest green")))
     "Face used to display org state DONE.")
   
   (setq org-todo-keyword-faces
-        '(("TODO" . alc-org-todo-kwd)
-          ("TOCOMPLETE" . alc-org-todo-kwd)
-          ("TODO?" . alc-org-someday-kwd)
-          ("TOCOMPLETE?" . alc-org-someday-kwd)
-          ("DOING" . alc-org-in-progress-kwd)
-          ("COMPLETING" . alc-org-in-progress-kwd)
-          ("WAITING" . alc-org-in-progress-kwd)
-          ("HOLD" . alc-org-in-progress-kwd)
-          ("DONE" . alc-org-done-kwd)
-          ("COMPLETED" . alc-org-done-kwd)
-          ("CANCELED" . alc-org-done-kwd)
-          ("ABORTED" . alc-org-done-kwd)))
+        '(("TODO" . swanemacs-org-todo-kwd)
+          ("TOCOMPLETE" . swanemacs-org-todo-kwd)
+          ("TODO?" . swanemacs-org-someday-kwd)
+          ("TOCOMPLETE?" . swanemacs-org-someday-kwd)
+          ("DOING" . swanemacs-org-in-progress-kwd)
+          ("COMPLETING" . swanemacs-org-in-progress-kwd)
+          ("WAITING" . swanemacs-org-in-progress-kwd)
+          ("HOLD" . swanemacs-org-in-progress-kwd)
+          ("DONE" . swanemacs-org-done-kwd)
+          ("COMPLETED" . swanemacs-org-done-kwd)
+          ("CANCELED" . swanemacs-org-done-kwd)
+          ("ABORTED" . swanemacs-org-done-kwd)))
   (setq org-provide-todo-statistics '("TODO" "DOING" "WAITING" "TODO?"))
   (setq org-hierarchical-todo-statistics nil)
   (setq org-enforce-todo-dependencies t
@@ -305,7 +305,7 @@
         '(;; Tâches
           ("t" "Nouvelle tâche"
            entry
-           (file+olp alc-org-todo-file "Todo" "Inbox")
+           (file+olp swanemacs-org-todo-file "Todo" "Inbox")
            "* TODO %?"
            :prepend t :kill-buffer t)
           ))
@@ -322,32 +322,32 @@
         org-icalendar-include-body nil)
   (setq org-publish-project-alist
         `(("org-notes"
-           :base-directory ,alc-website-base-dir
+           :base-directory ,swanemacs-website-base-dir
            :base-extension "org"
-           :publishing-directory ,alc-website-pub-dir
+           :publishing-directory ,swanemacs-website-pub-dir
            :recursive t
            :publishing-function org-html-publish-to-html
            :headline-levels 4             ; Just the default for this project.
            :auto-preamble t
-           :html-preamble alc-org-mode-blog-preamble)
+           :html-preamble swanemacs-org-mode-blog-preamble)
           ("org-static"
-           :base-directory ,alc-website-base-dir
+           :base-directory ,swanemacs-website-base-dir
            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-           :publishing-directory ,alc-website-pub-dir
+           :publishing-directory ,swanemacs-website-pub-dir
            :recursive t
            :publishing-function org-publish-attachment)
           ("org" :components ("org-notes" "org-static"))
           ("emacs-config"
            :base-directory ,user-emacs-directory
            :base-extension "org"
-           :publishing-directory ,alc-emacs-config-pub-dir
+           :publishing-directory ,swanemacs-emacs-config-pub-dir
            :recursive t
            :publishing-function org-html-publish-to-html
            :exclude "elpa"
            ;; :headline-levels 4
            :auto-preamble t)))
   
-  (defun alc-org-mode-blog-preamble (options)
+  (defun swanemacs-org-mode-blog-preamble (options)
     "The function that creates the preamble top section for the blog.
   OPTIONS contains the property list from the org-mode export."
     (let ((base-directory (plist-get options :base-directory)))
@@ -367,7 +367,7 @@
         org-speed-commands-user '(("a" org-archive-subtree)))
   (setq org-startup-indented t)
   (delight 'org-indent-mode nil "org-indent")
-  (defun alc-org-insert-cookie-end-of-heading ()
+  (defun swanemacs-org-insert-cookie-end-of-heading ()
     "Insert a cookie at the end of the current heading and update
       it, unless it is already here. In that case, delete it."
     (interactive)
@@ -380,12 +380,12 @@
             (org-end-of-line)
             (insert " [/]")
             (org-update-statistics-cookies nil)
-            (alc-org-change-tags-column))
+            (swanemacs-org-change-tags-column))
         (progn
           (replace-regexp "\\(.*\\) \\[[0-9]*/[0-9]*\\]\\(.*\\)" "\\1\\2" nil (point) (save-excursion (end-of-line) (point)))
-          (alc-org-change-tags-column)))))
+          (swanemacs-org-change-tags-column)))))
   
-  (defun alc-org-schedule-if-doing-or-waiting ()
+  (defun swanemacs-org-schedule-if-doing-or-waiting ()
     "Schedule when the task is marked DOING or WAITING, unless the
   item is already scheduled."
     (when (and (or (string= org-state "DOING")
@@ -395,13 +395,13 @@
       (org-schedule nil "")))
   
   (add-hook 'org-after-todo-state-change-hook
-            'alc-org-schedule-if-doing-or-waiting)
+            'swanemacs-org-schedule-if-doing-or-waiting)
   
   ;; https://emacs.stackexchange.com/a/9588
   (require 'cl-lib)
   (require 'dash)
   
-  (defun alc-todo-to-int (todo)
+  (defun swanemacs-todo-to-int (todo)
     (cl-first (-non-nil
             (mapcar (lambda (keywords)
                       (let ((todo-seq
@@ -410,18 +410,18 @@
                         (cl-position-if (lambda (x) (string= x todo)) todo-seq)))
                     org-todo-keywords))))
   
-  (defun alc-org-sort-key ()
+  (defun swanemacs-org-sort-key ()
     (let* ((todo-max (apply #'max (mapcar #'length org-todo-keywords)))
            (todo (org-entry-get (point) "TODO"))
-           (todo-int (if todo (alc-todo-to-int todo) todo-max))
+           (todo-int (if todo (swanemacs-todo-to-int todo) todo-max))
            (priority (org-entry-get (point) "PRIORITY"))
            (priority-int (if priority (string-to-char priority) org-default-priority)))
       (format "%03d %03d" todo-int priority-int)
       ))
   
-  (defun alc-org-sort-entries ()
+  (defun swanemacs-org-sort-entries ()
     (interactive)
-    (org-sort-entries nil ?f #'alc-org-sort-key)))
+    (org-sort-entries nil ?f #'swanemacs-org-sort-key)))
 
 (use-package org-inlinetask
   :commands org-inlinetask-insert-task

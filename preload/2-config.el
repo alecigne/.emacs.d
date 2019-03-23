@@ -1,32 +1,32 @@
 (when (eq system-type 'gnu/linux)
   (add-to-list 'exec-path "~/.local/bin"))
 
-(unless (and (bound-and-true-p alc-root-dir)
-             (bound-and-true-p alc-current-system))
+(unless (and (bound-and-true-p swanemacs-root-dir)
+             (bound-and-true-p swanemacs-current-system))
   (error "Missing system info."))
 
-(setq alc-org-main-dir (concat alc-root-dir "org/")
-      alc-tmp-dir (concat alc-root-dir "tmp/")
-      alc-backup-directory (concat alc-tmp-dir "stk/emacs-backup/"))
+(setq swanemacs-org-main-dir (concat swanemacs-root-dir "org/")
+      swanemacs-tmp-dir (concat swanemacs-root-dir "tmp/")
+      swanemacs-backup-directory (concat swanemacs-tmp-dir "stk/emacs-backup/"))
 
-(setq alc-website-base-dir (concat alc-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
-      alc-website-pub-dir (concat alc-root-dir "pub/anthony.lecigne.net/")
-      alc-emacs-config-pub-dir (concat alc-root-dir "pub/emacs-config/"))
+(setq swanemacs-website-base-dir (concat swanemacs-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
+      swanemacs-website-pub-dir (concat swanemacs-root-dir "pub/anthony.lecigne.net/")
+      swanemacs-emacs-config-pub-dir (concat swanemacs-root-dir "pub/emacs-config/"))
 
-(setq alc-all-dir (list alc-org-main-dir
-                        alc-tmp-dir
-                        alc-backup-directory
-                        alc-website-base-dir
-                        alc-website-pub-dir
-                        alc-emacs-config-pub-dir))
+(setq swanemacs-all-dir (list swanemacs-org-main-dir
+                        swanemacs-tmp-dir
+                        swanemacs-backup-directory
+                        swanemacs-website-base-dir
+                        swanemacs-website-pub-dir
+                        swanemacs-emacs-config-pub-dir))
 
-(dolist (dir alc-all-dir)
+(dolist (dir swanemacs-all-dir)
   (unless (file-exists-p dir)
     (make-directory dir t)))
 
-(setq alc-org-todo-file (concat alc-org-main-dir "todo.org")
-      alc-org-note-file (concat alc-org-main-dir "notes.org")
-      alc-org-entourage-file (concat alc-org-main-dir "Entourage.org"))
+(setq swanemacs-org-todo-file (concat swanemacs-org-main-dir "todo.org")
+      swanemacs-org-note-file (concat swanemacs-org-main-dir "notes.org")
+      swanemacs-org-entourage-file (concat swanemacs-org-main-dir "Entourage.org"))
 
 (setq safe-local-variable-values
       '((eval add-hook 'after-save-hook
@@ -37,7 +37,7 @@
 
 (setq projectile-known-projects-file
       (locate-user-emacs-file (concat "projectile/projectile-bookmarks-"
-                                      alc-current-system
+                                      swanemacs-current-system
                                       ".eld")))
 (with-eval-after-load 'projectile
   (setq projectile-indexing-method 'native
@@ -46,5 +46,5 @@
 
   (setq projectile-cache-file
         (locate-user-emacs-file (concat "projectile/projectile-"
-                                        alc-current-system
+                                        swanemacs-current-system
                                         ".cache"))))

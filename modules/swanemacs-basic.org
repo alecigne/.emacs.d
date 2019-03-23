@@ -639,7 +639,7 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 ** Backups
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq backup-directory-alist `(("." . ,alc-backup-directory)))
+  (setq backup-directory-alist `(("." . ,swanemacs-backup-directory)))
 #+END_SRC
 
 ** Recentf
@@ -649,7 +649,7 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
   ;; but better than having non-existent files from other systems in my
   ;; recentf list.
   (setq recentf-save-file (locate-user-emacs-file
-                           (concat "recentf/recentf-" alc-current-system)))
+                           (concat "recentf/recentf-" swanemacs-current-system)))
 #+END_SRC
 
 * Help
