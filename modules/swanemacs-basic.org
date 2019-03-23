@@ -18,12 +18,11 @@ important for a basic config.
   - [[#tooltips][Tooltips]]
   - [[#helm][=helm=]]
   - [[#which-key][Which-key]]
-- [[#window-management][Window management]]
-  - [[#popwin][Popwin]]
-- [[#buffer-management][Buffer management]]
+- [[#windows-and-buffers][Windows and buffers]]
   - [[#useful-commands][Useful commands]]
   - [[#general][General]]
   - [[#ibuffer][=ibuffer=]]
+  - [[#popwin][Popwin]]
 - [[#navigation][Navigation]]
   - [[#searching][Searching]]
 - [[#editing][Editing]]
@@ -40,6 +39,8 @@ important for a basic config.
   - [[#treemacs][Treemacs]]
   - [[#recentf][Recentf]]
   - [[#dired][Dired]]
+  - [[#backups-1][Backups]]
+  - [[#recentf-1][Recentf]]
 - [[#help][Help]]
   - [[#general-1][General]]
   - [[#company-quickhelp][=company-quickhelp=]]
@@ -244,27 +245,7 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
           which-key-max-display-columns nil))
 #+END_SRC
 
-* Window management
-
-** Popwin
-
-[[https://github.com/m2ym/popwin-el][Github page]]. I should have a look at [[https://github.com/wasamasa/shackle][Shackle]] too.
-
-#+BEGIN_QUOTE
-=popwin= is a popup window manager for Emacs which makes you free from
-the hell of annoying buffers [...]
-#+END_QUOTE
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package popwin
-    :ensure t
-    :defer 1				; probably not needed right away
-    :config (popwin-mode 1))
-#+END_SRC
-
-* Buffer management
-
-Managing buffers.
+* Windows and buffers
 
 ** Useful commands
 
@@ -283,6 +264,8 @@ Managing buffers.
     (other-window count)
     (kill-buffer-and-window))
 
+  (global-set-key (kbd "M-<f6>") 'swanemacs-basic-kill-other-buffer-and-window)
+
   (defun swanemacs-basic-kill-buffer-in-other-window ()
     "Kill the buffer in the other window."
     (interactive)
@@ -290,17 +273,36 @@ Managing buffers.
     (kill-this-buffer)
     (other-window 1))
 
+  (global-set-key (kbd "<f6>") 'swanemacs-basic-kill-buffer-in-other-window)
+
   (defun swanemacs-basic-kill-other-window ()
     "Kill the other window but don't kill its buffer."
     (interactive)
     (other-window 1)
     (delete-window))
 
+  (global-set-key (kbd "C-<f6>") 'swanemacs-basic-kill-other-window)
+
   (defun swanemacs-basic-switch-to-previous-buffer ()
     "Switch to the most recently selected buffer other than current
   buffer, unless the previous buffer is visible."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) nil)))
+
+  (key-chord-define-global "jh" 'swanemacs-basic-switch-to-previous-buffer)
+
+  (global-set-key (kbd "C-S-k") 'kill-whole-line)
+  (global-set-key (kbd "<f5>") 'kill-this-buffer)
+  (key-chord-define-global ";k" 'kill-this-buffer)
+  (global-set-key (kbd "M-<f5>") 'kill-buffer-and-window)
+  (define-key global-map (kbd "C-c ù") 'ibuffer)
+  (global-set-key (kbd "C-<f5>") 'delete-window)
+  (key-chord-define-global ";o" 'other-window)
+  (key-chord-define-global ";à" 'delete-window)
+  (key-chord-define-global ";&" 'delete-other-windows)
+  (key-chord-define-global ";é" 'split-window-below)
+  (key-chord-define-global ";\"" 'split-window-right)
+
 #+END_SRC
 
 ** General
@@ -397,6 +399,22 @@ Saving sessions.
     (setq ibuffer-show-empty-filter-groups nil))
 #+END_SRC
 
+** Popwin
+
+[[https://github.com/m2ym/popwin-el][Github page]]. I should have a look at [[https://github.com/wasamasa/shackle][Shackle]] too.
+
+#+BEGIN_QUOTE
+=popwin= is a popup window manager for Emacs which makes you free from
+the hell of annoying buffers [...]
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package popwin
+    :ensure t
+    :defer 1				; probably not needed right away
+    :config (popwin-mode 1))
+#+END_SRC
+
 * Navigation
 
 ** Searching
@@ -421,6 +439,8 @@ What happens right around the cursor.
                (current-buffer))
       (error (message "Invalid expression")
              (insert (current-kill 0)))))
+
+  (global-set-key (kbd "C-c e") 'swanemacs-basic-eval-and-replace)
 
   (defun swanemacs-basic-unfill-region (beg end)
     "Unfill the region, joining text paragraphs into a single
@@ -459,6 +479,8 @@ Duplicate a line - taken from [[https://stackoverflow.com/a/998472][this SO answ
         (setq buffer-undo-list (cons (cons eol (point)) buffer-undo-list)))) ; end-of-let
     ;; put the point in the lowest line and return
     (next-line arg))
+
+  (global-set-key (kbd "C-c d") 'swanemacs-basic-duplicate-line)
 #+END_SRC
 
 ** Encoding
@@ -613,6 +635,22 @@ The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
 ** Dired
 
 Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
+
+** Backups
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq backup-directory-alist `(("." . ,alc-backup-directory)))
+#+END_SRC
+
+** Recentf
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; One recentf file for every system I work on. This is not perfect
+  ;; but better than having non-existent files from other systems in my
+  ;; recentf list.
+  (setq recentf-save-file (locate-user-emacs-file
+                           (concat "recentf/recentf-" alc-current-system)))
+#+END_SRC
 
 * Help
 

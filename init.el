@@ -89,6 +89,7 @@
         swanemacs-communication
         swanemacs-gadgets
         swanemacs-mail-news
+        swanemacs-science
         ))
 
 (let ((dir swanemacs-personal-preload-dir))

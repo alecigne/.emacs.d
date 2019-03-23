@@ -9,6 +9,7 @@
          ("<tab>" . helm-execute-persistent-action)
          ("C-i" . helm-execute-persistent-action)
          ("C-z" . helm-select-action))
+  :chords (";b" . helm-mini)
   :config
   (setq helm-split-window-in-side-p t
         helm-move-to-line-cycle-in-source t

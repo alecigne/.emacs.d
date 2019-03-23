@@ -3,7 +3,26 @@
            (emacs-lisp-mode "el" :major)))
 
 (use-package slime
-  :ensure t)
+  :ensure t
+  :config
+  (when (equal alc-current-system "laptop-linux")
+    (setq slime-contribs '(slime-fancy)
+          slime-protocol-version 'ignore)
+    (setq inferior-lisp-program "sbcl"))
+
+  (defun alc-swank-listening-p ()
+    (ignore-errors
+      (let ((p (open-network-stream "SLIME Lisp Connection Test" nil "localhost" 4005)))
+        (when p
+          (delete-process p)
+          t))))
+
+  (defun alc-swank-autoconnect (&rest args)
+    (if (and (not (slime-connected-p))
+             (alc-swank-listening-p))
+        (ignore-errors (slime-connect "localhost" 4005))))
+
+  (alc-swank-autoconnect))
 
 (use-package geiser
   :ensure t)

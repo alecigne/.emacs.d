@@ -86,11 +86,6 @@
   (setq which-key-idle-delay 1.0
         which-key-max-display-columns nil))
 
-(use-package popwin
-  :ensure t
-  :defer 1				; probably not needed right away
-  :config (popwin-mode 1))
-
 (defun swanemacs-basic-kill-other-buffers ()
   "Kill all normal buffers but the current one."
   (interactive)
@@ -105,6 +100,8 @@
   (other-window count)
   (kill-buffer-and-window))
 
+(global-set-key (kbd "M-<f6>") 'swanemacs-basic-kill-other-buffer-and-window)
+
 (defun swanemacs-basic-kill-buffer-in-other-window ()
   "Kill the buffer in the other window."
   (interactive)
@@ -112,17 +109,35 @@
   (kill-this-buffer)
   (other-window 1))
 
+(global-set-key (kbd "<f6>") 'swanemacs-basic-kill-buffer-in-other-window)
+
 (defun swanemacs-basic-kill-other-window ()
   "Kill the other window but don't kill its buffer."
   (interactive)
   (other-window 1)
   (delete-window))
 
+(global-set-key (kbd "C-<f6>") 'swanemacs-basic-kill-other-window)
+
 (defun swanemacs-basic-switch-to-previous-buffer ()
   "Switch to the most recently selected buffer other than current
 buffer, unless the previous buffer is visible."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) nil)))
+
+(key-chord-define-global "jh" 'swanemacs-basic-switch-to-previous-buffer)
+
+(global-set-key (kbd "C-S-k") 'kill-whole-line)
+(global-set-key (kbd "<f5>") 'kill-this-buffer)
+(key-chord-define-global ";k" 'kill-this-buffer)
+(global-set-key (kbd "M-<f5>") 'kill-buffer-and-window)
+(define-key global-map (kbd "C-c ù") 'ibuffer)
+(global-set-key (kbd "C-<f5>") 'delete-window)
+(key-chord-define-global ";o" 'other-window)
+(key-chord-define-global ";à" 'delete-window)
+(key-chord-define-global ";&" 'delete-other-windows)
+(key-chord-define-global ";é" 'split-window-below)
+(key-chord-define-global ";\"" 'split-window-right)
 
 (setq uniquify-buffer-name-style 'post-forward)
 
@@ -200,6 +215,11 @@ buffer, unless the previous buffer is visible."
   ;; Don't show (filter) groups that are empty.
   (setq ibuffer-show-empty-filter-groups nil))
 
+(use-package popwin
+  :ensure t
+  :defer 1				; probably not needed right away
+  :config (popwin-mode 1))
+
 (setq isearch-allow-scroll t)
 
 (defun swanemacs-basic-eval-and-replace ()
@@ -211,6 +231,8 @@ buffer, unless the previous buffer is visible."
              (current-buffer))
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
+
+(global-set-key (kbd "C-c e") 'swanemacs-basic-eval-and-replace)
 
 (defun swanemacs-basic-unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -245,6 +267,8 @@ logical line. This is useful, e.g., for use with
       (setq buffer-undo-list (cons (cons eol (point)) buffer-undo-list)))) ; end-of-let
   ;; put the point in the lowest line and return
   (next-line arg))
+
+(global-set-key (kbd "C-c d") 'swanemacs-basic-duplicate-line)
 
 (setq system-time-locale "fr_FR.UTF-8"
       ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
@@ -341,6 +365,14 @@ logical line. This is useful, e.g., for use with
 (use-package recentf
   :config
   (setq recentf-max-saved-items 50))
+
+(setq backup-directory-alist `(("." . ,alc-backup-directory)))
+
+;; One recentf file for every system I work on. This is not perfect
+;; but better than having non-existent files from other systems in my
+;; recentf list.
+(setq recentf-save-file (locate-user-emacs-file
+                         (concat "recentf/recentf-" alc-current-system)))
 
 (global-set-key (kbd "C-h C-f") 'find-function)
 (global-set-key (kbd "C-h C-v") 'find-variable)

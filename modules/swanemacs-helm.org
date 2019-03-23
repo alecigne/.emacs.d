@@ -31,6 +31,7 @@ might have been pasted from it.
            ("<tab>" . helm-execute-persistent-action)
            ("C-i" . helm-execute-persistent-action)
            ("C-z" . helm-select-action))
+    :chords (";b" . helm-mini)
     :config
     <<helm-config>>)
 #+END_SRC

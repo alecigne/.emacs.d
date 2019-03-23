@@ -4,6 +4,7 @@
 
 (use-package writeroom-mode
   :ensure t
+  :bind ("H-<f10>" . writeroom-mode)
   :config
   (setq writeroom-restore-window-config t))
 
