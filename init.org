@@ -263,18 +263,28 @@ The list of activated modules is stored in a variable called
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar swanemacs-enabled-modules nil
     "List of enabled modules.")
-#+END_SRC
 
-This variable is set to =nil= (no modules at all by default). If
-modules are needed this variable must be set in the personal config.
+  (setq swanemacs-enabled-modules
+        '(swanemacs-basic
+          swanemacs-dired
+          swanemacs-helm
+          swanemacs-completion
+          swanemacs-projectile
+          swanemacs-git
+          swanemacs-org
+          swanemacs-prog
+          swanemacs-latex
+          swanemacs-web
+          swanemacs-communication
+          swanemacs-gadgets
+          swanemacs-mail-news
+          ))
+#+END_SRC
 
 ** Personal config - preload
 
 Load the Org init files in the =preload= config. Theses files are
 loaded *in order*!
-
-A typical preload config sets =swanemacs-activated-modules= in order to
-choose the modules that will be loaded from the config.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (let ((dir swanemacs-personal-preload-dir))

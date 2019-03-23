@@ -75,6 +75,22 @@
 (defvar swanemacs-enabled-modules nil
   "List of enabled modules.")
 
+(setq swanemacs-enabled-modules
+      '(swanemacs-basic
+        swanemacs-dired
+        swanemacs-helm
+        swanemacs-completion
+        swanemacs-projectile
+        swanemacs-git
+        swanemacs-org
+        swanemacs-prog
+        swanemacs-latex
+        swanemacs-web
+        swanemacs-communication
+        swanemacs-gadgets
+        swanemacs-mail-news
+        ))
+
 (let ((dir swanemacs-personal-preload-dir))
   (when (file-exists-p dir)
     (mapc 'org-babel-load-file (directory-files dir t swanemacs-personal-init-org-files))))
