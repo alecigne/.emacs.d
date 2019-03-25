@@ -11,18 +11,44 @@
   (use-package elfeed
     :ensure   t
     :commands elfeed
+    :bind (("C-x w" . elfeed)
+           :map elfeed-search-mode-map
+           ("j" . next-line)
+           ("k" . previous-line))
     :config
+    (defun elfeed-search-format-date (date)
+      (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
+
     (setq elfeed-feeds
-            '("https://news.ycombinator.com/rss"
-              ("https://www.reddit.com/r/emacs/.rss" emacs)
-              ("http://sachachua.com/blog/category/emacs-news/feed" emacs)
-              ("http://endlessparentheses.com/atom.xml" emacs)
-              ("http://www.masteringemacs.org/feed/" emacs)
-              ("http://emacs-fu.blogspot.com/feeds/posts/default" emacs)
-              ("http://emacsredux.com/atom.xml" emacs)
-              ("http://emacshorrors.com/feed.atom" emacs)
-              ("http://pragmaticemacs.com/feed/" emacs))
-            elfeed-search-filter ""))
+          '("https://news.ycombinator.com/rss"
+            ("https://www.reddit.com/r/emacs/.rss" emacs)
+            ("http://sachachua.com/blog/category/emacs-news/feed" emacs)
+            ("http://endlessparentheses.com/atom.xml" emacs)
+            ("http://www.masteringemacs.org/feed/" emacs)
+            ("http://emacs-fu.blogspot.com/feeds/posts/default" emacs)
+            ("http://emacsredux.com/atom.xml" emacs)
+            ("http://emacshorrors.com/feed.atom" emacs)
+            ("http://pragmaticemacs.com/feed/" emacs)
+            ("https://xkcd.com/atom.xml")
+            ("http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/" emacs))
+          elfeed-search-filter ""))
+
+  (use-package elfeed-goodies
+    :ensure t
+    :bind (:map elfeed-show-mode-map
+                ("j" . elfeed-goodies/split-show-next)
+                ("k" . elfeed-goodies/split-show-prev))
+    :after elfeed
+    :demand t
+    :config
+    (elfeed-goodies/setup)
+    (setq elfeed-goodies/entry-pane-position 'bottom))
+
+  (use-package elfeed-org
+    :ensure t
+    :after elfeed
+    :config
+    (elfeed-org))
 #+end_src
 
 * Wrapping up
