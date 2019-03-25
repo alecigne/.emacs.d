@@ -14,6 +14,7 @@ important for a basic config.
   - [[#window][Window]]
   - [[#fonts][Fonts]]
 - [[#interaction][Interaction]]
+  - [[#commands][Commands]]
   - [[#-yes-or-no--questions][« Yes or no » questions]]
   - [[#tooltips][Tooltips]]
   - [[#helm][=helm=]]
@@ -183,6 +184,14 @@ Minimalitic window settings: no menu, toolbar, scroll bars or [[https://www.gnu.
 * Interaction
 
 How to talk to Emacs and how it talks back.
+
+** Commands
+
+Enable all commands by default.
+
+#+begin_src emacs-lisp :tangle yes
+  (setq disabled-command-function nil)
+#+end_src
 
 ** « Yes or no » questions
 

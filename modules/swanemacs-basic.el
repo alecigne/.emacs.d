@@ -71,6 +71,8 @@
       ((eq system-type 'gnu/linux)
        (swanemacs-basic-set-font "Source Code Pro" 100)))
 
+(setq disabled-command-function nil)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (tooltip-mode 0)
