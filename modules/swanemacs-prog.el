@@ -1,5 +1,5 @@
-(delight '((lisp-mode "Î»" :major)
-           (lisp-interaction-mode "Î»" :major)
+(delight '((lisp-mode "λ" :major)
+           (lisp-interaction-mode "λ" :major)
            (emacs-lisp-mode "el" :major)))
 
 (use-package slime
