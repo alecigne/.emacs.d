@@ -12,3 +12,11 @@
 /eshell
 /transient
 /preload/1-system.*
+/url
+/history
+
+# Ignore generated or useless el files
+/modules/*.el
+/init.el
+*.el~
+*.elc
