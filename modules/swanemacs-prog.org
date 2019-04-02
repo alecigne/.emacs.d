@@ -2,6 +2,7 @@
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
+- [[#uml][UML]]
 - [[#lisp][Lisp]]
   - [[#all-lisps][All Lisps]]
   - [[#common-lisp][Common Lisp]]
@@ -9,6 +10,17 @@
   - [[#scheme][Scheme]]
 - [[#python][Python]]
 - [[#wrapping-up][Wrapping up]]
+
+* UML
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package plantuml-mode
+    :ensure t
+    :init
+    (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+    (setq plantuml-jar-path (expand-file-name "bin/plantuml.jar"
+                                              swanemacs-root-dir)))
+#+end_src
 
 * Lisp
 
