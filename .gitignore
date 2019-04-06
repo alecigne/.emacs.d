@@ -17,6 +17,7 @@
 
 # Ignore generated or useless el files
 /modules/*.el
+/preload/*.el
 /init.el
 *.el~
 *.elc
