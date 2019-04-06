@@ -31,7 +31,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq swanemacs-org-main-dir (concat swanemacs-root-dir "org/")
         swanemacs-tmp-dir (concat swanemacs-root-dir "tmp/")
-        swanemacs-backup-directory (concat swanemacs-tmp-dir "stk/emacs-backup/"))
+        swanemacs-backup-directory (concat swanemacs-tmp-dir "emacs-backup/"))
 
   (setq swanemacs-website-base-dir (concat swanemacs-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
         swanemacs-website-pub-dir (concat swanemacs-root-dir "pub/anthony.lecigne.net/")
