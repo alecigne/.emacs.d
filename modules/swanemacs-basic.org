@@ -648,7 +648,7 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 ** Backups
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq backup-directory-alist `(("." . ,swanemacs-backup-directory)))
+  (setq backup-directory-alist `(("." . ,swanemacs-backup-dir)))
 #+END_SRC
 
 ** Recentf

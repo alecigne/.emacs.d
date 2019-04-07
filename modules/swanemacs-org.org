@@ -502,7 +502,7 @@ Faces:
 
 ** Org publish
 
- #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
+ #+BEGIN_SRC emacs-lisp :tangle no
    (setq org-publish-project-alist
          `(("org-notes"
             :base-directory ,swanemacs-website-base-dir

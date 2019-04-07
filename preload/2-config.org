@@ -29,32 +29,24 @@
 ** Subdirectories
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq swanemacs-org-main-dir (concat swanemacs-root-dir "org/")
+  (setq swanemacs-org-dir (concat swanemacs-root-dir "org/")
         swanemacs-tmp-dir (concat swanemacs-root-dir "tmp/")
-        swanemacs-backup-directory (concat swanemacs-tmp-dir "emacs-backup/"))
+        swanemacs-backup-dir (concat swanemacs-tmp-dir "emacs-backup/"))
 
-  (setq swanemacs-website-base-dir (concat swanemacs-root-dir "doc/per/me/Expression/anthony.lecigne.net/")
-        swanemacs-website-pub-dir (concat swanemacs-root-dir "pub/anthony.lecigne.net/")
-        swanemacs-emacs-config-pub-dir (concat swanemacs-root-dir "pub/emacs-config/"))
-
-  (setq swanemacs-all-dir (list swanemacs-org-main-dir
-                          swanemacs-tmp-dir
-                          swanemacs-backup-directory
-                          swanemacs-website-base-dir
-                          swanemacs-website-pub-dir
-                          swanemacs-emacs-config-pub-dir))
-
-  (dolist (dir swanemacs-all-dir)
-    (unless (file-exists-p dir)
-      (make-directory dir t)))
+  (let ((dir-list (list swanemacs-org-dir
+                        swanemacs-tmp-dir
+                        swanemacs-backup-dir)))
+    (dolist (dir dir-list)
+      (unless (file-exists-p dir)
+        (make-directory dir t))))
 #+END_SRC
 
 ** Org files
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq swanemacs-org-todo-file (concat swanemacs-org-main-dir "todo.org")
-        swanemacs-org-note-file (concat swanemacs-org-main-dir "notes.org")
-        swanemacs-org-entourage-file (concat swanemacs-org-main-dir "Entourage.org"))
+  (setq swanemacs-org-todo-file (concat swanemacs-org-dir "todo.org")
+        swanemacs-org-note-file (concat swanemacs-org-dir "notes.org")
+        swanemacs-org-entourage-file (concat swanemacs-org-dir "Entourage.org"))
 #+END_SRC
 
 * Safe local variables
