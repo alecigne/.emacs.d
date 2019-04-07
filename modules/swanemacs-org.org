@@ -142,6 +142,8 @@ From [[https://emacs.stackexchange.com/a/10714][here]].
 cf. https://github.com/fniessen/emacs-leuven
 
  #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
+   (setq swanemacs--org-cleaning-tag "cleaning")
+
    (defun swanemacs-org-add-option (view option)
      (list (car view)
            (cadr view)
@@ -212,7 +214,7 @@ cf. https://github.com/fniessen/emacs-leuven
                    (org-agenda-skip-function
                     (lambda ()
                       (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-                        (if (member "ménage" (org-get-tags-at))
+                        (if (member swanemacs--org-cleaning-tag (org-get-tags-at))
                             subtree-end
                           nil))))
                    (org-agenda-sorting-strategy
@@ -241,7 +243,7 @@ cf. https://github.com/fniessen/emacs-leuven
 
    (defun swanemacs-org-acc-cleaning-today-filter ()
      (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-       (if (member "ménage" (org-get-tags-at))
+       (if (member swanemacs--org-cleaning-tag (org-get-tags-at))
            nil		; do no skip
          subtree-end)))	; skip
 
@@ -274,7 +276,7 @@ cf. https://github.com/fniessen/emacs-leuven
    ;; Tasks in the inbox
    (setq swanemacs-org-acc-inbox
          '(tags-todo "inbox"
-                ((org-agenda-overriding-header "Tasks in the inbox\n"))))
+                     ((org-agenda-overriding-header "Tasks in the inbox\n"))))
 
    ;; Block views
 
@@ -290,11 +292,11 @@ cf. https://github.com/fniessen/emacs-leuven
            ((org-agenda-format-date ""))))
 
    (defun swanemacs-org-acc-scheduled-today-filter ()
-       (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-         (if (or (member "ménage" (org-get-tags-at))
-                 (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED")))
-             subtree-end	; skip
-           nil)))		; don't skip
+     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+       (if (or (member swanemacs--org-cleaning-tag (org-get-tags-at))
+               (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED")))
+           subtree-end	; skip
+         nil)))		; don't skip
 
    ;; No timestamp (by priority)
    (setq swanemacs-org-acc-block-priority
