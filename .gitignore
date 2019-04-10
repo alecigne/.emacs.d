@@ -3,11 +3,11 @@
 /custom.el
 /elpa
 /auto-save-list
-/server/server
+/server/*
+!/server/.keep
 /recentf
 /projectile
 /.cache
-*.elc
 /bookmarks
 /eshell
 /transient
@@ -18,6 +18,4 @@
 # Ignore generated or useless el files
 /modules/*.el
 /preload/*.el
-/init.el
-*.el~
 *.elc
