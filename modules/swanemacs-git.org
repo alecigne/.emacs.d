@@ -2,8 +2,27 @@
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
+- [[#git-gutter][=git-gutter=]]
+- [[#git-timemachine][=git-timemachine=]]
 - [[#magit][Magit]]
 - [[#wrapping-up][Wrapping up]]
+
+* =git-gutter=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package git-gutter
+    :ensure t
+    :init
+    (global-git-gutter-mode)
+    (setq git-gutter:hide-gutter t))
+#+end_src
+
+* =git-timemachine=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package git-timemachine
+    :ensure t)
+#+end_src
 
 * Magit
 
