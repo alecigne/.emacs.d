@@ -7,6 +7,7 @@
 - [[#emojify][=emojify=]]
 - [[#fireplace][=fireplace=]]
 - [[#lorem-ipsum][=lorem-ipsum=]]
+- [[#youtube-dl][=youtube-dl=]]
 - [[#wrapping-up][Wrapping up]]
 
 * =google-this=
@@ -55,6 +56,19 @@
   (use-package lorem-ipsum
     :ensure t)
 #+END_SRC
+
+* =youtube-dl=
+
+cf. [[https://github.com/skeeto/youtube-dl-emacs][GitHub]]. This package was initially developed for integration with
+Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscriptions_using_elfeed_mpv_no_browser/][this Reddit thread]].
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package youtube-dl
+    :unless (eq system-type 'windows-nt)
+    :load-path "~/.emacs.d/lisp/youtube-dl-emacs/"
+    :ensure nil
+    :demand t)
+#+end_src
 
 * Wrapping up
 
