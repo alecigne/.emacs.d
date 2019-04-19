@@ -59,11 +59,9 @@ Install themes:
 - =monokai=, a dark theme (used by default)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package apropospriate-theme
-    :ensure t)
+  (use-package apropospriate-theme)
 
-  (use-package monokai-theme
-    :ensure t)
+  (use-package monokai-theme)
 
   (load-theme 'monokai t)
 #+END_SRC
@@ -244,7 +242,6 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
   (use-package which-key
-    :ensure t
     :defer 1
     :delight
     :config
@@ -343,6 +340,7 @@ Saving sessions.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ibuffer
+    :ensure nil
     :config
     (setq ibuffer-default-sorting-mode 'major-mode)
     (setq ibuffer-saved-filter-groups
@@ -419,7 +417,6 @@ the hell of annoying buffers [...]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package popwin
-    :ensure t
     :defer 1				; probably not needed right away
     :config (popwin-mode 1))
 #+END_SRC
@@ -528,7 +525,6 @@ Use =C-x u= to call =undo-tree-visualize=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package undo-tree
-    :ensure t
     :demand
     :delight
     :config
@@ -584,7 +580,6 @@ The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package treemacs
-    :ensure t
     :defer t
     :config
     (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
@@ -629,8 +624,7 @@ The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
           ("C-x t M-t" . treemacs-find-tag)))
 
   (use-package treemacs-projectile
-    :after treemacs projectile
-    :ensure t)
+    :after treemacs projectile)
 #+END_SRC
 
 ** Recentf

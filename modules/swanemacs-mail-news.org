@@ -9,7 +9,6 @@
 
 #+begin_src emacs-lisp :tangle yes
   (use-package elfeed
-    :ensure   t
     :commands elfeed
     :bind (("C-x w" . elfeed)
            :map elfeed-search-mode-map
@@ -34,7 +33,6 @@
           elfeed-search-filter ""))
 
   (use-package elfeed-goodies
-    :ensure t
     :bind (:map elfeed-show-mode-map
                 ("j" . elfeed-goodies/split-show-next)
                 ("k" . elfeed-goodies/split-show-prev))
@@ -45,7 +43,6 @@
     (setq elfeed-goodies/entry-pane-position 'bottom))
 
   (use-package elfeed-org
-    :ensure t
     :after elfeed
     :config
     (elfeed-org))

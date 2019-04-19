@@ -15,7 +15,6 @@
 
 #+begin_src emacs-lisp :tangle yes
   (use-package plantuml-mode
-    :ensure t
     :init
     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
     (setq plantuml-jar-path (expand-file-name "bin/plantuml.jar"
@@ -37,7 +36,6 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package slime
-    :ensure t
     :config
     (when (equal swanemacs-current-system "laptop-linux")
       (setq slime-contribs '(slime-fancy)
@@ -65,8 +63,7 @@
 http://www.nongnu.org/geiser/
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package geiser
-    :ensure t)
+  (use-package geiser)
 #+END_SRC
 
 * Python
@@ -76,7 +73,6 @@ You need to install Python on your system first, of course, but also
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package elpy
-    :ensure t
     :init
     (with-eval-after-load 'python (elpy-enable))
     :config
@@ -85,13 +81,11 @@ You need to install Python on your system first, of course, but also
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package pyvenv
-    :ensure t)
+  (use-package pyvenv)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company-jedi
-    :ensure t
     ;; :after company
     :init
     (defun swanemacs-prog-add-company-jedi ()

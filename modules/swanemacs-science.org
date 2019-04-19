@@ -3,18 +3,23 @@
 
 * Table of contents                                            :toc:noexport:
 - [[#ess][ESS]]
+- [[#wrapping-up][Wrapping up]]
 
 * ESS
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ess
-    :ensure t)
+  (use-package ess)
 #+END_SRC
 
 https://github.com/myuhe/ess-R-data-view.el
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ess-R-data-view
-    :ensure t)
+  (use-package ess-R-data-view)
 #+END_SRC
+
+* Wrapping up
+
+#+begin_src emacs-lisp :tangle yes
+  (provide 'swanemacs-science)
+#+end_src
 

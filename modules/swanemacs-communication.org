@@ -28,8 +28,7 @@ Things to stay in touch.
 * Jabber
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package jabber
-    :ensure t)
+  (use-package jabber)
 #+END_SRC
 
 * Wrapping up

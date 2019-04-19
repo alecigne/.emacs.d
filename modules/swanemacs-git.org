@@ -15,7 +15,6 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
-    :ensure t
     :delight magit-status-mode "magit"
     :bind (("C-c g" . magit-status)))
 #+END_SRC
@@ -28,7 +27,6 @@ https://github.com/magit/git-modes
 
 #+begin_src emacs-lisp
   (use-package gitignore-mode
-    :ensure t
     :mode ".gitignore$")
 #+end_src
 
@@ -36,7 +34,6 @@ https://github.com/magit/git-modes
 
 #+begin_src emacs-lisp :tangle yes
   (use-package gitconfig-mode
-    :ensure t
     :mode ".gitconfig$")
 #+end_src
 
@@ -46,7 +43,6 @@ https://github.com/syohex/emacs-git-gutter
 
 #+begin_src emacs-lisp :tangle yes
   (use-package git-gutter
-    :ensure t
     :hook (prog-mode)
     :delight
     :config
@@ -59,15 +55,13 @@ https://github.com/syohex/emacs-git-gutter
 https://gitlab.com/pidu/git-timemachine
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package git-timemachine
-    :ensure t)
+  (use-package git-timemachine)
 #+end_src
 
 * TODO =git-messenger=
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package git-messenger
-    :ensure t)
+  (use-package git-messenger)
 #+end_src
 
 * Wrapping up

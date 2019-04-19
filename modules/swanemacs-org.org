@@ -635,6 +635,7 @@ Faces:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-inlinetask
+    :ensure nil
     :commands org-inlinetask-insert-task
     :bind (:map org-mode-map
                 ("C-c C-x t" . org-inlinetask-insert-task))
@@ -647,7 +648,6 @@ Faces:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-bullets
-    :ensure t
     :after org
     :init
     (when (eq system-type 'gnu/linux)
@@ -673,7 +673,6 @@ Faces:
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package org-pomodoro
-    :ensure t
     :after org
     :config
     (add-hook 'org-pomodoro-finished-hook
@@ -698,7 +697,6 @@ Use =org-sticky-header-mode= to use that.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-sticky-header
-    :ensure t
     :config
     (setq org-sticky-header-full-path 'full))
 #+END_SRC
@@ -720,7 +718,6 @@ GitHub)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package toc-org
-    :ensure t
     :hook (org-mode . toc-org-enable))
 #+END_SRC
 
@@ -730,7 +727,6 @@ GitHub)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-tree-slide
-    :ensure t
     :bind (:map org-tree-slide-mode-map
                 ("<f9>" . org-tree-slide-move-previous-tree)
                 ("<f10>" . org-tree-slide-move-next-tree)))
@@ -739,8 +735,7 @@ GitHub)
 [[https://github.com/howardabrams/demo-it][=demo-it=]]'s GitHub page.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package demo-it
-    :ensure t)
+  (use-package demo-it)
 #+END_SRC
 
 * Wrapping up

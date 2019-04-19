@@ -21,6 +21,7 @@ use the =h= key as a keybinding since it was originally bound to
   (define-prefix-command 'swanemacs-dired-hacks-map)
 
   (use-package dired
+    :ensure nil
     :bind
     (:map dired-mode-map
           ("h" . swanemacs-dired-hacks-map))
@@ -45,8 +46,8 @@ Since I set =use-package-always-defer= to =t=, I need =:demand t=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired+
-    :load-path "~/.emacs.d/lisp/dired+/"
     :ensure nil
+    :load-path "~/.emacs.d/lisp/dired+/"
     :demand t
     :after dired
     :config
@@ -60,7 +61,6 @@ Emacs]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired-narrow
-    :ensure t
     :after dired
     :bind (:map swanemacs-dired-hacks-map
                 ("n" . dired-narrow)
@@ -74,7 +74,6 @@ https://github.com/Fuco1/dired-hacks#dired-collapse
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired-collapse
-    :ensure t
     :bind (:map swanemacs-dired-hacks-map
                 ("c" . dired-collapse-mode)))
 #+END_SRC

@@ -41,13 +41,13 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(setq use-package-always-defer t)
+(setq use-package-always-defer t
+      use-package-always-ensure t)
 
 (eval-when-compile
   (require 'use-package))
 
-(use-package delight
-  :ensure t)
+(use-package delight)
 
 (use-package org
   :ensure org-plus-contrib
@@ -67,7 +67,6 @@
     (server-start)))
 
 (use-package use-package-chords
-  :ensure t
   :demand t
   :config (key-chord-mode 1))
 

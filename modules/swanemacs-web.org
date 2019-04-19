@@ -9,15 +9,13 @@
 * Basics
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package web-mode
-    :ensure t)
+  (use-package web-mode)
 #+END_SRC
 
 * Impatient mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package impatient-mode
-    :ensure t)
+  (use-package impatient-mode)
 #+END_SRC
 
 * Wrapping up

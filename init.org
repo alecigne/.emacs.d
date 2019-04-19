@@ -138,7 +138,8 @@ autoloaded function, no =:bind= or =:command= keywords in the
 =use-package= expression, etc.), I use =:demand t=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq use-package-always-defer t)
+  (setq use-package-always-defer t
+        use-package-always-ensure t)
 #+END_SRC
 
 [[https://github.com/jwiegley/use-package#use-packageel-is-no-longer-needed-at-runtime][use-package.el is no longer needed at runtime]]:
@@ -155,8 +156,7 @@ Enables you to customise the mode names displayed in the mode line.
 #+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package delight
-    :ensure t)
+  (use-package delight)
 #+END_SRC
 
 * Bootstrapping =org-mode=
@@ -240,7 +240,6 @@ https://github.com/jwiegley/use-package#use-package-chords
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package use-package-chords
-    :ensure t
     :demand t
     :config (key-chord-mode 1))
 #+END_SRC

@@ -13,7 +13,6 @@ Check the [[https://company-mode.github.io/][website]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
-    :ensure t
     :demand
     :delight
     :config
@@ -26,7 +25,6 @@ Check the [[https://company-mode.github.io/][website]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company-quickhelp
-    :ensure t
     :hook (company-mode . company-quickhelp-mode))
 #+END_SRC
 
@@ -34,7 +32,6 @@ Check the [[https://company-mode.github.io/][website]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package yasnippet
-    :ensure t
     :delight yas-minor-mode
     :demand
     :config

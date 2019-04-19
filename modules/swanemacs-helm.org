@@ -21,7 +21,6 @@ might have been pasted from it.
 
 #+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export
   (use-package helm
-    :ensure t
     :delight
     :bind (("M-x" . helm-M-x)
            ("C-x C-f" . helm-find-files)
@@ -77,7 +76,6 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm-descbinds
-    :ensure t
     :after helm
     :config
     (helm-descbinds-mode)
@@ -90,7 +88,6 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm-describe-modes
-    :ensure t
     :after helm
     :bind ([remap describe-mode] . helm-describe-modes))
 #+END_SRC
@@ -101,7 +98,6 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm-projectile
-    :ensure t
     :after projectile
     :config
     (helm-projectile-on))
@@ -113,7 +109,6 @@ Config taken [[https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#h
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm-swoop
-    :ensure t
     ;; :bind ([remap isearch-forward] . helm-swoop)
     :config
     (setq-default helm-swoop-move-to-line-cycle nil
