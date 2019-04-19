@@ -2,27 +2,14 @@
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc:noexport:
+- [[#magit][Magit]]
+- [[#magits-git-modes][Magit's Git modes]]
+  - [[#gitignore-mode][=gitignore-mode=]]
+  - [[#gitconfig-mode][=gitconfig-mode=]]
 - [[#git-gutter][=git-gutter=]]
 - [[#git-timemachine][=git-timemachine=]]
-- [[#magit][Magit]]
+- [[#git-messenger][=git-messenger=]]
 - [[#wrapping-up][Wrapping up]]
-
-* =git-gutter=
-
-#+begin_src emacs-lisp :tangle yes
-  (use-package git-gutter
-    :ensure t
-    :init
-    (global-git-gutter-mode)
-    (setq git-gutter:hide-gutter t))
-#+end_src
-
-* =git-timemachine=
-
-#+begin_src emacs-lisp :tangle yes
-  (use-package git-timemachine
-    :ensure t)
-#+end_src
 
 * Magit
 
@@ -30,9 +17,58 @@
   (use-package magit
     :ensure t
     :delight magit-status-mode "magit"
-    :bind
-    (("C-c g" . magit-status)))
+    :bind (("C-c g" . magit-status)))
 #+END_SRC
+
+* Magit's Git modes
+
+https://github.com/magit/git-modes
+
+** =gitignore-mode=
+
+#+begin_src emacs-lisp
+  (use-package gitignore-mode
+    :ensure t
+    :mode ".gitignore$")
+#+end_src
+
+** =gitconfig-mode=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package gitconfig-mode
+    :ensure t
+    :mode ".gitconfig$")
+#+end_src
+
+* =git-gutter=
+
+https://github.com/syohex/emacs-git-gutter
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package git-gutter
+    :ensure t
+    :hook (prog-mode)
+    :delight
+    :config
+    (global-git-gutter-mode)
+    (setq git-gutter:hide-gutter t))
+#+end_src
+
+* =git-timemachine=
+
+https://gitlab.com/pidu/git-timemachine
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package git-timemachine
+    :ensure t)
+#+end_src
+
+* TODO =git-messenger=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package git-messenger
+    :ensure t)
+#+end_src
 
 * Wrapping up
 
