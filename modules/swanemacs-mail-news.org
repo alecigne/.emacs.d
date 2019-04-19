@@ -13,7 +13,8 @@
     :bind (("C-x w" . elfeed)
            :map elfeed-search-mode-map
            ("j" . next-line)
-           ("k" . previous-line))
+           ("k" . previous-line)
+           ("c" . swanemacs-elfeed-clear-filter))
     :config
     (defun elfeed-search-format-date (date)
       (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
@@ -30,17 +31,12 @@
             ("http://pragmaticemacs.com/feed/" emacs)
             ("https://xkcd.com/atom.xml")
             ("http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/" emacs))
-          elfeed-search-filter ""))
+          elfeed-search-filter "")
 
-  (use-package elfeed-goodies
-    :bind (:map elfeed-show-mode-map
-                ("j" . elfeed-goodies/split-show-next)
-                ("k" . elfeed-goodies/split-show-prev))
-    :after elfeed
-    :demand t
-    :config
-    (elfeed-goodies/setup)
-    (setq elfeed-goodies/entry-pane-position 'bottom))
+    (defun swanemacs-elfeed-clear-filter ()
+      (interactive)
+      (setq elfeed-search-filter "")
+      (elfeed-update)))
 
   (use-package elfeed-org
     :after elfeed
