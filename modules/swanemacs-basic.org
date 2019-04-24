@@ -409,7 +409,13 @@ Saving sessions.
                 ))
 
     ;; Don't show (filter) groups that are empty.
-    (setq ibuffer-show-empty-filter-groups nil))
+    (setq ibuffer-show-empty-filter-groups nil)
+
+    (setq ibuffer-formats
+          '((mark modified read-only " "
+                  (name 40 40 :left :elide)
+                  " "
+                  (mode 16 16 :left :elide)))))
 #+END_SRC
 
 ** Popwin
