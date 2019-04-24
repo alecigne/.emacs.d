@@ -61,17 +61,20 @@ Install themes:
 - [[https://github.com/waymondo/apropospriate-theme][=apropospriate=]], light and dark themes
 - =monokai=, a dark theme (used by default)
 - =doom-themes=
+- =spacemacs-theme=
+
+The theme is loaded in a site-specific file.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package apropospriate-theme)
-
   (use-package monokai-theme)
 
-  (use-package doom-themes)
+  (use-package doom-themes
+    :config
+    (doom-themes-org-config)
+    (doom-themes-treemacs-config))
 
-  (load-theme 'doom-one t)
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config)
+  (use-package spacemacs-theme)
 #+END_SRC
 
 To switch between themes according to sunrise/sunset, install
