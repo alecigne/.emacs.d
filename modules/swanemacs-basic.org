@@ -28,6 +28,7 @@ important for a basic config.
   - [[#searching][Searching]]
 - [[#editing][Editing]]
   - [[#smartparens][=smartparens=]]
+  - [[#expand-region][=expand-region=]]
   - [[#useful-commands-1][Useful commands]]
   - [[#encoding][Encoding]]
   - [[#completion][Completion]]
@@ -453,6 +454,13 @@ What happens right around the cursor.
     :config
     (require 'smartparens-config)
     (smartparens-global-mode))
+#+end_src
+
+** =expand-region=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package expand-region
+    :bind ("C-=" . er/expand-region))
 #+end_src
 
 ** Useful commands
