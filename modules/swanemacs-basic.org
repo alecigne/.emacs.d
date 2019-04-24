@@ -27,6 +27,7 @@ important for a basic config.
 - [[#navigation][Navigation]]
   - [[#searching][Searching]]
 - [[#editing][Editing]]
+  - [[#smartparens][=smartparens=]]
   - [[#useful-commands-1][Useful commands]]
   - [[#encoding][Encoding]]
   - [[#completion][Completion]]
@@ -437,6 +438,16 @@ the hell of annoying buffers [...]
 * Editing
 
 What happens right around the cursor.
+
+** =smartparens=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package smartparens
+    :delight
+    :config
+    (require 'smartparens-config)
+    (smartparens-global-mode))
+#+end_src
 
 ** Useful commands
 
