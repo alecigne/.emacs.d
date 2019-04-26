@@ -276,6 +276,7 @@ The list of activated modules is stored in a variable called
           swanemacs-gadgets
           swanemacs-mail-news
           swanemacs-science
+          swanemacs-markdown
           ))
 #+END_SRC
 

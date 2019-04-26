@@ -88,6 +88,7 @@
         swanemacs-gadgets
         swanemacs-mail-news
         swanemacs-science
+        swanemacs-markdown
         ))
 
 (let ((dir swanemacs-preload-dir))
