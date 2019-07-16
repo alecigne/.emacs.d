@@ -14,6 +14,7 @@
 /preload/1-system.*
 /url
 /history
+/tramp
 
 # Ignore generated or useless el files
 /modules/*.el
