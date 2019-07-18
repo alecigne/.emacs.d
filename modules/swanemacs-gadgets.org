@@ -8,6 +8,7 @@
 - [[#fireplace][=fireplace=]]
 - [[#lorem-ipsum][=lorem-ipsum=]]
 - [[#youtube-dl][=youtube-dl=]]
+- [[#theme-magic][~theme-magic~]]
 - [[#wrapping-up][Wrapping up]]
 
 * =google-this=
@@ -63,6 +64,12 @@ Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscripti
     :load-path "~/.emacs.d/lisp/youtube-dl-emacs/"
     :ensure nil
     :demand t)
+#+end_src
+
+* ~theme-magic~
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package theme-magic)
 #+end_src
 
 * Wrapping up
