@@ -2,36 +2,36 @@
 #+AUTHOR: Anthony Le Cigne
 
 This is my Emacs config. It is self-installable (thanks to John
-Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]) and self-documenting (it consists of a
+Wiegley's [[https://github.com/jwiegley/use-package][~use-package~]]) and self-documenting (it consists of a
 network of [[https://orgmode.org/][Org]] files that are tangled into Emacs Lisp by [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]]).
 
 * Structure
 
-=init.org= will...
+~init.org~ will...
 
-- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
+- Initialize [[http://wikemacs.org/wiki/Package.el][~package.el~]], Emacs' built-in package manager.
 
-- Use =package-install= to install and/or load John Wiegley's
-  [[https://github.com/jwiegley/use-package][=use-package=]].
+- Use ~package-install~ to install and/or load John Wiegley's
+  [[https://github.com/jwiegley/use-package][~use-package~]].
 
-- Use =use-package= to install and/or load Org.
+- Use ~use-package~ to install and/or load Org.
 
 - Use Org to tangle and load the modules activated in the
-  =swanemacs-enabled-modules= variable.
+  ~swanemacs-enabled-modules~ variable.
 
-The modules themselves are stored in the =modules= directory in the
+The modules themselves are stored in the ~modules~ directory in the
 form of Org files that load packages related to an Emacs functionality
 (Org mode, Dired, etc. - take a look).
 
 * About Noweb
 
-Since I make heavy use of =use-package=, sometimes I have to write
-big, top-level =use-package= s-expressions. It is hard to reconcile
+Since I make heavy use of ~use-package~, sometimes I have to write
+big, top-level ~use-package~ s-expressions. It is hard to reconcile
 this with an Org-based self-documenting configuration, where small
 blocks of code should be wrapped in Org syntax.
 
-Here is a small example from my =init.org=. I want this form in my
-=init.el= file:
+Here is a small example from my ~init.org~. I want this form in my
+~init.el~ file:
 
 #+BEGIN_SRC emacs-lisp
   (use-package server
@@ -45,12 +45,12 @@ Here is a small example from my =init.org=. I want this form in my
 #+END_SRC
 
 In order to document it, however, I need to split it in multiple Org
-code blocks in my =init.org=. Here is the source code from my
-=init.org= achieving this:
+code blocks in my ~init.org~. Here is the source code from my
+~init.org~ achieving this:
 
 #+BEGIN_EXAMPLE
-  On Windows, sometimes running =server-start= causes the following error:
-  "=The directory ~/.emacs.d/server is unsafe=". This code seems to fix
+  On Windows, sometimes running ~server-start~ causes the following error:
+  "~The directory ~/.emacs.d/server is unsafe~". This code seems to fix
   the problem (taken from https://stackoverflow.com/a/2944197):
 
   ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
@@ -66,7 +66,7 @@ code blocks in my =init.org=. Here is the source code from my
       (server-start))
   ,#+END_SRC
 
-  Let's feed these blocks to =use-package= thanks to Noweb:
+  Let's feed these blocks to ~use-package~ thanks to Noweb:
 
   ,#+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
     (use-package server
@@ -77,10 +77,10 @@ code blocks in my =init.org=. Here is the source code from my
 #+END_EXAMPLE
 
 Every individual block is not tangled, but has a noweb reference
-(=:noweb-ref server-config=). Then, in the final tangled block, the
-=<<server-config>>= noweb placeholder will be replaced with a
-concatenation of all the code blocks that have a =server-config=
-=:noweb-ref= keyword. The resulting Emacs Lisp code will look exactly
+(~:noweb-ref server-config~). Then, in the final tangled block, the
+~<<server-config>>~ noweb placeholder will be replaced with a
+concatenation of all the code blocks that have a ~server-config~
+~:noweb-ref~ keyword. The resulting Emacs Lisp code will look exactly
 like above.
 
 So if you find a Noweb placeholder in my config, just look at the
