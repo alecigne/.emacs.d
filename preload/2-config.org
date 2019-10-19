@@ -30,6 +30,8 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq swanemacs-org-dir (concat swanemacs-root-dir "org/")
+        swanemacs-org-files-dir (concat swanemacs-org-dir "org-files/")
+        swanemacs-org-notes-dir (concat swanemacs-org-dir "org-notes/")
         swanemacs-tmp-dir (concat swanemacs-root-dir "tmp/")
         swanemacs-backup-dir (concat swanemacs-tmp-dir "emacs-backup/"))
 
@@ -44,9 +46,8 @@
 ** Org files
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq swanemacs-org-todo-file (concat swanemacs-org-dir "todo.org")
-        swanemacs-org-note-file (concat swanemacs-org-dir "notes.org")
-        swanemacs-org-entourage-file (concat swanemacs-org-dir "Entourage.org"))
+  (setq swanemacs-org-todo-file (concat swanemacs-org-files-dir "todo.org")
+        swanemacs-org-entourage-file (concat swanemacs-org-files-dir "entourage.org"))
 #+END_SRC
 
 * Safe local variables
