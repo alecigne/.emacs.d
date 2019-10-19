@@ -491,7 +491,8 @@ Faces:
 *** Exporting
 
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
-  (setq org-ascii-links-to-notes nil)
+  (setq org-ascii-links-to-notes t
+        org-html-validation-link nil)
 #+END_SRC
 
 *** iCalendar export
@@ -504,33 +505,23 @@ Faces:
 
 ** Org publish
 
- #+BEGIN_SRC emacs-lisp :tangle no
+ #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
    (setq org-publish-project-alist
          `(("org-notes"
-            :base-directory ,swanemacs-website-base-dir
+            :base-directory ,swanemacs-org-notes-dir
             :base-extension "org"
-            :publishing-directory ,swanemacs-website-pub-dir
+            :publishing-directory ,swanemacs-org-notes-dir
             :recursive t
             :publishing-function org-html-publish-to-html
-            :headline-levels 4             ; Just the default for this project.
-            :auto-preamble t
-            :html-preamble swanemacs-org-mode-blog-preamble)
-           ("org-static"
-            :base-directory ,swanemacs-website-base-dir
-            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-            :publishing-directory ,swanemacs-website-pub-dir
-            :recursive t
-            :publishing-function org-publish-attachment)
-           ("org" :components ("org-notes" "org-static"))
-           ("emacs-config"
-            :base-directory ,user-emacs-directory
-            :base-extension "org"
-            :publishing-directory ,swanemacs-emacs-config-pub-dir
-            :recursive t
-            :publishing-function org-html-publish-to-html
-            :exclude "elpa"
-            ;; :headline-levels 4
-            :auto-preamble t)))
+            :headline-levels 4)             ; Just the default for this project.
+           ;; ("emacs-config"
+           ;;  :base-directory ,user-emacs-directory
+           ;;  :base-extension "org"
+           ;;  :publishing-directory ,swanemacs-org-notes-dir
+           ;;  :recursive t
+           ;;  :publishing-function org-html-publish-to-html
+           ;;  :exclude "elpa")
+           ))
 
    (defun swanemacs-org-mode-blog-preamble (options)
      "The function that creates the preamble top section for the blog.

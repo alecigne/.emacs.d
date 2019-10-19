@@ -28,6 +28,8 @@
 
 ** Subdirectories
 
+Important subdirectories for my workflow.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq swanemacs-org-dir (concat swanemacs-root-dir "org/")
         swanemacs-org-files-dir (concat swanemacs-org-dir "org-files/")
