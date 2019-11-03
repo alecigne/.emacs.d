@@ -17,8 +17,8 @@
   (use-package plantuml-mode
     :init
     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-    (setq plantuml-jar-path (expand-file-name "bin/plantuml.jar"
-                                              swanemacs-root-dir)))
+    (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
+                                                  swanemacs-root-dir)))
 #+end_src
 
 * Lisp

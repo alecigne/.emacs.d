@@ -540,6 +540,7 @@ Faces:
    'org-babel-load-languages
    '((dot . t)
      (lisp . t)
+     (plantuml . t)
      (python . t)
      (R . t)
      (ruby . t)
