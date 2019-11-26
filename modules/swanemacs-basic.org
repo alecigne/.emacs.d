@@ -715,11 +715,3 @@ Declare =swanemacs-basic= as a feature.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (provide 'swanemacs-basic)
 #+END_SRC
-
-Use =with-eval-after-load= in your personal config in case the
-=swanemacs-basic= module is not activated. An example:
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (with-eval-after-load "swanemacs-basic"
-    (global-set-key (kbd "C-c d") 'swanemacs-basic-duplicate-line))
-#+END_SRC
