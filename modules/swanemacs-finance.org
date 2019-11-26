@@ -10,7 +10,10 @@
 Emacs mode for [[https://ledger-cli.org][Ledger]], a double-entry accounting system.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package ledger-mode)
+  (use-package ledger-mode
+    :ensure t
+    :config
+    (setq ledger-default-date-format ledger-iso-date-format))
 #+end_src
 
 * Wrapping up
