@@ -48,6 +48,8 @@ important for a basic config.
 - [[#help][Help]]
   - [[#general-1][General]]
   - [[#company-quickhelp][=company-quickhelp=]]
+- [[#privacy][Privacy]]
+  - [[#epa][EPA]]
 - [[#wrapping-up][Wrapping up]]
 
 * User interface
@@ -707,6 +709,21 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 ** =company-quickhelp=
 
 See this [[file:swanemacs-company.org::*=company-quickhelp=][section]] in the =swanemacs-company= module.
+
+* Privacy
+
+** EPA
+
+[[https://www.gnu.org/software/emacs/manual/html_mono/epa.html][EPA]] (EasyPG Assistant) is an Emacs user interface to GNU Privacy
+Guard.
+
+The GPG option ~--pinentry-mode~ defines the pinentry behavior. For
+EPA, we want the pinentry to be redirected to the caller. The GPG
+value for this is ~loopback~.
+
+#+begin_src emacs-lisp :tangle yes
+  (setq epa-pinentry-mode 'loopback)
+#+end_src
 
 * Wrapping up
 
