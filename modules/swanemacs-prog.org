@@ -9,6 +9,7 @@
   - [[#emacs-lisp][Emacs Lisp]]
   - [[#scheme][Scheme]]
 - [[#python][Python]]
+- [[#yaml][YAML]]
 - [[#wrapping-up][Wrapping up]]
 
 * UML
@@ -96,6 +97,14 @@ You need to install Python on your system first, of course, but also
     :config
     (setq jedi:complete-on-dot t))
 #+END_SRC
+
+* YAML
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package yaml-mode
+    :ensure t
+    :mode ("\\.ya?ml\\'" . yaml-mode))
+#+end_src
 
 * Wrapping up
 
