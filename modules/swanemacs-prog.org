@@ -114,6 +114,6 @@ You need to install Python on your system first, of course, but also
 
 * Config                                                           :noexport:
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://anthony.lecigne.net/style.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
 #+OPTIONS: toc:nil num:nil
 # #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
