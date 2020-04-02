@@ -23,3 +23,8 @@ https://github.com/myuhe/ess-R-data-view.el
   (provide 'swanemacs-science)
 #+end_src
 
+* Config                                                           :noexport:
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://anthony.lecigne.net/style.css"/>
+#+OPTIONS: toc:nil num:nil
+# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

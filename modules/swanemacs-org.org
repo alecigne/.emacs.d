@@ -514,13 +514,13 @@ Faces:
             :recursive t
             :publishing-function org-html-publish-to-html
             :headline-levels 4)             ; Just the default for this project.
-           ;; ("emacs-config"
-           ;;  :base-directory ,user-emacs-directory
-           ;;  :base-extension "org"
-           ;;  :publishing-directory ,swanemacs-org-notes-dir
-           ;;  :recursive t
-           ;;  :publishing-function org-html-publish-to-html
-           ;;  :exclude "elpa")
+           ("emacs-config"
+            :base-directory ,user-emacs-directory
+            :base-extension "org"
+            :publishing-directory ,(expand-file-name "emacs" swanemacs-org-notes-dir)
+            :recursive t
+            :publishing-function org-html-publish-to-html
+            :exclude "elpa")
            ))
 
    (defun swanemacs-org-mode-blog-preamble (options)
@@ -735,3 +735,9 @@ GitHub)
 #+BEGIN_SRC emacs-lisp :tangle yes
   (provide 'swanemacs-org)
 #+END_SRC
+
+* Config                                                           :noexport:
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://anthony.lecigne.net/style.css"/>
+#+OPTIONS: toc:nil num:nil
+# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
