@@ -22,9 +22,3 @@ https://github.com/myuhe/ess-R-data-view.el
 #+begin_src emacs-lisp :tangle yes
   (provide 'swanemacs-science)
 #+end_src
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

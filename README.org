@@ -113,9 +113,3 @@ like above.
 
 So if you find a Noweb placeholder in my config, just look at the
 Emacs Lisp file to see the result!
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

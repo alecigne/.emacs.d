@@ -49,9 +49,3 @@
 #+begin_src emacs-lisp :tangle yes
   (provide 'swanemacs-mail-news)
 #+end_src
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

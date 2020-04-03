@@ -510,18 +510,25 @@ Faces:
          `(("org-notes"
             :base-directory ,swanemacs-org-notes-dir
             :base-extension "org"
-            :publishing-directory ,swanemacs-org-notes-dir
+            :exclude "README.org" ; for Github
+            :publishing-directory "~/pub/website/"
             :recursive t
             :publishing-function org-html-publish-to-html
-            :headline-levels 4)             ; Just the default for this project.
+            :headline-levels 4
+            :with-toc nil
+            :section-numbers nil
+            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>")
            ("emacs-config"
             :base-directory ,user-emacs-directory
             :base-extension "org"
-            :publishing-directory ,(expand-file-name "emacs" swanemacs-org-notes-dir)
+            :publishing-directory "~/pub/website/emacs/"
             :recursive t
             :publishing-function org-html-publish-to-html
-            :exclude "elpa")
-           ))
+            :exclude "elpa"
+            :with-toc nil
+            :section-numbers nil
+            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>")
+           ("website" :components ("org-notes" "emacs-config"))))
 
    (defun swanemacs-org-mode-blog-preamble (options)
      "The function that creates the preamble top section for the blog.
@@ -735,9 +742,3 @@ GitHub)
 #+BEGIN_SRC emacs-lisp :tangle yes
   (provide 'swanemacs-org)
 #+END_SRC
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

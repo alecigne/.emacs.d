@@ -23,9 +23,3 @@ Declare ~swanemacs-finance~ as a feature.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (provide 'swanemacs-finance)
 #+END_SRC
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>

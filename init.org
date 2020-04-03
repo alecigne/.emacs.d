@@ -332,9 +332,3 @@ our own instead.
 Local Variables:
 eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle)) nil t)
 End:
-
-* Config                                                           :noexport:
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="//anthony.lecigne.net/style.css"/>
-#+OPTIONS: toc:nil num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
