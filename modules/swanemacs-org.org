@@ -511,30 +511,41 @@ Faces:
             :base-directory ,swanemacs-org-notes-dir
             :base-extension "org"
             :exclude "README.org" ; for Github
-            :publishing-directory "~/pub/website/"
+            :publishing-directory "~/pub/website/notes/"
             :recursive t
             :publishing-function org-html-publish-to-html
             :headline-levels 4
             :with-toc nil
             :section-numbers nil
-            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>")
+            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>"
+            :html-preamble swanemacs-org-mode-preamble)
            ("emacs-config"
             :base-directory ,user-emacs-directory
             :base-extension "org"
-            :publishing-directory "~/pub/website/emacs/"
+            :publishing-directory "~/pub/website/articles/emacs/"
             :recursive t
             :publishing-function org-html-publish-to-html
             :exclude "elpa"
             :with-toc nil
             :section-numbers nil
-            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>")
-           ("website" :components ("org-notes" "emacs-config"))))
+            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>"
+            :html-preamble swanemacs-org-mode-preamble)
+           ("website-org"
+            :base-directory "~/pub/website/"
+            :base-extension "org"
+            :exclude "README.org" ; for Github
+            :publishing-directory "~/pub/website/"
+            :recursive t
+            :publishing-function org-html-publish-to-html
+            :with-toc nil
+            :section-numbers nil
+            :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://anthony.lecigne.net/style.css\"/>"
+            :html-preamble swanemacs-org-mode-preamble)
+           ("website" :components ("website-org" "org-notes" "emacs-config"))))
 
-   (defun swanemacs-org-mode-blog-preamble (options)
-     "The function that creates the preamble top section for the blog.
-   OPTIONS contains the property list from the org-mode export."
-     (let ((base-directory (plist-get options :base-directory)))
-       (org-babel-with-temp-filebuffer (expand-file-name "top-bar.html" base-directory) (buffer-string))))
+   (defun swanemacs-org-mode-preamble (options)
+     (let ((file "~/pub/website/top-menu.html"))
+       (org-babel-with-temp-filebuffer file (buffer-string))))
  #+END_SRC
 
 ** Working with source code
