@@ -6,7 +6,7 @@ Wiegley's [[https://github.com/jwiegley/use-package][~use-package~]]) and self-d
 that can be exported to many formats using [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]], including their
 executable [[https://en.wikipedia.org/wiki/Emacs_Lisp][Emacs Lisp]] format. Right now, you might be reading a
 non-executable export of my config, in a PDF or a HTML format (like on
-[[https://anthony.lecigne.net/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]]).
+[[https://lecigne.net/notes/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]]).
 
 * Structure
 
