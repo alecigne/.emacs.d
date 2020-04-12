@@ -15,6 +15,7 @@
 /url
 /history
 /tramp
+/emojis
 
 # Ignore generated or useless el files
 /modules/*.el
