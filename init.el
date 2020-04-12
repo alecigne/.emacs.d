@@ -10,10 +10,7 @@
 (defvar swanemacs-lisp-dir nil
   "Elisp directory, for packages outside ELPA.")
 
-(defvar swanemacs-personal-dir nil
-  "Personal Emacs configuration directory.")
-
-(defvar swanemacs-personal-preload-dir nil
+(defvar swanemacs-preload-dir nil
   "Personal Emacs configuration directory - preload.")
 
 (defvar swanemacs-init-org-files nil
