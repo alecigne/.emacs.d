@@ -1,14 +1,14 @@
 #+TITLE: SwanEmacs "gadget" settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#google-this][=google-this=]]
 - [[#writeroom-mode][=writeroom-mode=]]
 - [[#emojify][=emojify=]]
 - [[#fireplace][=fireplace=]]
 - [[#lorem-ipsum][=lorem-ipsum=]]
 - [[#youtube-dl][=youtube-dl=]]
-- [[#theme-magic][~theme-magic~]]
+- [[#theme-magic][=theme-magic=]]
 - [[#wrapping-up][Wrapping up]]
 
 * =google-this=
@@ -66,7 +66,9 @@ Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscripti
     :demand t)
 #+end_src
 
-* ~theme-magic~
+* =theme-magic=
+
+[[https://github.com/jcaw/theme-magic][Apply your Emacs theme to the rest of Linux, using magic]].
 
 #+begin_src emacs-lisp :tangle yes
   (use-package theme-magic)

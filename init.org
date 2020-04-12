@@ -2,27 +2,16 @@
 #+AUTHOR: Anthony Le Cigne
 
 This file will tangle =init.el= automatically every time it is saved
-(see the [[*Local config][Local config]] at the end of the file). Thus the =init.el= file
-shouldn't have to be edited by hand.
+(see the "Local config" section at the end of the file). Thus the
+=init.el= file shouldn't have to be edited by hand.
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#preinit][Preinit]]
-  - [[#gc-threshold][GC threshold]]
-  - [[#emacs-version][Emacs version]]
-  - [[#files-and-directories][Files and directories]]
-  - [[#coding-system][Coding system]]
 - [[#packages][Packages]]
 - [[#bootstrapping-use-package][Bootstrapping =use-package=]]
 - [[#bootstrapping-org-mode][Bootstrapping =org-mode=]]
 - [[#low-level-config][Low-level config]]
-  - [[#lisp-directory][Lisp directory]]
-  - [[#server-start][Server start]]
-  - [[#keybindings-metaconfig][Keybindings metaconfig]]
 - [[#modules-and-personal-config][Modules and personal config]]
-  - [[#list-of-activated-modules][List of activated modules]]
-  - [[#preload][Preload]]
-  - [[#modules][Modules]]
-  - [[#customel][=custom.el=]]
 - [[#a-final-message][A final message]]
 - [[#local-config][Local config]]
 
@@ -30,12 +19,14 @@ shouldn't have to be edited by hand.
 
 ** GC threshold
 
-Temporary increase of GC threshold during Emacs init, from 800 kB to
-256 MB.
+[[https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/][Temporary increase of GC threshold]] during Emacs init.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (setq gc-cons-threshold-original gc-cons-threshold)
   (setq gc-cons-threshold (* 256 1024 1024))
-  (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+  (add-hook 'after-init-hook (lambda ()
+                               (setq gc-cons-threshold gc-cons-threshold-original)
+                               (makunbound 'gc-cons-threshold-original)))
 #+END_SRC
 
 ** Emacs version
@@ -98,24 +89,23 @@ dependencies between packages and if one package requires others to
 run they will be installed automatically (which is really neat).
 #+END_QUOTE
 
-=package-initialize= is important here since it takes care of the
+~package-initialize~ is important here since it takes care of the
 autoloads.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (require 'package)
   (setq package-enable-at-startup nil)  ; don't initialize twice!
-
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("melpa" . "http://melpa.milkbox.net/packages/")
                            ("org" . "http://orgmode.org/elpa/")))
-
   (package-initialize)
 #+END_SRC
 
 * Bootstrapping =use-package=
 
-John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]. =pp-macroexpand-last-sexp= is useful
-here to understand what it does exactly.
+John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]]. The Emacs command
+~pp-macroexpand-last-sexp~ is useful here to understand what it does
+exactly.
 
 If =use-package= is not installed, refresh the package archive and
 install it (this happens when I bootstrap the config):
@@ -128,11 +118,11 @@ install it (this happens when I bootstrap the config):
 
 I always want my package to be deferred by default since =package.el=
 provides autoloads. Without this, a call to =use-package= with no
-explicit mention of =:defer t= will require the entire package.
+explicit mention of ~:defer t~ will require the entire package.
 
 When I know that nothing will load the package (no call to an
-autoloaded function, no =:bind= or =:command= keywords in the
-=use-package= expression, etc.), I use =:demand t=.
+autoloaded function, no ~:bind~ or ~:command~ keywords in the
+~use-package~ expression, etc.), I use ~:demand t~.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq use-package-always-defer t
@@ -179,19 +169,19 @@ always take place.
 ** Lisp directory
 
 Emacs sometimes depend on extensions that are not available within
-itself, nor in the distribution =site-lisp= or in ELPA ([[https://github.com/dimitri/el-get][el-get]] could be
-useful here). These extensions are in the =lisp/= directory. It will be
-automatically created if it doesn't exist.
+itself, nor in the distribution =site-lisp= or in ELPA ([[https://github.com/dimitri/el-get][=el-get=]] could
+be useful here). These extensions are in the =lisp/= directory. It
+will be automatically created if it doesn't exist.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (unless (file-exists-p swanemacs-lisp-dir)
     (make-directory swanemacs-lisp-dir))
 #+END_SRC
 
-I use the =:load-path= keyword from =use-package= to load these
+I use the ~:load-path~ keyword from =use-package= to load these
 packages.
 
-I should use [[https://github.com/quelpa/quelpa][Quelpa]] in order to manage them from source.
+I should maybe use [[https://github.com/quelpa/quelpa][Quelpa]] in order to manage them from source.
 
 ** Server start
 
@@ -205,17 +195,17 @@ visit a file. You can then set the EDITOR environment variable to
 process for editing.
 #+END_QUOTE
 
-On Windows, sometimes running =server-start= causes the following error:
-"=The directory ~/.emacs.d/server is unsafe=". This code seems to fix
-the problem (taken from [[https://stackoverflow.com/a/2944197][this Stackoverflow answer]]):
+On Windows, sometimes running the ~server-start~ command causes the
+following error: "=The directory ~/.emacs.d/server is unsafe=". This
+code seems to fix the problem (taken from [[https://stackoverflow.com/a/1566618][this Stackoverflow answer]]):
 
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
-  (when (and (>= emacs-major-version 23)
-             (eq system-type 'windows-nt))
-    (defun server-ensure-safe-dir (dir) "Noop" t))
+  (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
+    (defun server-ensure-safe-dir (dir)
+      "Noop" t))
 #+END_SRC
 
-The server can then be started unless it is running.
+The server can then be started unless it is already running.
 
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
   (unless (server-running-p)
@@ -233,7 +223,7 @@ Let's feed these blocks to =use-package= thanks to Noweb:
 
 ** Keybindings metaconfig
 
-https://github.com/jwiegley/use-package#use-package-chords
+See [[https://github.com/jwiegley/use-package#use-package-chords][the =use-package= documentation about key chords]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package use-package-chords
@@ -252,7 +242,9 @@ independent.
 ** List of activated modules
 
 The list of activated modules is stored in a variable called
-=swanemacs-enabled-modules=:
+~swanemacs-enabled-modules~:
+
+I usually enable them all :)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar swanemacs-enabled-modules nil
@@ -280,8 +272,8 @@ The list of activated modules is stored in a variable called
 
 ** Preload
 
-Load the Org init files in the =preload= config. Theses files are
-loaded *in order*!
+Load the Org files in the =preload= directory. Theses files are loaded
+*in order*!
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (let ((dir swanemacs-preload-dir))

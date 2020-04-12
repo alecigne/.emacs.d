@@ -1,13 +1,9 @@
 #+TITLE: SwanEmacs programming settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#uml][UML]]
 - [[#lisp][Lisp]]
-  - [[#all-lisps][All Lisps]]
-  - [[#common-lisp][Common Lisp]]
-  - [[#emacs-lisp][Emacs Lisp]]
-  - [[#scheme][Scheme]]
 - [[#python][Python]]
 - [[#yaml][YAML]]
 - [[#wrapping-up][Wrapping up]]

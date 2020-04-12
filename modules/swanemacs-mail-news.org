@@ -1,11 +1,15 @@
 #+TITLE: SwanEmacs email and news settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
+- [[#email][Email]]
 - [[#elfeed][Elfeed]]
 - [[#wrapping-up][Wrapping up]]
 
+* TODO Email
 * Elfeed
+
+[[https://github.com/skeeto/elfeed][Elfeed]], the Emacs Web feed reader.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package elfeed

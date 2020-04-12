@@ -1,7 +1,7 @@
 #+TITLE: SwanEmacs web settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#basics][Basics]]
 - [[#impatient-mode][Impatient mode]]
 - [[#wrapping-up][Wrapping up]]

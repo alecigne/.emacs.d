@@ -1,13 +1,16 @@
+# -*- org-inlinetask-min-level: 5; -*-
 #+TITLE: SwanEmacs communication settings
 #+AUTHOR: Anthony Le Cigne
 
-Things to stay in touch.
+Packages to stay in touch.
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
+- [[#email][Email]]
 - [[#erc][ERC]]
 - [[#jabber][Jabber]]
 - [[#wrapping-up][Wrapping up]]
 
+* TODO Email
 * ERC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -24,6 +27,9 @@ Things to stay in touch.
                                            "#lisp"
                                            "#emacs"))))
 #+END_SRC
+
+***** TODO Move channels to an encrypted file
+***** END
 
 * Jabber
 

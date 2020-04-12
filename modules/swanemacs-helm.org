@@ -5,10 +5,8 @@ Emacs incremental completion and selection narrowing framework. Read
 the [[https://emacs-helm.github.io/helm/][manual]]. A very good tutorial is available [[http://tuhdo.github.io/helm-intro.html][here]] and some code below
 might have been pasted from it.
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#helm][=helm=]]
-  - [[#noweb-form][Noweb form]]
-  - [[#noweb-expansion][Noweb expansion]]
 - [[#helm-descbinds][=helm-descbinds=]]
 - [[#helm-describe-modes][=helm-describe-modes=]]
 - [[#helm-projectile][=helm-projectile=]]
@@ -54,7 +52,7 @@ might have been pasted from it.
   (setq helm-follow-mode-persistent t)
 #+END_SRC
 
-I want =helm= everywhere. The =helm-mode= function is what I need:
+I want =helm= everywhere. The ~helm-mode~ function is what I need:
 
 #+BEGIN_QUOTE
 All functions in Emacs that use ‘completing-read’ or ‘read-file-name’

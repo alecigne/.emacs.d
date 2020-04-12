@@ -1,34 +1,21 @@
 #+TITLE: SwanEmacs Org-mode settings
 #+AUTHOR: Anthony Le Cigne
 
-[[http://orgmode.org/][Org-mode]]!
+[[http://orgmode.org/][Org-mode]] and friends!
 
-* Table of contents                                            :toc:noexport:
-- [[#org-mode][~org-mode~]]
-  - [[#document-structure][Document structure]]
-  - [[#minor-modes][Minor modes]]
-  - [[#hyperlinks][Hyperlinks]]
-  - [[#agenda-views][Agenda views]]
-  - [[#items][items]]
-  - [[#dates-and-times][Dates and times]]
-  - [[#capture---refile---archive][Capture - refile - archive]]
-  - [[#markup-for-rich-export][Markup for rich export]]
-  - [[#exporting][Exporting]]
-  - [[#org-publish][Org publish]]
-  - [[#working-with-source-code][Working with source code]]
-  - [[#miscellaneous][Miscellaneous]]
-  - [[#custom-functions][Custom functions]]
-- [[#org-inlinetask][~org-inlinetask~]]
-- [[#org-bullets][~org-bullets~]]
-- [[#org-crypt][~org-crypt~]]
-- [[#org-pomodoro][~org-pomodoro~]]
-- [[#org-sticky-header][~org-sticky-header~]]
-- [[#org-ref][~org-ref~]]
-- [[#toc-org][~toc-org~]]
-- [[#org-tree-slide-and-demo-it][~org-tree-slide~ and ~demo-it~]]
+* Table of contents                                            :toc@1:noexport:
+- [[#org-mode][=org-mode=]]
+- [[#org-inlinetask][=org-inlinetask=]]
+- [[#org-bullets][=org-bullets=]]
+- [[#org-crypt][=org-crypt=]]
+- [[#org-pomodoro][=org-pomodoro=]]
+- [[#org-sticky-header][=org-sticky-header=]]
+- [[#org-ref][=org-ref=]]
+- [[#toc-org][=toc-org=]]
+- [[#org-tree-slide-and-demo-it][=org-tree-slide= and =demo-it=]]
 - [[#wrapping-up][Wrapping up]]
 
-* ~org-mode~
+* =org-mode=
 
 Top-level ~use-package~ form in Noweb syntax:
 
@@ -648,7 +635,7 @@ Faces:
     (org-sort-entries nil ?f #'swanemacs-org-sort-key))
 #+END_SRC
 
-* ~org-inlinetask~
+* =org-inlinetask=
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-inlinetask
@@ -659,9 +646,9 @@ Faces:
     :after org)
 #+END_SRC
 
-* ~org-bullets~
+* =org-bullets=
 
-~org-bullets~ doesn't work well for me under Windows.
+=org-bullets= doesn't work well for me under Windows.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-bullets
@@ -671,7 +658,7 @@ Faces:
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 #+END_SRC
 
-* ~org-crypt~
+* =org-crypt=
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-crypt
@@ -683,7 +670,7 @@ Faces:
           (setq org-crypt-key "F62FE7A4")))
 #+END_SRC
 
-* TODO ~org-pomodoro~
+* TODO =org-pomodoro=
 :LOGBOOK:
 - State "TODO"       from              [2019-03-23 sam. 15:48]
 :END:
@@ -708,7 +695,7 @@ Faces:
                            :message "Continuons !"))))
 #+END_SRC
 
-* ~org-sticky-header~
+* =org-sticky-header=
 
 Use ~org-sticky-header-mode~ to use that.
 
@@ -718,7 +705,7 @@ Use ~org-sticky-header-mode~ to use that.
     (setq org-sticky-header-full-path 'full))
 #+END_SRC
 
-* ~org-ref~
+* =org-ref=
 
 #+BEGIN_SRC emacs-lisp :tangle no
   ;; (require 'org-id)
@@ -727,7 +714,7 @@ Use ~org-sticky-header-mode~ to use that.
   ;; (require 'org-ref-pubmed)
 #+END_SRC
 
-* ~toc-org~
+* =toc-org=
 
 [[https://github.com/snosov1/toc-org][toc-org]] is an Emacs utility to have an up-to-date table of contents in
 the org files without exporting (useful primarily for readme files on
@@ -738,9 +725,9 @@ GitHub)
     :hook (org-mode . toc-org-enable))
 #+END_SRC
 
-* ~org-tree-slide~ and ~demo-it~
+* =org-tree-slide= and =demo-it=
 
-[[https://github.com/takaxp/org-tree-slide][~org-tree-slide~]]'s GitHub page.
+[[https://github.com/takaxp/org-tree-slide][=org-tree-slide=]]'s GitHub page.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-tree-slide
@@ -749,7 +736,7 @@ GitHub)
                 ("<f10>" . org-tree-slide-move-next-tree)))
 #+END_SRC
 
-[[https://github.com/howardabrams/demo-it][~demo-it~]]'s GitHub page.
+[[https://github.com/howardabrams/demo-it][=demo-it=]]'s GitHub page.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package demo-it)

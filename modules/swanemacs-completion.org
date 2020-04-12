@@ -1,9 +1,8 @@
 #+TITLE: SwanEmacs completion settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#company][=company=]]
-  - [[#company-quickhelp][=company-quickhelp=]]
 - [[#yasnippet][=yasnippet=]]
 - [[#wrapping-up][Wrapping up]]
 

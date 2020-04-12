@@ -1,11 +1,9 @@
 #+TITLE: SwanEmacs Git settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#magit][Magit]]
 - [[#magits-git-modes][Magit's Git modes]]
-  - [[#gitignore-mode][=gitignore-mode=]]
-  - [[#gitconfig-mode][=gitconfig-mode=]]
 - [[#git-gutter][=git-gutter=]]
 - [[#git-timemachine][=git-timemachine=]]
 - [[#git-messenger][=git-messenger=]]

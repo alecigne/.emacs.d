@@ -1,18 +1,33 @@
 #+TITLE: SwanEmacs
 #+AUTHOR: Anthony Le Cigne
 
-This is my Emacs config. It is self-installable (thanks to John
-Wiegley's [[https://github.com/jwiegley/use-package][~use-package~]]) and self-documenting. It is made of [[https://orgmode.org/][Org]] files
-that can be exported to many formats using [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]], including their
-executable [[https://en.wikipedia.org/wiki/Emacs_Lisp][Emacs Lisp]] format. Right now, you might be reading a
-non-executable export of my config, in a PDF or a HTML format (like on
-[[https://lecigne.net/notes/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]]).
+This is my Emacs configuration. It is:
+
+- Self-installable :: Thanks to John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]], all
+  Emacs packages I use are downloaded automatically when I first start
+  Emacs on a new environement.
+
+- Self-documenting :: It is made of [[https://orgmode.org/][Org]] files that can be exported to
+  many formats using [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]], including their executable [[https://en.wikipedia.org/wiki/Emacs_Lisp][Emacs Lisp]]
+  format. Right now, you might be reading it in an HTML format, like
+  on [[https://lecigne.net/notes/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]] (Github understands Org markup and render
+  it to HTML).
+
+- Modular :: A fancy word to say that I split Org files by
+  functionality for clarity (Org mode, Git, etc.). I call these files
+  /modules/ and they can be loaded independently.
+
+* Table of contents                                          :toc@1:noexport:
+- [[#structure][Structure]]
+- [[#about-noweb][About Noweb]]
 
 * Structure
 
+Here is a partial output of the ~tree -FP "*.org" --dirsfirst~
+command:
+
 #+begin_example
-  ├── init.org
-  ├── modules
+  ├── modules/
   │   ├── swanemacs-basic.org
   │   ├── swanemacs-communication.org
   │   ├── swanemacs-completion.org
@@ -29,65 +44,66 @@ non-executable export of my config, in a PDF or a HTML format (like on
   │   ├── swanemacs-projectile.org
   │   ├── swanemacs-science.org
   │   └── swanemacs-web.org
-  ├── preload
+  ├── preload/
   │   ├── 1-system.org
   │   └── 2-config.org
-  ├── README.org
+  ├── init.org
+  └── README.org
 #+end_example
 
-~init.org~ will...
+In this Org structure, ~init.org~ will...
 
-- Initialize [[http://wikemacs.org/wiki/Package.el][~package.el~]], Emacs' built-in package manager.
+- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager
 
 - Use ~package-install~ to install and/or load John Wiegley's
-  [[https://github.com/jwiegley/use-package][~use-package~]].
+  [[https://github.com/jwiegley/use-package][=use-package=]]
 
-- Use ~use-package~ to install and/or load Org.
+- Use =use-package= to install and/or load Org
 
 - Use Org to tangle and load the modules activated in the
   ~swanemacs-enabled-modules~ variable.
 
-The modules themselves are stored in the ~modules~ directory in the
+The modules themselves are stored in the =modules= directory in the
 form of Org files that load packages related to an Emacs functionality
-(Org mode, Dired, etc. - take a look).
+(Org mode, Dired, etc. - take a look), as previously stated.
 
 * About Noweb
 
-Since I make heavy use of ~use-package~, sometimes I have to write
-big, top-level ~use-package~ s-expressions. It is hard to reconcile
+Since I make heavy use of =use-package=, sometimes I have to write
+big, top-level =use-package= s-expressions. It is hard to reconcile
 this with an Org-based self-documenting configuration, where small
 blocks of code should be wrapped in Org syntax.
 
-Here is a small example from my ~init.org~. I want this form in my
-~init.el~ file:
+Here is a deliberately simple example. Let's say I want this form in
+=init.el=:
 
 #+BEGIN_SRC emacs-lisp
   (use-package server
     :demand t
     :config
-    (when (and (>= emacs-major-version 23)
-               (eq system-type 'windows-nt))
-      (defun server-ensure-safe-dir (dir) "Noop" t))
+    (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
+      (defun server-ensure-safe-dir (dir)
+        "Noop" t))
     (unless (server-running-p)
       (server-start)))
 #+END_SRC
 
 In order to document it, however, I need to split it in multiple Org
-code blocks in my ~init.org~. Here is the source code from my
-~init.org~ achieving this:
+code blocks in =init.org=. Here is the source code from =init.org=
+achieving this (you can also check it in [[https://raw.githubusercontent.com/alecigne/.emacs.d/master/init.org][the raw Org file]]):
 
 #+BEGIN_EXAMPLE
-  On Windows, sometimes running ~server-start~ causes the following error:
-  "~The directory ~/.emacs.d/server is unsafe~". This code seems to fix
-  the problem (taken from https://stackoverflow.com/a/2944197):
+  On Windows, sometimes running ~server-start~ causes the following
+  error: "=The directory ~/.emacs.d/server is unsafe=". This code seems
+  to fix the problem (taken from [[https://stackoverflow.com/a/2944197][this Stackoverflow answer]]):
 
   ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
-    (when (and (>= emacs-major-version 23)
-               (eq system-type 'windows-nt))
-      (defun server-ensure-safe-dir (dir) "Noop" t))
+    (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
+      (defun server-ensure-safe-dir (dir)
+        "Noop" t))
   ,#+END_SRC
 
-  The server can then be started unless it is running.
+  The server can then be started unless it is already running.
 
   ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
     (unless (server-running-p)
@@ -104,12 +120,10 @@ code blocks in my ~init.org~. Here is the source code from my
   ,#+END_SRC
 #+END_EXAMPLE
 
-Every individual block is not tangled, but has a noweb reference
-(~:noweb-ref server-config~). Then, in the final tangled block, the
-~<<server-config>>~ noweb placeholder will be replaced with a
-concatenation of all the code blocks that have a ~server-config~
-~:noweb-ref~ keyword. The resulting Emacs Lisp code will look exactly
-like above.
-
-So if you find a Noweb placeholder in my config, just look at the
-Emacs Lisp file to see the result!
+Every individual block is not tangled (~:tangle no~), but has a noweb
+reference (~:noweb-ref server-config~, with the value being
+~server-config~). In the final Noweb tangled block (~:tangle yes
+:noweb yes~), the ~<<server-config>>~ Noweb placeholder will be
+replaced with a concatenation of all the code blocks that have
+~server-config~ as a value for ~:noweb-ref~. The resulting Emacs Lisp
+code will look exactly like the above example.

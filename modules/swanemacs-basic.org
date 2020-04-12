@@ -3,53 +3,19 @@
 
 Basics settings, mainly related to basic, vanilla variables and
 modes. There are still a few external packages that I consider
-important for a basic config.
+important for basic settings.
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#user-interface][User interface]]
-  - [[#themes][Themes]]
-  - [[#modeline][Modeline]]
-  - [[#messages][Messages]]
-  - [[#cursor][Cursor]]
-  - [[#window][Window]]
-  - [[#fonts][Fonts]]
 - [[#interaction][Interaction]]
-  - [[#commands][Commands]]
-  - [[#-yes-or-no--questions][« Yes or no » questions]]
-  - [[#tooltips][Tooltips]]
-  - [[#helm][=helm=]]
-  - [[#which-key][Which-key]]
 - [[#windows-and-buffers][Windows and buffers]]
-  - [[#useful-commands][Useful commands]]
-  - [[#general][General]]
-  - [[#ibuffer][=ibuffer=]]
-  - [[#popwin][Popwin]]
 - [[#navigation][Navigation]]
-  - [[#searching][Searching]]
 - [[#editing][Editing]]
-  - [[#smartparens][=smartparens=]]
-  - [[#expand-region][=expand-region=]]
-  - [[#basic-commands][Basic commands]]
-  - [[#useful-commands-1][Useful commands]]
-  - [[#encoding][Encoding]]
-  - [[#completion][Completion]]
-  - [[#undoing-things][Undoing things]]
-  - [[#misc][Misc]]
 - [[#saving][Saving]]
-  - [[#backups][Backups]]
 - [[#programming][Programming]]
 - [[#basic-fileproject-management][Basic file/project management]]
-  - [[#projectile][=projectile=]]
-  - [[#treemacs][Treemacs]]
-  - [[#recentf][Recentf]]
-  - [[#dired][Dired]]
-  - [[#backups-1][Backups]]
-  - [[#recentf-1][Recentf]]
 - [[#help][Help]]
-  - [[#general-1][General]]
-  - [[#company-quickhelp][=company-quickhelp=]]
 - [[#privacy][Privacy]]
-  - [[#epa][EPA]]
 - [[#wrapping-up][Wrapping up]]
 
 * User interface
@@ -61,11 +27,17 @@ What appears in the UI, and how it looks.
 Install themes:
 
 - [[https://github.com/waymondo/apropospriate-theme][=apropospriate=]], light and dark themes
-- =monokai=, a dark theme (used by default)
+- =monokai=, a dark theme
 - =doom-themes=
 - =spacemacs-theme=
 
-The theme is loaded in a site-specific file.
+The theme is loaded separately in a private file located in the
+[[file:../preload/][preload directory]], like this:
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'swanemacs-basic
+      (load-theme 'doom-one t))
+#+end_src
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package apropospriate-theme)
@@ -80,7 +52,8 @@ The theme is loaded in a site-specific file.
 #+END_SRC
 
 To switch between themes according to sunrise/sunset, install
-[[https://github.com/guidoschmidt/circadian.el][=circadian.el=]].
+[[https://github.com/guidoschmidt/circadian.el][=circadian.el=]]. I don't use it anymore since I always prefer a dark
+theme.
 
 ** Modeline
 
@@ -90,7 +63,7 @@ A few ressources for understanding modeline configuration:
 
 - [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Data.html#Mode-Line-Data][The Data Structure of the Mode Line]]
 - [[https://www.gnu.org/software/emacs/manual/html_node/elisp/_0025_002dConstructs.html#g_t_0025_002dConstructs][%-Constructs in the Mode Line]]
-- A [[http://www.lunaryorn.com/2014/07/26/make-your-emacs-mode-line-more-useful.html][tutorial]]
+- A [[http://www.lunaryorn.com/2014/07/26/make-your-emacs-mode-line-more-useful.html][tutorial]] (now 404)
 - [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html][Text Properties in Strings]]
 - [[http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][A mode line config]]
 
@@ -206,7 +179,7 @@ Enable all commands by default.
 
 ** « Yes or no » questions
 
-http://www.emacswiki.org/emacs/YesOrNoP
+A few details about [[http://www.emacswiki.org/emacs/YesOrNoP][~yes-or-no-p~]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -226,15 +199,15 @@ or menu item.
 You can toggle the use of tooltips with the command =M-x
 tooltip-mode=. When Tooltip mode is disabled, the help text is
 displayed in the echo area instead. To control the use of tooltips at
-startup, customize the variable =tooltip-mode=.
+startup, customize the variable ~tooltip-mode~.
 
-The variables =tooltip-delay= specifies how long Emacs should wait
+The variable ~tooltip-delay~ specifies how long Emacs should wait
 before displaying a tooltip. For additional customization options for
 displaying tooltips, use =M-x customize-group RET tooltip RET=.
 
 If Emacs is built with GTK+ support, it displays tooltips via GTK+,
 using the default appearance of GTK+ tooltips. To disable this, change
-the variable =x-gtk-use-system-tooltips= to =nil=. If you do this, or
+the variable ~x-gtk-use-system-tooltips~ to ~nil~. If you do this, or
 if Emacs is built without GTK+ support, most attributes of the tooltip
 text are specified by the tooltip face, and by X resources (see X
 Resources).
@@ -251,7 +224,7 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 ** Which-key
 
-[[https://github.com/justbur/emacs-which-key][Emacs package that displays available keybindings in popup]].
+[[https://github.com/justbur/emacs-which-key][Emacs package]] that displays available keybindings in popup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
   (use-package which-key

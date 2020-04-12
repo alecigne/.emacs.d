@@ -1,7 +1,7 @@
 #+TITLE: SwanEmacs finance settings
 #+AUTHOR: Anthony Le Cigne
 
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#ledger][Ledger]]
 - [[#wrapping-up][Wrapping up]]
 

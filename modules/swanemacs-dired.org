@@ -1,11 +1,7 @@
 #+TITLE: SwanEmacs Dired settings
 #+AUTHOR: Anthony Le Cigne
 
-Useful links :
-
-- [[https://github.com/Fuco1/dired-hacks][dired-hacks]]
-
-* Table of contents                                            :toc:noexport:
+* Table of contents                                            :toc@1:noexport:
 - [[#dired][=dired=]]
 - [[#dired-narrow][=dired-narrow=]]
 - [[#dired-collapse][=dired-collapse=]]
@@ -23,8 +19,7 @@ use the =h= key as a keybinding since it was originally bound to
   (use-package dired
     :ensure nil
     :bind
-    (:map dired-mode-map
-          ("h" . swanemacs-dired-hacks-map))
+    (:map dired-mode-map ("h" . swanemacs-dired-hacks-map))
     :config
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-listing-switches "-lha"))
@@ -70,12 +65,11 @@ Emacs]].
 
 * =dired-collapse=
 
-https://github.com/Fuco1/dired-hacks#dired-collapse
+Details about =dired-collapse= can be found [[https://github.com/Fuco1/dired-hacks#dired-collapse][here]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dired-collapse
-    :bind (:map swanemacs-dired-hacks-map
-                ("c" . dired-collapse-mode)))
+    :bind (:map swanemacs-dired-hacks-map ("c" . dired-collapse-mode)))
 #+END_SRC
 
 * Wrapping up
