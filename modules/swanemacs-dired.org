@@ -3,8 +3,8 @@
 
 * Table of contents                                            :toc@1:noexport:
 - [[#dired][=dired=]]
-- [[#dired-narrow][=dired-narrow=]]
-- [[#dired-collapse][=dired-collapse=]]
+- [[#dired-hacks][=dired-hacks=]]
+- [[#dired-all-the-icons][=dired-all-the-icons=]]
 - [[#wrapping-up][Wrapping up]]
 
 * =dired=
@@ -49,7 +49,9 @@ Since I set =use-package-always-defer= to =t=, I need =:demand t=.
     (diredp-toggle-find-file-reuse-dir 1))
 #+END_SRC
 
-* =dired-narrow=
+* =dired-hacks=
+
+** =dired-narrow=
 
 See this [[https://github.com/Fuco1/dired-hacks#dired-narrow][section]] on [[https://github.com/Fuco1/dired-hacks#dired-narrow][dired hacks]] and an [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][article]] about it on [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Pragmatic
 Emacs]].
@@ -63,7 +65,7 @@ Emacs]].
                 ("r" . dired-narrow-regexp)))
 #+END_SRC
 
-* =dired-collapse=
+** =dired-collapse=
 
 Details about =dired-collapse= can be found [[https://github.com/Fuco1/dired-hacks#dired-collapse][here]].
 
@@ -71,6 +73,15 @@ Details about =dired-collapse= can be found [[https://github.com/Fuco1/dired-hac
   (use-package dired-collapse
     :bind (:map swanemacs-dired-hacks-map ("c" . dired-collapse-mode)))
 #+END_SRC
+
+* =dired-all-the-icons=
+
+[[file:../.swanemacs/all-the-icons-dired.png]]
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
 
 * Wrapping up
 
