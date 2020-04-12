@@ -9,6 +9,7 @@
 - [[#lorem-ipsum][=lorem-ipsum=]]
 - [[#youtube-dl][=youtube-dl=]]
 - [[#theme-magic][=theme-magic=]]
+- [[#all-the-icons][==all-the-icons=]]
 - [[#wrapping-up][Wrapping up]]
 
 * =google-this=
@@ -72,6 +73,15 @@ Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscripti
 
 #+begin_src emacs-lisp :tangle yes
   (use-package theme-magic)
+#+end_src
+
+* ==all-the-icons=
+
+=all-the-icons=, a utility package to collect various Icon Fonts and
+propertize them within Emacs.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package all-the-icons)
 #+end_src
 
 * Wrapping up
