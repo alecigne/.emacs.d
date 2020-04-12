@@ -2,11 +2,23 @@
 #+AUTHOR: Anthony Le Cigne
 
 * Table of contents                                            :toc@1:noexport:
+- [[#flycheck][Flycheck]]
 - [[#uml][UML]]
 - [[#lisp][Lisp]]
 - [[#python][Python]]
 - [[#yaml][YAML]]
 - [[#wrapping-up][Wrapping up]]
+
+* Flycheck
+
+[[https://www.flycheck.org/][Flycheck]] — Syntax checking for GNU Emacs
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package flycheck
+    :defer 2
+    :delight
+    :init (global-flycheck-mode))
+#+end_src
 
 * UML
 
