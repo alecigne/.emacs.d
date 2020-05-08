@@ -46,10 +46,10 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package slime
     :config
-    (when (equal swanemacs-current-system "laptop-linux")
+    (when (eq system-type 'gnu/linux)
       (setq slime-contribs '(slime-fancy)
-            slime-protocol-version 'ignore)
-      (setq inferior-lisp-program "sbcl"))
+            slime-protocol-version 'ignore
+            inferior-lisp-program "sbcl"))
 
     (defun swanemacs-swank-listening-p ()
       (ignore-errors
