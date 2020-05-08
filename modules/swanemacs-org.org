@@ -509,6 +509,8 @@ Faces:
             :publishing-function org-html-publish-to-html
             :headline-levels 4
             :with-toc nil
+            :with-author nil
+            :time-stamp-file nil
             :section-numbers t
             :html-head ,swanemacs-org-export-html-head
             :html-preamble swanemacs-org-mode-preamble)
@@ -520,6 +522,8 @@ Faces:
             :publishing-function org-html-publish-to-html
             :exclude "elpa"
             :with-toc nil
+            :with-author nil
+            :time-stamp-file nil
             :section-numbers t
             :html-head ,swanemacs-org-export-html-head
             :html-preamble swanemacs-org-mode-preamble)
