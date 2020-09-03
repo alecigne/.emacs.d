@@ -16,8 +16,7 @@
 /history
 /tramp
 /emojis
-
-# Ignore generated or useless el files
 /modules/*.el
 /preload/*.el
 *.elc
+/package-quickstart.el

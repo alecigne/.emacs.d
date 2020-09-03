@@ -17,30 +17,65 @@ This file will tangle =init.el= automatically every time it is saved
 
 * Preinit
 
-** GC threshold
+** Early init
 
-[[https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/][Temporary increase of GC threshold]] during Emacs init.
+Emacs 27.1 offers an "early init" system. From =M-x view-emacs-news=:
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq gc-cons-threshold-original gc-cons-threshold)
-  (setq gc-cons-threshold (* 256 1024 1024))
-  (add-hook 'after-init-hook (lambda ()
-                               (setq gc-cons-threshold gc-cons-threshold-original)
-                               (makunbound 'gc-cons-threshold-original)))
-#+END_SRC
+ #+begin_quote
+Emacs can now be configured using an early init file. The file is
+called "early-init.el", in 'user-emacs-directory'.  It is loaded very
+early in the startup process: before graphical elements such as the
+tool bar are initialized, and before the package manager is
+initialized.  The primary purpose is to allow customizing how the
+package system is initialized given that initialization now happens
+before loading the regular init file (see below).
 
-** Emacs version
+We recommend against putting any customizations in this file that
+don't need to be set up before initializing installed add-on packages,
+because the early init file is read too early into the startup
+process, and some important parts of the Emacs session, such as
+'window-system' and other GUI features, are not yet set up, which
+could make some customization fail to work.
+ #+end_quote
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (when (version< emacs-version "25.1")
-    (error "This config requires GNU Emacs 25.1 or newer."))
-#+END_SRC
+Theses blocks will be exported to =early-init.el=.
+
+#+begin_src emacs-lisp :tangle early-init.el
+  ;;; early-init.el --- Emacs 27+ pre-init -*- lexical-binding: t -*-
+
+  ;; Optimize some params during startup and reboot them afterwards
+  (let ((default-gc-cons-threshold gc-cons-threshold)
+        (default-file-name-handler-alist file-name-handler-alist)
+        (start-time (current-time)))
+    (setq gc-cons-threshold most-positive-fixnum
+          file-name-handler-alist nil)
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+                (setq file-name-handler-alist default-file-name-handler-alist)
+                ;; The first GC might take a while. Do it while idle.
+                (run-with-idle-timer
+                 5 nil
+                 (lambda ()
+                   (setq gc-cons-threshold default-gc-cons-threshold)
+                   (garbage-collect)))
+                (message "Emacs started in %.03fs." (float-time (time-since start-time))))))
+
+  ;; Tweak UI
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (fringe-mode '(2 . 0))
+  (setq frame-inhibit-implied-resize t)
+
+  ;; Do not initialize packages automatically
+  (setq package-enable-at-startup nil)
+#+end_src
 
 ** Files and directories
 
 *** Special directories
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (defvar swanemacs-modules-dir nil
     "Emacs modules directory.")
 
@@ -57,49 +92,48 @@ This file will tangle =init.el= automatically every time it is saved
         swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
         swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
         swanemacs-init-org-files "^[^#\.].*.org$")
-#+END_SRC
+#+end_src
 
 *** =custom.el=
 
 Emacs will keep the custom settings in a separate =custom.el= file in
 the personal directory:
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-#+END_SRC
+#+end_src
 
 ** Coding system
 
 Get rid of annoying warnings about UTF8:
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (prefer-coding-system 'utf-8-unix)
-#+END_SRC
+#+end_src
 
 * Packages
 
 =package.el= is bundled with Emacs 24 and newer. From [[http://wikemacs.org/wiki/Package.el][here]]:
 
-#+BEGIN_QUOTE
+#+begin_quote
 =package.el= connects to a list of package repositories, retrieves the
 list of the packages there, presents it to you in a interactive
 fashion and lets you install the packages you like (of course you can
 also remove the ones you don’t like). =package.el= understands the
 dependencies between packages and if one package requires others to
 run they will be installed automatically (which is really neat).
-#+END_QUOTE
+#+end_quote
 
 ~package-initialize~ is important here since it takes care of the
 autoloads.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (require 'package)
-  (setq package-enable-at-startup nil)  ; don't initialize twice!
-  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                           ("melpa" . "http://melpa.milkbox.net/packages/")
-                           ("org" . "http://orgmode.org/elpa/")))
+#+begin_src emacs-lisp
+  (setq package-quickstart t)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
-#+END_SRC
+#+end_src
 
 * Bootstrapping =use-package=
 
@@ -110,11 +144,11 @@ exactly.
 If =use-package= is not installed, refresh the package archive and
 install it (this happens when I bootstrap the config):
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
-#+END_SRC
+#+end_src
 
 I always want my package to be deferred by default since =package.el=
 provides autoloads. Without this, a call to =use-package= with no
@@ -124,27 +158,27 @@ When I know that nothing will load the package (no call to an
 autoloaded function, no ~:bind~ or ~:command~ keywords in the
 ~use-package~ expression, etc.), I use ~:demand t~.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (setq use-package-always-defer t
         use-package-always-ensure t)
-#+END_SRC
+#+end_src
 
 [[https://github.com/jwiegley/use-package#use-packageel-is-no-longer-needed-at-runtime][use-package.el is no longer needed at runtime]]:
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (eval-when-compile
     (require 'use-package))
-#+END_SRC
+#+end_src
 
 =use-package= takes advantage of the [[https://elpa.gnu.org/packages/delight.html][=delight=]] package:
 
-#+BEGIN_QUOTE
+#+begin_quote
 Enables you to customise the mode names displayed in the mode line.
-#+END_QUOTE
+#+end_quote
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package delight)
-#+END_SRC
+#+end_src
 
 * Bootstrapping =org-mode=
 
@@ -154,12 +188,12 @@ package (from the Org ELPA repository) will be downloaded, installed
 and loaded if it is not already there. Otherwise it will just be
 loaded.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package org
     :ensure org-plus-contrib
     :demand t	; although the code in init.el will autoload it
     :pin "org")
-#+END_SRC
+#+end_src
 
 * Low-level config
 
@@ -173,10 +207,10 @@ itself, nor in the distribution =site-lisp= or in ELPA ([[https://github.com/dim
 be useful here). These extensions are in the =lisp/= directory. It
 will be automatically created if it doesn't exist.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (unless (file-exists-p swanemacs-lisp-dir)
     (make-directory swanemacs-lisp-dir))
-#+END_SRC
+#+end_src
 
 I use the ~:load-path~ keyword from =use-package= to load these
 packages.
@@ -187,49 +221,49 @@ I should maybe use [[https://github.com/quelpa/quelpa][Quelpa]] in order to mana
 
 From [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][here]]:
 
-#+BEGIN_QUOTE
+#+begin_quote
 [...] once an Emacs server is started, you can use a shell command
 called =emacsclient= to connect to the Emacs process and tell it to
 visit a file. You can then set the EDITOR environment variable to
 ‘emacsclient’, so that external programs will use the existing Emacs
 process for editing.
-#+END_QUOTE
+#+end_quote
 
 On Windows, sometimes running the ~server-start~ command causes the
 following error: "=The directory ~/.emacs.d/server is unsafe=". This
 code seems to fix the problem (taken from [[https://stackoverflow.com/a/1566618][this Stackoverflow answer]]):
 
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
+#+begin_src emacs-lisp :tangle no :noweb-ref server-config
   (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
     (defun server-ensure-safe-dir (dir)
       "Noop" t))
-#+END_SRC
+#+end_src
 
 The server can then be started unless it is already running.
 
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
+#+begin_src emacs-lisp :tangle no :noweb-ref server-config
   (unless (server-running-p)
     (server-start))
-#+END_SRC
+#+end_src
 
 Let's feed these blocks to =use-package= thanks to Noweb:
 
-#+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
+#+begin_src emacs-lisp :noweb yes
   (use-package server
     :demand t
     :config
     <<server-config>>)
-#+END_SRC
+#+end_src
 
 ** Keybindings metaconfig
 
 See [[https://github.com/jwiegley/use-package#use-package-chords][the =use-package= documentation about key chords]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package use-package-chords
     :demand t
     :config (key-chord-mode 1))
-#+END_SRC
+#+end_src
 
 * Modules and personal config
 
@@ -246,7 +280,7 @@ The list of activated modules is stored in a variable called
 
 I usually enable them all :)
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (defvar swanemacs-enabled-modules nil
     "List of enabled modules.")
 
@@ -268,24 +302,24 @@ I usually enable them all :)
           swanemacs-markdown
           swanemacs-finance
           ))
-#+END_SRC
+#+end_src
 
 ** Preload
 
 Load the Org files in the =preload= directory. Theses files are loaded
 *in order*!
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (let ((dir swanemacs-preload-dir))
     (when (file-exists-p dir)
       (mapc 'org-babel-load-file (directory-files dir t swanemacs-init-org-files))))
-#+END_SRC
+#+end_src
 
 ** Modules
 
 Now let's load the activated modules:
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (if (not (file-exists-p swanemacs-modules-dir))
       (error "Modules directory not found!")
     (mapc (lambda (module)
@@ -295,28 +329,28 @@ Now let's load the activated modules:
                   (error "%s doesn't exist!" path)
                 (org-babel-load-file path))))
           swanemacs-enabled-modules))
-#+END_SRC
+#+end_src
 
 ** =custom.el=
 
 The customizations are usually loaded last.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (when (file-exists-p custom-file)
     (load custom-file))
-#+END_SRC
+#+end_src
 
 * A final message
 
 We stop Emacs from displaying the annoying startup message and show
 our own instead.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (fset 'display-startup-echo-area-message 'ignore)
-  (message "Emacs is ready! Loaded in %s. Happy hacking!" (emacs-init-time))
-#+END_SRC
+#+end_src
 
 * Local config
+#+PROPERTY: header-args :tangle yes
 
 Local Variables:
 eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle)) nil t)

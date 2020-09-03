@@ -1,12 +1,3 @@
-(setq gc-cons-threshold-original gc-cons-threshold)
-(setq gc-cons-threshold (* 256 1024 1024))
-(add-hook 'after-init-hook (lambda ()
-                             (setq gc-cons-threshold gc-cons-threshold-original)
-                             (makunbound 'gc-cons-threshold-original)))
-
-(when (version< emacs-version "25.1")
-  (error "This config requires GNU Emacs 25.1 or newer."))
-
 (defvar swanemacs-modules-dir nil
   "Emacs modules directory.")
 
@@ -28,11 +19,10 @@
 
 (prefer-coding-system 'utf-8-unix)
 
-(require 'package)
-(setq package-enable-at-startup nil)  ; don't initialize twice!
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
+(setq package-quickstart t)
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -108,4 +98,3 @@
   (load custom-file))
 
 (fset 'display-startup-echo-area-message 'ignore)
-(message "Emacs is ready! Loaded in %s. Happy hacking!" (emacs-init-time))
