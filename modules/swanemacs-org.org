@@ -490,63 +490,6 @@ Faces:
         org-icalendar-include-body nil)
 #+END_SRC
 
-** Org publish
-
- #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config
-   (setq swanemacs-org-export-html-head
-         (concat "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://lecigne.net/style.css\"/>\n"
-                 "<link rel=\"icon\" href=\"https://lecigne.net/favicon.ico\"/>"
-                 "<link href=\"https://fonts.googleapis.com/css2?family=Roboto&display=swap\" rel=\"stylesheet\">\n"
-                 "<link href=\"https://fonts.googleapis.com/css2?family=Baloo+Chettan+2&display=swap\" rel=\"stylesheet\">"))
-
-   (setq org-publish-project-alist
-         `(("org-notes"
-            :base-directory ,swanemacs-org-notes-dir
-            :base-extension "org"
-            :exclude "README.org" ; for Github
-            :publishing-directory "~/pub/website/notes/"
-            :recursive t
-            :publishing-function org-html-publish-to-html
-            :headline-levels 4
-            :with-toc nil
-            :with-author nil
-            :time-stamp-file nil
-            :section-numbers t
-            :html-head ,swanemacs-org-export-html-head
-            :html-preamble swanemacs-org-mode-preamble)
-           ("emacs-config"
-            :base-directory ,user-emacs-directory
-            :base-extension "org"
-            :publishing-directory "~/pub/website/notes/emacs/"
-            :recursive t
-            :publishing-function org-html-publish-to-html
-            :exclude "elpa"
-            :with-toc nil
-            :with-author nil
-            :time-stamp-file nil
-            :section-numbers t
-            :html-head ,swanemacs-org-export-html-head
-            :html-preamble swanemacs-org-mode-preamble)
-           ("website-org"
-            :base-directory "~/pub/website/"
-            :base-extension "org"
-            :exclude "README.org" ; for Github
-            :publishing-directory "~/pub/website/"
-            :recursive t
-            :publishing-function org-html-publish-to-html
-            :with-toc nil
-            :with-author nil
-            :time-stamp-file nil
-            :section-numbers nil
-            :html-head ,swanemacs-org-export-html-head
-            :html-preamble swanemacs-org-mode-preamble)
-           ("website" :components ("website-org" "org-notes" "emacs-config"))))
-
-   (defun swanemacs-org-mode-preamble (options)
-     (let ((file "~/pub/website/top-menu.html"))
-       (org-babel-with-temp-filebuffer file (buffer-string))))
- #+END_SRC
-
 ** Working with source code
 
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref config

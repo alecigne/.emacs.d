@@ -32,7 +32,6 @@ Important subdirectories for my workflow.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq swanemacs-org-dir (concat swanemacs-root-dir "org/")
-        swanemacs-org-notes-dir (concat swanemacs-org-dir "public-notes/")
         swanemacs-tmp-dir (concat swanemacs-root-dir "tmp/")
         swanemacs-backup-dir (concat swanemacs-tmp-dir "emacs-backup/"))
 
