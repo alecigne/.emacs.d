@@ -16,8 +16,7 @@
 #+begin_src emacs-lisp :tangle yes
   (use-package flycheck
     :defer 2
-    :delight
-    :init (global-flycheck-mode))
+    :delight)
 #+end_src
 
 * UML
