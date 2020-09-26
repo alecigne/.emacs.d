@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs
 #+AUTHOR: Anthony Le Cigne
+#+OPTIONS: num:nil
 
 This is my Emacs configuration. It is:
 
@@ -17,41 +18,37 @@ This is my Emacs configuration. It is:
   functionality for clarity (Org mode, Git, etc.). I call these files
   /modules/ and they can be loaded independently.
 
-* Table of contents                                          :toc@1:noexport:
-- [[#structure][Structure]]
-- [[#about-noweb][About Noweb]]
-
 * Structure
 
-Here is a partial output of the ~tree -FP "*.org" --dirsfirst~
-command:
+#+begin_export html org
+<pre class="example">
+├── modules/
+│   ├── <a href="./modules/swanemacs-basic.html">swanemacs-basic.org</a>
+│   ├── <a href="./modules/swanemacs-communication.html">swanemacs-communication.org</a>
+│   ├── <a href="./modules/swanemacs-completion.html">swanemacs-completion.org</a>
+│   ├── <a href="./modules/swanemacs-dired.html">swanemacs-dired.org</a>
+│   ├── <a href="./modules/swanemacs-finance.html">swanemacs-finance.org</a>
+│   ├── <a href="./modules/swanemacs-gadgets.html">swanemacs-gadgets.org</a>
+│   ├── <a href="./modules/swanemacs-git.html">swanemacs-git.org</a>
+│   ├── <a href="./modules/swanemacs-helm.html">swanemacs-helm.org</a>
+│   ├── <a href="./modules/swanemacs-latex.html">swanemacs-latex.org</a>
+│   ├── <a href="./modules/swanemacs-mail-news.html">swanemacs-mail-news.org</a>
+│   ├── <a href="./modules/swanemacs-markdown.html">swanemacs-markdown.org</a>
+│   ├── <a href="./modules/swanemacs-org.html">swanemacs-org.org</a>
+│   ├── <a href="./modules/swanemacs-prog.html">swanemacs-prog.org</a>
+│   ├── <a href="./modules/swanemacs-projectile.html">swanemacs-projectile.org</a>
+│   ├── <a href="./modules/swanemacs-science.html">swanemacs-science.org</a>
+│   └── <a href="./modules/swanemacs-web.html">swanemacs-web.org</a>
+├── preload/
+│   ├── <a href="./preload/1-system.html">1-system.org</a>
+│   └── <a href="./preload/2-config.html">2-config.org</a>
+└── <a href="./init.html">init.org</a>
+</pre>
+#+end_export
 
-#+begin_example
-  ├── modules/
-  │   ├── swanemacs-basic.org
-  │   ├── swanemacs-communication.org
-  │   ├── swanemacs-completion.org
-  │   ├── swanemacs-dired.org
-  │   ├── swanemacs-finance.org
-  │   ├── swanemacs-gadgets.org
-  │   ├── swanemacs-git.org
-  │   ├── swanemacs-helm.org
-  │   ├── swanemacs-latex.org
-  │   ├── swanemacs-mail-news.org
-  │   ├── swanemacs-markdown.org
-  │   ├── swanemacs-org.org
-  │   ├── swanemacs-prog.org
-  │   ├── swanemacs-projectile.org
-  │   ├── swanemacs-science.org
-  │   └── swanemacs-web.org
-  ├── preload/
-  │   ├── 1-system.org
-  │   └── 2-config.org
-  ├── init.org
-  └── README.org
-#+end_example
+~init.org~ will create ~early-init.el~ and ~init.el~.
 
-In this Org structure, ~init.org~ will...
+The init file will:
 
 - Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager
 
