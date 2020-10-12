@@ -20,3 +20,4 @@
 /preload/*.el
 *.elc
 /package-quickstart.el
+/projectile-bookmarks.eld
