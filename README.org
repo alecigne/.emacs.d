@@ -20,7 +20,8 @@ This is my Emacs configuration. It is:
 
 * Structure
 
-#+begin_export html org
+#+begin_export org
+,#+begin_export html
 <pre class="example">
 ├── modules/
 │   ├── <a href="./modules/swanemacs-basic.html">swanemacs-basic.org</a>
@@ -44,6 +45,7 @@ This is my Emacs configuration. It is:
 │   └── <a href="./preload/2-config.html">2-config.org</a>
 └── <a href="./init.html">init.org</a>
 </pre>
+,#+end_export
 #+end_export
 
 ~init.org~ will create ~early-init.el~ and ~init.el~.
