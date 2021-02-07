@@ -142,7 +142,9 @@ Get rid of unwanted messages.
 Minimalistic window settings: no menu, toolbar, scroll bars or
 [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Fringes.html][fringes]]. Everything is now in [[file:../early-init.el][=early-init.el=]].
 
-** Fonts
+** Text
+
+*** Fonts
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun swanemacs-basic-set-font (font height)
@@ -156,6 +158,12 @@ Minimalistic window settings: no menu, toolbar, scroll bars or
         ((eq system-type 'gnu/linux)
          (swanemacs-basic-set-font "Source Code Pro" 100)))
 #+END_SRC
+
+*** =rainbow-mode=
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package rainbow-mode)
+#+end_src
 
 * Interaction
 
