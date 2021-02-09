@@ -663,11 +663,7 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 ** Recentf
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; One recentf file for every system I work on. This is not perfect
-  ;; but better than having non-existent files from other systems in my
-  ;; recentf list.
-  (setq recentf-save-file (locate-user-emacs-file
-                           (concat "recentf/recentf-" swanemacs-current-system)))
+  (setq recentf-save-file (locate-user-emacs-file "recentf"))
 #+END_SRC
 
 * Help

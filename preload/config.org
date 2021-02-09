@@ -1,6 +1,7 @@
 #+TITLE: SwanEmacs - preload
 
 * Table of contents                                            :noexport:toc:
+- [[#system][System]]
 - [[#main-directories-and-files][Main directories and files]]
   - [[#path][Path]]
   - [[#system-info][System info]]
@@ -8,6 +9,19 @@
   - [[#org-files][Org files]]
 - [[#safe-local-variables][Safe local variables]]
 - [[#projectile][Projectile]]
+
+* System
+
+  #+begin_src emacs-lisp :tangle yes
+    (setq swanemacs-root-dir "~")
+
+    (with-eval-after-load 'swanemacs-basic
+      (load-theme 'doom-one t)
+      (swanemacs-basic-set-font "Source Code Pro" 105))
+
+    ;; (setq url-proxy-services '(("http" . "localhost:3128")
+    ;;                            ("https" . "localhost:3128")))
+  #+end_src
 
 * Main directories and files
 
@@ -21,8 +35,7 @@
 ** System info
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (and (bound-and-true-p swanemacs-root-dir)
-               (bound-and-true-p swanemacs-current-system))
+  (unless (bound-and-true-p swanemacs-root-dir)
     (error "Missing system info."))
 #+END_SRC
 
@@ -68,17 +81,14 @@ they were loaded after everything else.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq projectile-known-projects-file
-        (locate-user-emacs-file (concat "projectile/projectile-bookmarks-"
-                                        swanemacs-current-system
-                                        ".eld")))
+	(locate-user-emacs-file "projectile/bookmarks.eld"))
+
   (with-eval-after-load 'projectile
     (setq projectile-indexing-method 'native
-          projectile-enable-caching t
-          projectile-track-known-projects-automatically nil)
+	  projectile-enable-caching t
+	  projectile-track-known-projects-automatically nil)
 
     (setq projectile-cache-file
-          (locate-user-emacs-file (concat "projectile/projectile-"
-                                          swanemacs-current-system
-                                          ".cache"))))
+	  (locate-user-emacs-file "projectile/projectile.cache")))
 #+END_SRC
 

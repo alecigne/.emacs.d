@@ -11,13 +11,10 @@
 /bookmarks
 /eshell
 /transient
-/preload/1-system.*
 /url
 /history
 /tramp
 /emojis
-/modules/*.el
-/preload/*.el
 *.elc
 /package-quickstart.el
 /projectile-bookmarks.eld
