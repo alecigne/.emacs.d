@@ -7,13 +7,13 @@
 (defvar swanemacs-preload-dir nil
   "Personal Emacs configuration directory - preload.")
 
-(defvar swanemacs-init-org-files nil
-  "A regex for detecting Org init files.")
+(defvar swanemacs-el-regex nil
+  "A regex for detecting Emacs Lisp files to load.")
 
-(setq swanemacs-modules-dir (expand-file-name "modules/" user-emacs-directory)
+(setq swanemacs-modules-dir (expand-file-name "modules/elisp/" user-emacs-directory)
       swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
       swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
-      swanemacs-init-org-files "^[^#\.].*.org$")
+      swanemacs-el-regex "^[^#\.].*.el$")
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -21,8 +21,8 @@
 
 (setq package-quickstart t)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
+			 ("melpa" . "https://melpa.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -36,11 +36,6 @@
   (require 'use-package))
 
 (use-package delight)
-
-(use-package org
-  :ensure org-plus-contrib
-  :demand t	; although the code in init.el will autoload it
-  :pin "org")
 
 (unless (file-exists-p swanemacs-lisp-dir)
   (make-directory swanemacs-lisp-dir))
@@ -63,36 +58,32 @@
 
 (setq swanemacs-enabled-modules
       '(swanemacs-basic
-        swanemacs-dired
-        swanemacs-helm
-        swanemacs-completion
-        swanemacs-projectile
-        swanemacs-git
-        swanemacs-org
-        swanemacs-prog
-        swanemacs-latex
-        swanemacs-web
-        swanemacs-communication
-        swanemacs-gadgets
-        swanemacs-mail-news
-        swanemacs-science
-        swanemacs-markdown
-        swanemacs-finance
-        ))
+	swanemacs-dired
+	swanemacs-helm
+	swanemacs-completion
+	swanemacs-projectile
+	swanemacs-git
+	swanemacs-org
+	swanemacs-prog
+	swanemacs-latex
+	swanemacs-web
+	swanemacs-communication
+	swanemacs-gadgets
+	swanemacs-mail-news
+	swanemacs-science
+	swanemacs-markdown
+	swanemacs-finance))
 
-(let ((dir swanemacs-preload-dir))
-  (when (file-exists-p dir)
-    (mapc 'org-babel-load-file (directory-files dir t swanemacs-init-org-files))))
+(when (file-exists-p swanemacs-preload-dir)
+  (mapc 'load (directory-files swanemacs-preload-dir t swanemacs-el-regex)))
 
-(if (not (file-exists-p swanemacs-modules-dir))
-    (error "Modules directory not found!")
-  (mapc (lambda (module)
-          (let ((path (expand-file-name (concat (symbol-name module) ".org")
-                                        swanemacs-modules-dir)))
-            (if (not (file-exists-p path))
-                (error "%s doesn't exist!" path)
-              (org-babel-load-file path))))
-        swanemacs-enabled-modules))
+(mapc (lambda (module)
+        (let ((path (expand-file-name (concat (symbol-name module) ".el")
+                                      swanemacs-modules-dir)))
+          (if (not (file-exists-p path))
+              (error "%s doesn't exist!" path)
+            (load path))))
+      swanemacs-enabled-modules)
 
 (when (file-exists-p custom-file)
   (load custom-file))

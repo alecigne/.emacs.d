@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs Dired settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-dired.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#dired][=dired=]]
@@ -13,7 +14,7 @@
 use the =h= key as a keybinding since it was originally bound to
 =describe-mode=.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (define-prefix-command 'swanemacs-dired-hacks-map)
 
   (use-package dired
@@ -39,7 +40,7 @@ never be loaded.
 
 Since I set =use-package-always-defer= to =t=, I need =:demand t=.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package dired+
     :ensure nil
     :load-path "~/.emacs.d/lisp/dired+/"
@@ -56,7 +57,7 @@ Since I set =use-package-always-defer= to =t=, I need =:demand t=.
 See this [[https://github.com/Fuco1/dired-hacks#dired-narrow][section]] on [[https://github.com/Fuco1/dired-hacks#dired-narrow][dired hacks]] and an [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][article]] about it on [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Pragmatic
 Emacs]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package dired-narrow
     :after dired
     :bind (:map swanemacs-dired-hacks-map
@@ -69,7 +70,7 @@ Emacs]].
 
 Details about =dired-collapse= can be found [[https://github.com/Fuco1/dired-hacks#dired-collapse][here]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package dired-collapse
     :bind (:map swanemacs-dired-hacks-map ("c" . dired-collapse-mode)))
 #+END_SRC
@@ -78,13 +79,13 @@ Details about =dired-collapse= can be found [[https://github.com/Fuco1/dired-hac
 
 [[file:../.swanemacs/all-the-icons-dired.png]]
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
 #+end_src
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-dired)
 #+END_SRC

@@ -5,8 +5,8 @@
 This is my Emacs configuration. It is:
 
 - Self-installable :: Thanks to John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]], all
-  Emacs packages I use are downloaded automatically when I first start
-  Emacs on a new environement.
+  Emacs packages are downloaded automatically when I first start Emacs
+  on a new environement.
 
 - Self-documenting :: It is made of [[https://orgmode.org/][Org]] files that can be exported to
   many formats using [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]], including their executable [[https://en.wikipedia.org/wiki/Emacs_Lisp][Emacs Lisp]]
@@ -14,9 +14,9 @@ This is my Emacs configuration. It is:
   on [[https://lecigne.net/notes/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]] (Github understands Org markup and render
   it to HTML).
 
-- Modular :: A fancy word to say that I split Org files by
-  functionality for clarity (Org mode, Git, etc.). I call these files
-  /modules/ and they can be loaded independently.
+- Modular :: A fancy word to say that I split my config by
+  functionality in multiple "modules". These modules can be loaded
+  independently.
 
 * Structure
 
@@ -24,6 +24,7 @@ This is my Emacs configuration. It is:
 ,#+begin_export html
 <pre class="example">
 ├── modules/
+│   ├── <a href="./modules/elisp/">elisp/</a>
 │   ├── <a href="./modules/swanemacs-basic.html">swanemacs-basic.org</a>
 │   ├── <a href="./modules/swanemacs-communication.html">swanemacs-communication.org</a>
 │   ├── <a href="./modules/swanemacs-completion.html">swanemacs-completion.org</a>
@@ -48,23 +49,22 @@ This is my Emacs configuration. It is:
 ,#+end_export
 #+end_export
 
-~init.org~ will create ~early-init.el~ and ~init.el~.
+On export:
 
-The init file will:
+- ~init.org~ creates ~early-init.el~ and ~init.el~.
 
-- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager
+- The Org files in the =./modules= directory create the Emacs Lisp
+  files in the =./modules/elisp/= directory.
+
+On startup, =init.el= will:
+
+- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
 
 - Use ~package-install~ to install and/or load John Wiegley's
-  [[https://github.com/jwiegley/use-package][=use-package=]]
+  [[https://github.com/jwiegley/use-package][=use-package=]].
 
-- Use =use-package= to install and/or load Org
-
-- Use Org to tangle and load the modules activated in the
-  ~swanemacs-enabled-modules~ variable.
-
-The modules themselves are stored in the =modules= directory in the
-form of Org files that load packages related to an Emacs functionality
-(Org mode, Dired, etc. - take a look), as previously stated.
+- Load the Emacs Lisp files from =./modules/elisp/= according to the
+  ~swanemacs-enabled-modules~ variable[fn:1].
 
 * About Noweb
 
@@ -73,8 +73,8 @@ big, top-level =use-package= s-expressions. It is hard to reconcile
 this with an Org-based self-documenting configuration, where small
 blocks of code should be wrapped in Org syntax.
 
-Here is a deliberately simple example. Let's say I want this form in
-=init.el=:
+Here is a deliberately simple example. Let's say I want this Lisp form
+in =init.el=:
 
 #+BEGIN_SRC emacs-lisp
   (use-package server
@@ -126,3 +126,10 @@ reference (~:noweb-ref server-config~, with the value being
 replaced with a concatenation of all the code blocks that have
 ~server-config~ as a value for ~:noweb-ref~. The resulting Emacs Lisp
 code will look exactly like the above example.
+
+* Footnotes
+
+[fn:1] To do this, I used to call =org-babel-load-file= on the Org
+files located in =./modules=. However, this requires to load Org-mode
+on startup, and to avoid that I now prefer to load the Elisp files
+themselves.

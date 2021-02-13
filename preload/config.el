@@ -1,7 +1,7 @@
-(setq swanemacs-root-dir "~")
+(setq swanemacs-root-dir "/home/alc/")
 
 (with-eval-after-load 'swanemacs-basic
-  (load-theme 'doom-one t)
+  ;; (load-theme 'doom-one t)
   (swanemacs-basic-set-font "Source Code Pro" 105))
 
 ;; (setq url-proxy-services '(("http" . "localhost:3128")

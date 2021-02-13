@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs programming settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-prog.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#flycheck][Flycheck]]
@@ -13,7 +14,7 @@
 
 [[https://www.flycheck.org/][Flycheck]] — Syntax checking for GNU Emacs
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package flycheck
     :defer 2
     :delight)
@@ -21,7 +22,7 @@
 
 * UML
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package plantuml-mode
     :init
     (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
@@ -33,7 +34,7 @@
 
 ** All Lisps
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (delight '((lisp-mode "λ" :major)
              (lisp-interaction-mode "λ" :major)
              (emacs-lisp-mode "el" :major)))
@@ -42,7 +43,7 @@
 
 ** Common Lisp
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package slime
     :config
     (when (eq system-type 'gnu/linux)
@@ -70,7 +71,7 @@
 
 http://www.nongnu.org/geiser/
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package geiser)
 #+END_SRC
 
@@ -79,7 +80,7 @@ http://www.nongnu.org/geiser/
 You need to install Python on your system first, of course, but also
 [[https://github.com/davidhalter/jedi][=jedi=]] for autocompletion and static analysis.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package elpy
     :init
     (with-eval-after-load 'python (elpy-enable))
@@ -88,11 +89,11 @@ You need to install Python on your system first, of course, but also
           python-shell-interpreter "python3"))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package pyvenv)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package company-jedi
     ;; :after company
     :init
@@ -107,7 +108,7 @@ You need to install Python on your system first, of course, but also
 
 * YAML
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package yaml-mode
     :ensure t
     :mode ("\\.ya?ml\\'" . yaml-mode))
@@ -115,6 +116,6 @@ You need to install Python on your system first, of course, but also
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-prog)
 #+END_SRC

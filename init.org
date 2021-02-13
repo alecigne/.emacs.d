@@ -9,7 +9,6 @@ This file will tangle =init.el= automatically every time it is saved
 - [[#preinit][Preinit]]
 - [[#packages][Packages]]
 - [[#bootstrapping-use-package][Bootstrapping =use-package=]]
-- [[#bootstrapping-org-mode][Bootstrapping =org-mode=]]
 - [[#low-level-config][Low-level config]]
 - [[#modules-and-personal-config][Modules and personal config]]
 - [[#a-final-message][A final message]]
@@ -85,13 +84,13 @@ Theses blocks will be exported to =early-init.el=.
   (defvar swanemacs-preload-dir nil
     "Personal Emacs configuration directory - preload.")
 
-  (defvar swanemacs-init-org-files nil
-    "A regex for detecting Org init files.")
+  (defvar swanemacs-el-regex nil
+    "A regex for detecting Emacs Lisp files to load.")
 
-  (setq swanemacs-modules-dir (expand-file-name "modules/" user-emacs-directory)
+  (setq swanemacs-modules-dir (expand-file-name "modules/elisp/" user-emacs-directory)
         swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
         swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
-        swanemacs-init-org-files "^[^#\.].*.org$")
+        swanemacs-el-regex "^[^#\.].*.el$")
 #+end_src
 
 *** =custom.el=
@@ -130,8 +129,8 @@ autoloads.
 #+begin_src emacs-lisp
   (setq package-quickstart t)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")))
+			   ("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
 #+end_src
 
@@ -178,21 +177,6 @@ Enables you to customise the mode names displayed in the mode line.
 
 #+begin_src emacs-lisp
   (use-package delight)
-#+end_src
-
-* Bootstrapping =org-mode=
-
-Configuration files are written in Org-mode markup. A recent version
-of =org-mode= is needed to tangle those files. The =org-plus-contrib=
-package (from the Org ELPA repository) will be downloaded, installed
-and loaded if it is not already there. Otherwise it will just be
-loaded.
-
-#+begin_src emacs-lisp
-  (use-package org
-    :ensure org-plus-contrib
-    :demand t	; although the code in init.el will autoload it
-    :pin "org")
 #+end_src
 
 * Low-level config
@@ -285,34 +269,32 @@ I usually enable them all :)
     "List of enabled modules.")
 
   (setq swanemacs-enabled-modules
-        '(swanemacs-basic
-          swanemacs-dired
-          swanemacs-helm
-          swanemacs-completion
-          swanemacs-projectile
-          swanemacs-git
-          swanemacs-org
-          swanemacs-prog
-          swanemacs-latex
-          swanemacs-web
-          swanemacs-communication
-          swanemacs-gadgets
-          swanemacs-mail-news
-          swanemacs-science
-          swanemacs-markdown
-          swanemacs-finance
-          ))
+	'(swanemacs-basic
+	  swanemacs-dired
+	  swanemacs-helm
+	  swanemacs-completion
+	  swanemacs-projectile
+	  swanemacs-git
+	  swanemacs-org
+	  swanemacs-prog
+	  swanemacs-latex
+	  swanemacs-web
+	  swanemacs-communication
+	  swanemacs-gadgets
+	  swanemacs-mail-news
+	  swanemacs-science
+	  swanemacs-markdown
+	  swanemacs-finance))
 #+end_src
 
 ** Preload
 
-Load the Org files in the =preload= directory. Theses files are loaded
-*in order*!
+Load the Emacs Lisp files from the =preload= directory. Theses files
+are loaded *in order*!
 
 #+begin_src emacs-lisp
-  (let ((dir swanemacs-preload-dir))
-    (when (file-exists-p dir)
-      (mapc 'org-babel-load-file (directory-files dir t swanemacs-init-org-files))))
+  (when (file-exists-p swanemacs-preload-dir)
+    (mapc 'load (directory-files swanemacs-preload-dir t swanemacs-el-regex)))
 #+end_src
 
 ** Modules
@@ -320,15 +302,13 @@ Load the Org files in the =preload= directory. Theses files are loaded
 Now let's load the activated modules:
 
 #+begin_src emacs-lisp
-  (if (not (file-exists-p swanemacs-modules-dir))
-      (error "Modules directory not found!")
-    (mapc (lambda (module)
-            (let ((path (expand-file-name (concat (symbol-name module) ".org")
-                                          swanemacs-modules-dir)))
-              (if (not (file-exists-p path))
-                  (error "%s doesn't exist!" path)
-                (org-babel-load-file path))))
-          swanemacs-enabled-modules))
+  (mapc (lambda (module)
+          (let ((path (expand-file-name (concat (symbol-name module) ".el")
+                                        swanemacs-modules-dir)))
+            (if (not (file-exists-p path))
+                (error "%s doesn't exist!" path)
+              (load path))))
+        swanemacs-enabled-modules)
 #+end_src
 
 ** =custom.el=

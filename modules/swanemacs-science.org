@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs science settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-science.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#ess][ESS]]
@@ -7,18 +8,18 @@
 
 * ESS
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package ess)
 #+END_SRC
 
 https://github.com/myuhe/ess-R-data-view.el
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package ess-R-data-view)
 #+END_SRC
 
 * Wrapping up
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (provide 'swanemacs-science)
 #+end_src

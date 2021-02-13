@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs basic settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-basic.el
 
 Basics settings, mainly related to basic, vanilla variables and
 modes. There are still a few external packages that I consider
@@ -34,19 +35,20 @@ Install themes:
 The theme is loaded separately in a private file located in the
 [[file:../preload/][preload directory]], like this:
 
-#+begin_src emacs-lisp
-  (with-eval-after-load 'swanemacs-basic
-      (load-theme 'doom-one t))
-#+end_src
-
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package apropospriate-theme)
   (use-package monokai-theme)
 
   (use-package doom-themes
+    :init
+    (load-theme 'doom-one t)
     :config
-    (doom-themes-org-config)
-    (doom-themes-treemacs-config))
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+    (doom-themes-treemacs-config)
+    (doom-themes-org-config))
+
+  (use-package doom-modeline
+    :hook (after-init . doom-modeline-mode))
 
   (use-package spacemacs-theme)
 #+END_SRC
@@ -67,7 +69,7 @@ A few ressources for understanding modeline configuration:
 - [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html][Text Properties in Strings]]
 - [[http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][A mode line config]]
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq-default mode-line-buffer-identification
                 '("%Z %b %1*%1+ %I"))
 
@@ -109,7 +111,7 @@ modeline. It is already installed and loaded in =init.org= since
 Newly installed packages will be diminished with =use-package=;
 vanilla modes will be customized here.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (delight '(;; Major modes
              (text-mode "txt" :major)
              ;; Minor modes
@@ -124,14 +126,14 @@ vanilla modes will be customized here.
 
 Get rid of unwanted messages.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen t
         initial-scratch-message nil)
 #+END_SRC
 
 ** Cursor
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq-default cursor-type 'bar)
   (global-hl-line-mode 1)
   (blink-cursor-mode 0)
@@ -146,7 +148,7 @@ Minimalistic window settings: no menu, toolbar, scroll bars or
 
 *** Fonts
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun swanemacs-basic-set-font (font height)
     "Use FONT if installed, with height HEIGHT."
     (when (member font (font-family-list))
@@ -161,7 +163,7 @@ Minimalistic window settings: no menu, toolbar, scroll bars or
 
 *** =rainbow-mode=
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package rainbow-mode)
 #+end_src
 
@@ -173,7 +175,7 @@ How to talk to Emacs and how it talks back.
 
 Enable all commands by default.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (setq disabled-command-function nil)
 #+end_src
 
@@ -181,7 +183,7 @@ Enable all commands by default.
 
 A few details about [[http://www.emacswiki.org/emacs/YesOrNoP][~yes-or-no-p~]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
@@ -213,7 +215,7 @@ text are specified by the tooltip face, and by X resources (see X
 Resources).
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (tooltip-mode 0)
   (setq tooltip-delay 0.5)
 #+END_SRC
@@ -226,7 +228,7 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 [[https://github.com/justbur/emacs-which-key][Emacs package]] that displays available keybindings in popup.
 
-#+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
+#+BEGIN_SRC emacs-lisp :noweb yes
   (use-package which-key
     :defer 1
     :delight
@@ -241,14 +243,14 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 ** Useful commands
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun swanemacs-basic-kill-other-buffers ()
     "Kill all normal buffers but the current one."
     (interactive)
     (dolist (buffer (buffer-list))
       (unless (or (eql buffer (current-buffer))
-                  (not (buffer-file-name buffer)))
-        (kill-buffer buffer))))
+		  (not (buffer-file-name buffer)))
+	(kill-buffer buffer))))
 
   (defun swanemacs-basic-kill-other-buffer-and-window (count)
     "Switch to the other window, and kill it, with the associated buffer."
@@ -299,7 +301,7 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 ** General
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq uniquify-buffer-name-style 'post-forward)
 
   (defadvice quit-window (before quit-window-always-kill)
@@ -311,7 +313,7 @@ Check the [[file:swanemacs-helm.org][=helm= module]].
 
 Saving sessions.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (desktop-save-mode 0)
   (setq desktop-save 'ask)
 #+END_SRC
@@ -324,7 +326,7 @@ Saving sessions.
 [...] lets you operate on buffers much in the same manner as Dired.
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package ibuffer
     :ensure nil
     :config
@@ -407,7 +409,7 @@ Saving sessions.
 the hell of annoying buffers [...]
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package popwin
     :defer 1				; probably not needed right away
     :config (popwin-mode 1))
@@ -417,7 +419,7 @@ the hell of annoying buffers [...]
 
 ** Searching
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq isearch-allow-scroll t)
 #+END_SRC
 
@@ -427,7 +429,7 @@ What happens right around the cursor.
 
 ** =smartparens=
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package smartparens
     :delight
     :config
@@ -437,20 +439,20 @@ What happens right around the cursor.
 
 ** =expand-region=
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package expand-region
     :bind ("C-=" . er/expand-region))
 #+end_src
 
 ** Basic commands
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (global-set-key (kbd "M-à") 'mark-word)
 #+end_src
 
 ** Useful commands
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun swanemacs-basic-eval-and-replace ()
     "Replace the preceding sexp with its value."
     (interactive)
@@ -474,7 +476,7 @@ What happens right around the cursor.
 
 Duplicate a line - taken from [[https://stackoverflow.com/a/998472][this SO answer]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun swanemacs-basic-duplicate-line (arg)
     "Duplicate current line, leaving point in lower line."
     (interactive "*p")
@@ -506,7 +508,7 @@ Duplicate a line - taken from [[https://stackoverflow.com/a/998472][this SO answ
 
 ** Encoding
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq system-time-locale "fr_FR.UTF-8"
         ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
         utf-translate-cjk-mode nil
@@ -538,9 +540,9 @@ Here is a [[https://www.emacswiki.org/emacs/UndoTree][presentation]] of =undo-tr
 
 Use =C-x u= to call =undo-tree-visualize=.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-    :demand
+    :demand t
     :delight
     :config
     (global-undo-tree-mode))
@@ -548,7 +550,7 @@ Use =C-x u= to call =undo-tree-visualize=.
 
 ** Misc
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
   (put 'upcase-region 'disabled nil)
 
@@ -567,7 +569,7 @@ How to not lose stuff and keep track of it.
 
 See [[http://stackoverflow.com/a/151946/4288408][this link]] and [[http://stackoverflow.com/a/18330742/4288408][this link]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq backup-by-copying t       ; don't clobber symlinks
         delete-old-versions t     ; delete excess backup files silently
         kept-new-versions 6       ; newest versions to keep when a new
@@ -593,7 +595,7 @@ Check the [[file:swanemacs-projectile.org][=swanemacs-projectile= module]].
 
 The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package treemacs
     :defer t
     :config
@@ -644,7 +646,7 @@ The [[https://github.com/Alexander-Miller/treemacs][Treemacs]] file explorer.
 
 ** Recentf
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package recentf
     :config
     (setq recentf-max-saved-items 50))
@@ -656,13 +658,13 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 
 ** Backups
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist `(("." . ,swanemacs-backup-dir)))
 #+END_SRC
 
 ** Recentf
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq recentf-save-file (locate-user-emacs-file "recentf"))
 #+END_SRC
 
@@ -670,7 +672,7 @@ Check the [[file:swanemacs-dired.org][=swanemacs-dired module=]].
 
 ** General
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-h C-f") 'find-function)
   (global-set-key (kbd "C-h C-v") 'find-variable)
 #+END_SRC
@@ -690,7 +692,7 @@ The GPG option ~--pinentry-mode~ defines the pinentry behavior. For
 EPA, we want the pinentry to be redirected to the caller. The GPG
 value for this is ~loopback~.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (setq epa-pinentry-mode 'loopback)
 #+end_src
 
@@ -698,6 +700,6 @@ value for this is ~loopback~.
 
 Declare =swanemacs-basic= as a feature.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-basic)
 #+END_SRC

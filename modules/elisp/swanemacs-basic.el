@@ -2,9 +2,15 @@
 (use-package monokai-theme)
 
 (use-package doom-themes
+  :init
+  (load-theme 'doom-one t)
   :config
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config))
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config))
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
 
 (use-package spacemacs-theme)
 
@@ -89,7 +95,7 @@
   (interactive)
   (dolist (buffer (buffer-list))
     (unless (or (eql buffer (current-buffer))
-                (not (buffer-file-name buffer)))
+		(not (buffer-file-name buffer)))
       (kill-buffer buffer))))
 
 (defun swanemacs-basic-kill-other-buffer-and-window (count)
@@ -305,7 +311,7 @@ logical line. This is useful, e.g., for use with
 (prefer-coding-system 'utf-8)
 
 (use-package undo-tree
-  :demand
+  :demand t
   :delight
   :config
   (global-undo-tree-mode))

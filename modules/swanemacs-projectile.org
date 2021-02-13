@@ -1,7 +1,8 @@
 #+TITLE: SwanEmacs Projectile settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-projectile.el
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package projectile
     :bind-keymap
     ("C-c p" . projectile-command-map)
@@ -29,6 +30,6 @@
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-projectile)
 #+END_SRC

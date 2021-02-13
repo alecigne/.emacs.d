@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs finance settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-finance.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#ledger][Ledger]]
@@ -9,7 +10,7 @@
 
 Emacs mode for [[https://ledger-cli.org][Ledger]], a double-entry accounting system.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package ledger-mode
     :ensure t
     :config
@@ -20,6 +21,6 @@ Emacs mode for [[https://ledger-cli.org][Ledger]], a double-entry accounting sys
 
 Declare ~swanemacs-finance~ as a feature.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-finance)
 #+END_SRC

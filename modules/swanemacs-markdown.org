@@ -1,7 +1,8 @@
 #+TITLE: SwanEmacs Markdown settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-markdown.el
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package markdown-mode
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
@@ -12,6 +13,6 @@
 
 * Wrapping up
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (provide 'swanemacs-markdown)
 #+end_src

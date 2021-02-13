@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs web settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-web.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#basics][Basics]]
@@ -8,18 +9,18 @@
 
 * Basics
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package web-mode)
 #+END_SRC
 
 * Impatient mode
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package impatient-mode)
 #+END_SRC
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-web)
 #+END_SRC

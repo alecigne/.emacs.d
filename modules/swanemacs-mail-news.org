@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs email and news settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-mail-news.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#email][Email]]
@@ -11,7 +12,7 @@
 
 [[https://github.com/skeeto/elfeed][Elfeed]], the Emacs Web feed reader.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package elfeed
     :commands elfeed
     :bind (("C-x w" . elfeed)
@@ -50,6 +51,6 @@
 
 * Wrapping up
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (provide 'swanemacs-mail-news)
 #+end_src

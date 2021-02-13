@@ -1,5 +1,5 @@
 (use-package org
-  :ensure nil ; correct version already installed by init.el
+  :ensure org-plus-contrib
   :delight org-mode "org"
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)

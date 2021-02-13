@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs Helm settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-helm.el
 
 Emacs incremental completion and selection narrowing framework. Read
 the [[https://emacs-helm.github.io/helm/][manual]]. A very good tutorial is available [[http://tuhdo.github.io/helm-intro.html][here]] and some code below
@@ -17,7 +18,7 @@ might have been pasted from it.
 
 ** Noweb form
 
-#+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export
+#+BEGIN_SRC emacs-lisp :noweb no-export
   (use-package helm
     :delight
     :bind (("M-x" . helm-M-x)
@@ -72,7 +73,7 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 [[https://github.com/emacs-helm/helm-descbinds][A =helm= frontend for =describe-bindings=]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package helm-descbinds
     :after helm
     :config
@@ -84,7 +85,7 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 [[https://github.com/emacs-helm/helm-describe-modes][Major and minor mode info with Helm]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package helm-describe-modes
     :after helm
     :bind ([remap describe-mode] . helm-describe-modes))
@@ -94,7 +95,7 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 [[https://github.com/bbatsov/helm-projectile][Helm UI for Projectile]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package helm-projectile
     :after projectile
     :config
@@ -105,7 +106,7 @@ arg turn off.  You can turn it on with ‘helm-mode’.
 
 Config taken [[https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#helm-plugins][here]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package helm-swoop
     ;; :bind ([remap isearch-forward] . helm-swoop)
     :config
@@ -120,6 +121,6 @@ Config taken [[https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#h
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-helm)
 #+END_SRC

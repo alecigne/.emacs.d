@@ -1,6 +1,7 @@
 # -*- org-inlinetask-min-level: 5; -*-
 #+TITLE: SwanEmacs communication settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-communication.el
 
 Packages to stay in touch.
 
@@ -13,7 +14,7 @@ Packages to stay in touch.
 * TODO Email
 * ERC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package erc
     :config
     (define-key erc-mode-map (kbd "C-c C-x") nil)
@@ -33,12 +34,12 @@ Packages to stay in touch.
 
 * Jabber
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package jabber)
 #+END_SRC
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-communication)
 #+END_SRC

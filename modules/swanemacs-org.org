@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs Org-mode settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-org.el
 
 [[http://orgmode.org/][Org-mode]] and friends!
 
@@ -19,9 +20,9 @@
 
 Top-level ~use-package~ form in Noweb syntax:
 
-#+BEGIN_SRC emacs-lisp :tangle yes :noweb no-export
+#+BEGIN_SRC emacs-lisp :noweb no-export
   (use-package org
-    :ensure nil ; correct version already installed by init.el
+    :ensure org-plus-contrib
     :delight org-mode "org"
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
@@ -585,7 +586,7 @@ Faces:
 
 * =org-inlinetask=
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package org-inlinetask
     :ensure nil
     :commands org-inlinetask-insert-task
@@ -598,7 +599,7 @@ Faces:
 
 =org-bullets= doesn't work well for me under Windows.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :after org
     :init
@@ -608,7 +609,7 @@ Faces:
 
 * =org-crypt=
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package org-crypt
     :ensure nil ; in contrib
     :bind (("C-c z" . org-decrypt-entry))
@@ -647,7 +648,7 @@ Faces:
 
 Use ~org-sticky-header-mode~ to use that.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package org-sticky-header
     :config
     (setq org-sticky-header-full-path 'full))
@@ -668,7 +669,7 @@ Use ~org-sticky-header-mode~ to use that.
 the org files without exporting (useful primarily for readme files on
 GitHub)
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package toc-org
     :hook (org-mode . toc-org-enable))
 #+END_SRC
@@ -677,7 +678,7 @@ GitHub)
 
 [[https://github.com/takaxp/org-tree-slide][=org-tree-slide=]]'s GitHub page.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package org-tree-slide
     :bind (:map org-tree-slide-mode-map
                 ("<f9>" . org-tree-slide-move-previous-tree)
@@ -686,12 +687,12 @@ GitHub)
 
 [[https://github.com/howardabrams/demo-it][=demo-it=]]'s GitHub page.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package demo-it)
 #+END_SRC
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-org)
 #+END_SRC

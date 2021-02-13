@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs completion settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-completion.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#company][=company=]]
@@ -10,7 +11,7 @@
 
 Check the [[https://company-mode.github.io/][website]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package company
     :demand
     :delight
@@ -22,14 +23,14 @@ Check the [[https://company-mode.github.io/][website]].
 
 [[https://github.com/expez/company-quickhelp][Documentation popup for Company]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
     :hook (company-mode . company-quickhelp-mode))
 #+END_SRC
 
 * =yasnippet=
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :delight yas-minor-mode
     :demand
@@ -39,6 +40,6 @@ Check the [[https://company-mode.github.io/][website]].
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-completion)
 #+END_SRC

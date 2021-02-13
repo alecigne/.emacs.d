@@ -1,5 +1,6 @@
 #+TITLE: SwanEmacs "gadget" settings
 #+AUTHOR: Anthony Le Cigne
+#+PROPERTY: header-args :tangle elisp/swanemacs-gadgets.el
 
 * Table of contents                                            :toc@1:noexport:
 - [[#google-this][=google-this=]]
@@ -16,7 +17,7 @@
 
 [[https://github.com/Malabarba/emacs-google-this][A set of emacs functions and bindings to google under point]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package google-this
     :defer 5)
 #+END_SRC
@@ -25,7 +26,7 @@
 
 [[https://github.com/joostkremers/writeroom-mode][Distraction-free writing for Emacs.]]
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package writeroom-mode
     :bind ("H-<f10>" . writeroom-mode)
     :config
@@ -36,7 +37,7 @@
 
 [[https://github.com/iqbalansari/emacs-emojify][Display emojis in Emacs]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package emojify)
 #+END_SRC
 
@@ -44,13 +45,13 @@
 
 [[https://github.com/johanvts/emacs-fireplace][A cozy fireplace for emacs]].
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package fireplace)
 #+END_SRC
 
 * =lorem-ipsum=
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package lorem-ipsum)
 #+END_SRC
 
@@ -59,7 +60,7 @@
 cf. [[https://github.com/skeeto/youtube-dl-emacs][GitHub]]. This package was initially developed for integration with
 Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscriptions_using_elfeed_mpv_no_browser/][this Reddit thread]].
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package youtube-dl
     :unless (eq system-type 'windows-nt)
     :load-path "~/.emacs.d/lisp/youtube-dl-emacs/"
@@ -71,7 +72,7 @@ Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscripti
 
 [[https://github.com/jcaw/theme-magic][Apply your Emacs theme to the rest of Linux, using magic]].
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package theme-magic)
 #+end_src
 
@@ -80,12 +81,12 @@ Elfeed - see [[https://www.reddit.com/r/emacs/comments/7usz5q/youtube_subscripti
 =all-the-icons=, a utility package to collect various Icon Fonts and
 propertize them within Emacs.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package all-the-icons)
 #+end_src
 
 * Wrapping up
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (provide 'swanemacs-gadgets)
 #+END_SRC
