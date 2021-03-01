@@ -18,3 +18,8 @@
 *.elc
 /package-quickstart.el
 /projectile-bookmarks.eld
+/projectile.cache
+*~
+/games
+/.last-package-update-day
+/.emacs.desktop*

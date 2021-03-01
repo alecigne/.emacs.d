@@ -1,135 +1,36 @@
-#+TITLE: SwanEmacs
+#+TITLE: alc-emacs
 #+AUTHOR: Anthony Le Cigne
 #+OPTIONS: num:nil
 
-This is my Emacs configuration. It is:
+This is my Emacs configuration. It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] to
+make things:
 
-- Self-installable :: Thanks to John Wiegley's [[https://github.com/jwiegley/use-package][=use-package=]], all
-  Emacs packages are downloaded automatically when I first start Emacs
-  on a new environement.
+- Neatly organized :: Everything is grouped by package. I also use
+  [[https://github.com/alphapapa/outshine][outshine]] to organize code by sections.
 
-- Self-documenting :: It is made of [[https://orgmode.org/][Org]] files that can be exported to
-  many formats using [[https://orgmode.org/worg/org-contrib/babel/][Org Babel]], including their executable [[https://en.wikipedia.org/wiki/Emacs_Lisp][Emacs Lisp]]
-  format. Right now, you might be reading it in an HTML format, like
-  on [[https://lecigne.net/notes/emacs/README.html][my website]] or [[https://github.com/alecigne/.emacs.d][on Github]] (Github understands Org markup and render
-  it to HTML).
+- Readable :: =use-package= offers a large choice of expressive
+  keywords.
 
-- Modular :: A fancy word to say that I split my config by
-  functionality in multiple "modules". These modules can be loaded
-  independently.
+- Self-installable :: All Emacs packages are downloaded automatically
+  when I first start Emacs on a new environement.
 
 * Structure
 
-#+begin_export org
-,#+begin_export html
-<pre class="example">
-├── modules/
-│   ├── <a href="./modules/elisp/">elisp/</a>
-│   ├── <a href="./modules/swanemacs-basic.html">swanemacs-basic.org</a>
-│   ├── <a href="./modules/swanemacs-communication.html">swanemacs-communication.org</a>
-│   ├── <a href="./modules/swanemacs-completion.html">swanemacs-completion.org</a>
-│   ├── <a href="./modules/swanemacs-dired.html">swanemacs-dired.org</a>
-│   ├── <a href="./modules/swanemacs-finance.html">swanemacs-finance.org</a>
-│   ├── <a href="./modules/swanemacs-gadgets.html">swanemacs-gadgets.org</a>
-│   ├── <a href="./modules/swanemacs-git.html">swanemacs-git.org</a>
-│   ├── <a href="./modules/swanemacs-helm.html">swanemacs-helm.org</a>
-│   ├── <a href="./modules/swanemacs-latex.html">swanemacs-latex.org</a>
-│   ├── <a href="./modules/swanemacs-mail-news.html">swanemacs-mail-news.org</a>
-│   ├── <a href="./modules/swanemacs-markdown.html">swanemacs-markdown.org</a>
-│   ├── <a href="./modules/swanemacs-org.html">swanemacs-org.org</a>
-│   ├── <a href="./modules/swanemacs-prog.html">swanemacs-prog.org</a>
-│   ├── <a href="./modules/swanemacs-projectile.html">swanemacs-projectile.org</a>
-│   ├── <a href="./modules/swanemacs-science.html">swanemacs-science.org</a>
-│   └── <a href="./modules/swanemacs-web.html">swanemacs-web.org</a>
-├── preload/
-│   ├── <a href="./preload/1-system.html">1-system.org</a>
-│   └── <a href="./preload/2-config.html">2-config.org</a>
-└── <a href="./init.html">init.org</a>
-</pre>
-,#+end_export
-#+end_export
+- Emacs 27's [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][early-init.el]] is loaded. It contains a few specific
+  customizations that can take effect before the normal init process
+  begins.
 
-On export:
+- =init.el= loads [[http://wikemacs.org/wiki/Package.el][package.el]], bootstraps =use-package= using
+  =package.el= and then loads my personal config files located in
+  =./lisp/alc/=:
 
-- ~init.org~ creates ~early-init.el~ and ~init.el~.
+  + =alc-main.el= - my main config.
 
-- The Org files in the =./modules= directory create the Emacs Lisp
-  files in the =./modules/elisp/= directory.
+  + =alc-org.el= - my Org-mode config.
 
-On startup, =init.el= will:
+* About literate Emacs configurations
 
-- Initialize [[http://wikemacs.org/wiki/Package.el][=package.el=]], Emacs' built-in package manager.
-
-- Use ~package-install~ to install and/or load John Wiegley's
-  [[https://github.com/jwiegley/use-package][=use-package=]].
-
-- Load the Emacs Lisp files from =./modules/elisp/= according to the
-  ~swanemacs-enabled-modules~ variable[fn:1].
-
-* About Noweb
-
-Since I make heavy use of =use-package=, sometimes I have to write
-big, top-level =use-package= s-expressions. It is hard to reconcile
-this with an Org-based self-documenting configuration, where small
-blocks of code should be wrapped in Org syntax.
-
-Here is a deliberately simple example. Let's say I want this Lisp form
-in =init.el=:
-
-#+BEGIN_SRC emacs-lisp
-  (use-package server
-    :demand t
-    :config
-    (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
-      (defun server-ensure-safe-dir (dir)
-        "Noop" t))
-    (unless (server-running-p)
-      (server-start)))
-#+END_SRC
-
-In order to document it, however, I need to split it in multiple Org
-code blocks in =init.org=. Here is the source code from =init.org=
-achieving this (you can also check it in [[https://raw.githubusercontent.com/alecigne/.emacs.d/master/init.org][the raw Org file]]):
-
-#+BEGIN_EXAMPLE
-  On Windows, sometimes running ~server-start~ causes the following
-  error: "=The directory ~/.emacs.d/server is unsafe=". This code seems
-  to fix the problem (taken from [[https://stackoverflow.com/a/2944197][this Stackoverflow answer]]):
-
-  ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
-    (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
-      (defun server-ensure-safe-dir (dir)
-        "Noop" t))
-  ,#+END_SRC
-
-  The server can then be started unless it is already running.
-
-  ,#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref server-config
-    (unless (server-running-p)
-      (server-start))
-  ,#+END_SRC
-
-  Let's feed these blocks to ~use-package~ thanks to Noweb:
-
-  ,#+BEGIN_SRC emacs-lisp :tangle yes :noweb yes
-    (use-package server
-      :demand t
-      :config
-      <<server-config>>)
-  ,#+END_SRC
-#+END_EXAMPLE
-
-Every individual block is not tangled (~:tangle no~), but has a noweb
-reference (~:noweb-ref server-config~, with the value being
-~server-config~). In the final Noweb tangled block (~:tangle yes
-:noweb yes~), the ~<<server-config>>~ Noweb placeholder will be
-replaced with a concatenation of all the code blocks that have
-~server-config~ as a value for ~:noweb-ref~. The resulting Emacs Lisp
-code will look exactly like the above example.
-
-* Footnotes
-
-[fn:1] To do this, I used to call =org-babel-load-file= on the Org
-files located in =./modules=. However, this requires to load Org-mode
-on startup, and to avoid that I now prefer to load the Elisp files
-themselves.
+It used to be a so-called "literate config" based on a network of [[https://www.orgmode.org/][Org
+file]], but I switched for the sake of simplicity. [[https://github.com/alecigne/.emacs.d/tree/faa6d3727074f9fce746fb9653a9b4242eedce6e][Browse the last
+commit]] of that Org config if you're interested, or check the numerous
+literate configs out there.
