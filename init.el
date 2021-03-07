@@ -1,91 +1,49 @@
-(defvar swanemacs-modules-dir nil
-  "Emacs modules directory.")
-
-(defvar swanemacs-lisp-dir nil
-  "Elisp directory, for packages outside ELPA.")
-
-(defvar swanemacs-preload-dir nil
-  "Personal Emacs configuration directory - preload.")
-
-(defvar swanemacs-el-regex nil
-  "A regex for detecting Emacs Lisp files to load.")
-
-(setq swanemacs-modules-dir (expand-file-name "modules/elisp/" user-emacs-directory)
-      swanemacs-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
-      swanemacs-preload-dir (expand-file-name "preload/" user-emacs-directory)
-      swanemacs-el-regex "^[^#\.].*.el$")
+;; * Loading `package.el'
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(prefer-coding-system 'utf-8-unix)
-
-(setq package-quickstart t)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")))
+(setq package-quickstart t
+      package-archives '(("gnu" .   "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" .   "https://orgmode.org/elpa/"))
+      package-archive-priorities '(("melpa" . 10)
+                                   ("gnu"     . 5)))
 (package-initialize)
+
+;; * Bootstrapping `use-package'
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(setq use-package-always-defer t
-      use-package-always-ensure t)
-
 (eval-when-compile
   (require 'use-package))
 
-(use-package delight)
+(require 'use-package-ensure)
 
-(unless (file-exists-p swanemacs-lisp-dir)
-  (make-directory swanemacs-lisp-dir))
+(setq use-package-always-defer t
+      use-package-always-ensure t)
 
-(use-package server
-  :demand t
+(use-package auto-package-update
   :config
-  (when (and (>= emacs-major-version 23) (eq system-type 'windows-nt))
-    (defun server-ensure-safe-dir (dir)
-      "Noop" t))
-  (unless (server-running-p)
-    (server-start)))
+  (setq auto-package-update-delete-old-versions t)
+  (auto-package-update-maybe))
+
+(use-package delight)
 
 (use-package use-package-chords
   :demand t
   :config (key-chord-mode 1))
 
-(defvar swanemacs-enabled-modules nil
-  "List of enabled modules.")
+;; * Loading my init code
 
-(setq swanemacs-enabled-modules
-      '(swanemacs-basic
-	swanemacs-dired
-	swanemacs-helm
-	swanemacs-completion
-	swanemacs-projectile
-	swanemacs-git
-	swanemacs-org
-	swanemacs-prog
-	swanemacs-latex
-	swanemacs-web
-	swanemacs-communication
-	swanemacs-gadgets
-	swanemacs-mail-news
-	swanemacs-science
-	swanemacs-markdown
-	swanemacs-finance))
+(defvar alc-lisp-dir (expand-file-name "lisp/alc/" user-emacs-directory)
+  "My personal lisp directory.")
 
-(when (file-exists-p swanemacs-preload-dir)
-  (mapc 'load (directory-files swanemacs-preload-dir t swanemacs-el-regex)))
+(add-to-list 'load-path alc-lisp-dir)
+(require 'alc-main)
+(require 'alc-org)
 
-(mapc (lambda (module)
-        (let ((path (expand-file-name (concat (symbol-name module) ".el")
-                                      swanemacs-modules-dir)))
-          (if (not (file-exists-p path))
-              (error "%s doesn't exist!" path)
-            (load path))))
-      swanemacs-enabled-modules)
+;; * Wrapping up
 
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-(fset 'display-startup-echo-area-message 'ignore)
+(provide 'alc-init)
