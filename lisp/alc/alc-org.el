@@ -39,7 +39,7 @@
         (progn
           (re-search-forward "\\(.*\\) \\[[0-9]*/[0-9]*\\]\\(.*\\)" nil t)
           (replace-match "\\1\\2"))
-      (org-align-tags))))
+        (org-align-tags))))
 
 ;; ** Hyperlinks
 
@@ -51,7 +51,7 @@
         (save-excursion
           (let ((remove (list (match-beginning 0) (match-end 0)))
                 (description
-                 (if (match-end 2) 
+                 (if (match-end 2)
                      (org-match-string-no-properties 2)
                    (org-match-string-no-properties 1))))
             (apply 'delete-region remove)
@@ -67,7 +67,8 @@
         ;; recursive statistics cookies
         org-hierarchical-todo-statistics nil
         ;; block DONE state on parent if a child isn't DONE
-        org-enforce-todo-dependencies t)
+        org-enforce-todo-dependencies t
+        org-provide-todo-statistics '("TODO" "DOING" "WAITING" "TODO?"))
 
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
@@ -84,7 +85,7 @@
                     "|"
                     "COMPLETED(c!)"
                     "ABORTED(X@)")))
-  
+
   (defface alc-org-todo-kwd
     '((t (:weight bold :foreground "red")))
     "Face used to display tasks yet to be worked on.")
@@ -114,7 +115,7 @@
           ("COMPLETED" . alc-org-done-kwd)
           ("CANCELED" . alc-org-done-kwd)
           ("ABORTED" . alc-org-done-kwd)))
-  
+
   (setq org-capture-templates
         '(;; New task in inbox
           ("t" "Capture [t]ask"
@@ -124,8 +125,19 @@
            :prepend t
            :kill-buffer t)))
 
+  (defun alc-org-auto-schedule ()
+    "Schedule when the task is marked DOING or WAITING, unless the
+  item is already scheduled."
+    (when (and (or (string= org-state "DOING")
+                   (string= org-state "WAITING"))
+               (not (string= org-last-state org-state))
+               (not (org-get-scheduled-time (point))))
+      (org-schedule nil "")))
+
+  (add-hook 'org-after-todo-state-change-hook 'alc-org-auto-schedule)
+
 ;; *** Agenda
-  
+
   (setq org-agenda-files (list alc-org-todo-file)
         org-agenda-format-date "%Y-%m-%d %a")
 
@@ -137,6 +149,13 @@
   ;; This allows me to declare multiple (type match settings)
   ;; structures and to reuse them afterwards. I call these structures
   ;; 'views' below.
+  ;;
+  ;; Example custom filter:
+  ;;
+  ;; (defun my-custom-filter ()
+  ;;   (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+  ;;     (when (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED"))
+  ;;         subtree-end)))
 
 ;; **** Views
 
@@ -157,7 +176,7 @@
   ;; tasks in the inbox
   (setq alc-org-agenda-view-inbox
         '(tags-todo "inbox" ((org-agenda-overriding-header "Tasks in the inbox\n"))))
-  
+
   ;; deadlines
   (setq alc-org-agenda-view-deadlines
         '(agenda ""
@@ -173,12 +192,6 @@
         '(todo "WAITING"
                ((org-agenda-overriding-header "Waiting for something\n"))))
 
-  ;; scheduled today
-  (defun alc-org-agenda-view-scheduled-today-filter ()
-    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-      (when (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED"))
-          subtree-end)))
-  
   (setq alc-org-agenda-view-scheduled-today
         '(agenda ""
                  ((org-agenda-overriding-header "Scheduled today")
@@ -215,14 +228,14 @@
           nil
           ;; files
           nil))
-          
+
   ;; wrapping up
   (setq org-agenda-custom-commands
         `(;; daily digest
           ,alc-org-agenda-custom-command-daily-digest
           ;; events this month
           ,alc-org-agenda-custom-command-events-month))
-  
+
 ;; ** Babel
 
   (org-babel-do-load-languages
@@ -253,6 +266,8 @@
 
 (use-package org-inlinetask
   :ensure nil
+  :init
+  (put 'org-inlinetask-min-level 'safe-local-variable #'numberp)
   :commands org-inlinetask-insert-task
   :bind (:map org-mode-map ("C-c C-x t" . org-inlinetask-insert-task)))
 

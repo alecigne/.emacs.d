@@ -95,6 +95,18 @@ Possible values are 'personal (by defaut) or 'work."
          ("C-z" . helm-select-action))
   :chords (";b" . helm-mini)
   :config
+  (setq helm-split-window-in-side-p t
+        helm-move-to-line-cycle-in-source t
+        helm-ff-search-library-in-sexp t
+        helm-scroll-amount 8
+        helm-ff-file-name-history-use-recentf t
+        helm-M-x-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-follow-mode-persistent t)
+
+  (when (executable-find "curl")
+    (setq helm-google-suggest-use-curl-p t))
   ;; Generic Helm completion (e.g., variables, etc.)
   (helm-mode 1))
 
@@ -216,6 +228,12 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+(add-hook 'text-mode-hook
+          (lambda ()
+            (turn-on-auto-fill)
+            (setq default-justification 'left)
+            (setq fill-column 70)))
+
 ;; *** Completion
 
 (use-package company
@@ -277,6 +295,11 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 (use-package treemacs-all-the-icons
   :after treemacs
   :config (treemacs-load-theme 'all-the-icons))
+
+(use-package recentf
+  :ensure nil
+  :config
+  (setq recentf-max-saved-items 50))
 
 ;; ** Help
 
@@ -357,6 +380,19 @@ the date DATE."
   :after dired
   :hook (dired-mode . dired-collapse-mode))
 
+;; * Markup
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.ya?ml\\'" . yaml-mode))
+
 ;; * Programming
 
 ;; ** Common
@@ -418,7 +454,15 @@ the date DATE."
 
     (alc-swank-autoconnect)))
 
-;; * Communication
+;; ** PlantUML
+
+(use-package plantuml-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
+                                                alc-root-dir)))
+
+;; * Staying in touch with the world
 
 (use-package erc
   :ensure nil
@@ -461,7 +505,11 @@ the date DATE."
           ("http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/" emacs))
         elfeed-search-filter ""))
 
-;; * Gadgets
+;; * Other tools and gadgets
+
+(use-package ledger-mode
+  :config
+  (setq ledger-default-date-format ledger-iso-date-format))
 
 (use-package google-this
   :bind-keymap ("C-x g" . google-this-mode-submap))
