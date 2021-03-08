@@ -68,7 +68,9 @@
         org-hierarchical-todo-statistics nil
         ;; block DONE state on parent if a child isn't DONE
         org-enforce-todo-dependencies t
-        org-provide-todo-statistics '("TODO" "DOING" "WAITING" "TODO?"))
+        org-provide-todo-statistics '("TODO" "DOING" "WAITING" "TODO?")
+        ;; do not dim DONE items
+        org-fontify-done-headline nil)
 
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
