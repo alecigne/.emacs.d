@@ -316,6 +316,14 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 ;; ** Privacy
 
+(use-package password-store)
+
+(use-package auth-source
+  :ensure nil
+  :config
+  (setq auth-sources '(password-store))
+  (auth-source-pass-enable))
+
 (setq epa-pinentry-mode 'loopback)
 
 ;; ** Misc
