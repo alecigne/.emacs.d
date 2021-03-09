@@ -513,6 +513,13 @@ the date DATE."
           ("http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/" emacs))
         elfeed-search-filter ""))
 
+(alc-with-system-type work
+  (use-package slack
+    :commands (slack-start)
+    :init
+    (setq slack-buffer-emojify t)
+    (setq slack-prefer-current-team t)))
+
 ;; * Other tools and gadgets
 
 (use-package ledger-mode
