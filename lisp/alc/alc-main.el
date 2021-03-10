@@ -520,6 +520,10 @@ the date DATE."
     (setq slack-buffer-emojify t)
     (setq slack-prefer-current-team t)))
 
+;; * Multimedia
+
+(use-package somafm)
+
 ;; * Other tools and gadgets
 
 (use-package ledger-mode
