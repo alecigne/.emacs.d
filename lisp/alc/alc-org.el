@@ -43,6 +43,9 @@
 
 ;; ** Hyperlinks
 
+  (add-to-list 'org-modules 'org-id)
+  (setq org-id-link-to-org-use-id 'create-if-interactive)
+
   ;; https://emacs.stackexchange.com/a/10714
   (defun alc-org-replace-link-by-link-description ()
     "Replace an org link by its description or if empty its address."
@@ -72,6 +75,9 @@
         ;; do not dim DONE items
         org-fontify-done-headline nil)
 
+  ;; exclude the 'project' tag from inheritance
+  (add-to-list 'org-tags-exclude-from-inheritance "project")
+
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
                     "TODO?(m!)"
@@ -81,6 +87,7 @@
                     "|"
                     "DONE(d!)"
                     "CANCELED(x@)")
+          ;; for compatibility with my 'old way'
           (sequence "TOCOMPLETE(T!)"
                     "COMPLETING(C!)"
                     "TOCOMPLETE?(M!)"
@@ -278,8 +285,8 @@
   :bind (("C-c z" . org-decrypt-entry))
   :config
   (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance (quote ("crypt"))
-        (setq org-crypt-key "F62FE7A4")))
+  (add-to-list 'org-tags-exclude-from-inheritance "crypt")
+  (setq org-crypt-key "F62FE7A4"))
 
 (use-package org-sticky-header
   :config
