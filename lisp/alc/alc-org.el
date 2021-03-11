@@ -271,6 +271,9 @@
   ;; Track heading creation in a PROPERTIES drawer. It also works for
   ;; TODO headings since `org-insert-todo-heading' calls
   ;; `org-insert-heading'.
+  ;;
+  ;; `org-expiry-insinuate' would do this for an editing session (and
+  ;; a few more things). I don't really use it that way.
   (defadvice org-insert-heading (after alc-org-insert-heading-created-advice activate)
     (org-expiry-insert-created))
   (ad-activate 'org-insert-heading)
