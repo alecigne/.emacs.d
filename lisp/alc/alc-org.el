@@ -257,21 +257,26 @@
 
 ;; * Org-related packages
 
-(use-package outline
-  :delight outline-minor-mode)
+;; ** Contrib
 
-(use-package outshine
-  :delight
-  :config (setq outshine-use-speed-commands t)
-  :hook (emacs-lisp-mode . outshine-mode))
+;; TODO useful?
+(with-eval-after-load 'org
+  (add-to-list 'org-modules 'org-expiry))
 
-(use-package helm-org-rifle
-  :bind
-  (:map org-mode-map ("C-c s" . helm-org-rifle-current-buffer)))
+(use-package org-expiry
+  :ensure nil
+  :after org
+  :demand t  ; no autoloads
+  :config
+  ;; Track heading creation in a PROPERTIES drawer. It also works for
+  ;; TODO headings since `org-insert-todo-heading' calls
+  ;; `org-insert-heading'.
+  (defadvice org-insert-heading (after alc-org-insert-heading-created-advice activate)
+    (org-expiry-insert-created))
+  (ad-activate 'org-insert-heading)
 
-(alc-with-system gnu/linux
-  (use-package org-bullets
-    :hook (org-mode . (lambda () (org-bullets-mode 1)))))
+  ;; Don't show these timestamps in the agenda.
+  (setq org-expiry-inactive-timestamps t))
 
 (use-package org-inlinetask
   :ensure nil
@@ -288,6 +293,24 @@
   (add-to-list 'org-tags-exclude-from-inheritance "crypt")
   (setq org-crypt-key "F62FE7A4"))
 
+;; ** Others
+
+(use-package outline
+  :delight outline-minor-mode)
+
+(use-package outshine
+  :delight
+  :config (setq outshine-use-speed-commands t)
+  :hook (emacs-lisp-mode . outshine-mode))
+
+(use-package helm-org-rifle
+  :bind
+  (:map org-mode-map ("C-c s" . helm-org-rifle-current-buffer)))
+
+(alc-with-system gnu/linux
+  (use-package org-bullets
+    :hook (org-mode . (lambda () (org-bullets-mode 1)))))
+
 (use-package org-sticky-header
   :config
   (setq org-sticky-header-full-path 'full))
@@ -301,5 +324,7 @@
               ("<f10>" . org-tree-slide-move-next-tree)))
 
 (use-package demo-it)
+
+;; * Wrapping up
 
 (provide 'alc-org)
