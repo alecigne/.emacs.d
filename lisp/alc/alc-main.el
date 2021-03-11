@@ -439,6 +439,9 @@ the date DATE."
 
 (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
 
+;; unit testing for Emacs Lisp
+(use-package buttercup)
+
 ;; ** Common Lisp
 
 (unless (alc-work-system-p)
