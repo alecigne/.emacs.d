@@ -19,7 +19,8 @@
         org-speed-commands-user '(("a" org-archive-subtree))
         org-startup-indented t
         org-special-ctrl-a/e t
-        org-special-ctrl-k t)
+        org-special-ctrl-k t
+        org-startup-folded t)
 
   (delight 'org-indent-mode nil "org-indent")
 
@@ -71,7 +72,7 @@
         org-hierarchical-todo-statistics nil
         ;; block DONE state on parent if a child isn't DONE
         org-enforce-todo-dependencies t
-        org-provide-todo-statistics '("TODO" "DOING" "WAITING" "TODO?")
+        org-provide-todo-statistics '("TODO" "PROG" "WAIT")
         ;; do not dim DONE items
         org-fontify-done-headline nil)
 
@@ -80,20 +81,13 @@
 
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
-                    "TODO?(m!)"
-                    "DOING(D!)"
-                    "WAITING(w@/!)"
+                    "IDEA(i!)"
+                    "PROG(p!)"
+                    "WAIT(w@/!)"
                     "HOLD(h@/!)"
                     "|"
                     "DONE(d!)"
-                    "CANCELED(x@)")
-          ;; for compatibility with my 'old way'
-          (sequence "TOCOMPLETE(T!)"
-                    "COMPLETING(C!)"
-                    "TOCOMPLETE?(M!)"
-                    "|"
-                    "COMPLETED(c!)"
-                    "ABORTED(X@)")))
+                    "CNCL(c@)")))
 
   (defface alc-org-todo-kwd
     '((t (:weight bold :foreground "red")))
@@ -103,8 +97,8 @@
     '((t (:weight bold :foreground "orange")))
     "Face used to display tasks in progress.")
 
-  (defface alc-org-someday-kwd
-    '((t (:weight bold :foreground "dark red")))
+  (defface alc-org-idea-kwd
+    '((t (:weight bold :foreground "deep sky blue")))
     "Face used to display tasks that might be done someday.")
 
   (defface alc-org-done-kwd
@@ -113,17 +107,12 @@
 
   (setq org-todo-keyword-faces
         '(("TODO" . alc-org-todo-kwd)
-          ("TOCOMPLETE" . alc-org-todo-kwd)
-          ("TODO?" . alc-org-someday-kwd)
-          ("TOCOMPLETE?" . alc-org-someday-kwd)
-          ("DOING" . alc-org-in-progress-kwd)
-          ("COMPLETING" . alc-org-in-progress-kwd)
-          ("WAITING" . alc-org-in-progress-kwd)
+          ("IDEA" . alc-org-idea-kwd)
+          ("PROG" . alc-org-in-progress-kwd)
+          ("WAIT" . alc-org-in-progress-kwd)
           ("HOLD" . alc-org-in-progress-kwd)
           ("DONE" . alc-org-done-kwd)
-          ("COMPLETED" . alc-org-done-kwd)
-          ("CANCELED" . alc-org-done-kwd)
-          ("ABORTED" . alc-org-done-kwd)))
+          ("CNCL" . alc-org-done-kwd)))
 
   (setq org-capture-templates
         '(;; New task in inbox
@@ -134,21 +123,47 @@
            :prepend t
            :kill-buffer t)))
 
-  (defun alc-org-auto-schedule ()
-    "Schedule when the task is marked DOING or WAITING, unless the
-  item is already scheduled."
-    (when (and (or (string= org-state "DOING")
-                   (string= org-state "WAITING"))
-               (not (string= org-last-state org-state))
-               (not (org-get-scheduled-time (point))))
-      (org-schedule nil "")))
-
-  (add-hook 'org-after-todo-state-change-hook 'alc-org-auto-schedule)
-
 ;; *** Agenda
 
   (setq org-agenda-files (list alc-org-todo-file)
         org-agenda-format-date "%Y-%m-%d %a")
+
+  ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
+  (defun alc-org-agenda-delete-empty-blocks ()
+    "Remove empty agenda blocks.
+
+A block is identified as empty if there are fewer than 2
+non-empty lines in the block (excluding the line with
+`org-agenda-block-separator' characters)."
+    (when org-agenda-compact-blocks
+      (user-error "Cannot delete empty compact blocks"))
+    (setq buffer-read-only nil)
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((blank-line-re "^\\s-*$")
+             (content-line-count (if (looking-at-p blank-line-re) 0 1))
+             (start-pos (point))
+             (block-re (format "%c\\{10,\\}" org-agenda-block-separator)))
+        (while (and (not (eobp)) (forward-line))
+          (cond
+           ((looking-at-p block-re)
+            (when (< content-line-count 2)
+              (delete-region start-pos (1+ (point-at-bol))))
+            (setq start-pos (point))
+            (forward-line)
+            (setq content-line-count (if (looking-at-p blank-line-re) 0 1)))
+           ((not (looking-at-p blank-line-re))
+            (setq content-line-count (1+ content-line-count)))))
+        (when (< content-line-count 2)
+          (delete-region start-pos (point-max)))
+        (goto-char (point-min))
+        ;; The above strategy can leave a separator line at the beginning
+        ;; of the buffer.
+        (when (looking-at-p block-re)
+          (delete-region (point) (1+ (point-at-eol))))))
+    (setq buffer-read-only t))
+
+  (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
 
   ;; For agenda commands, I only use the format for composite buffers:
   ;; (key desc ((type match settings)) settings files)
@@ -198,7 +213,7 @@
 
   ;; waiting
   (setq alc-org-agenda-view-waiting
-        '(todo "WAITING"
+        '(todo "WAIT"
                ((org-agenda-overriding-header "Waiting for something\n"))))
 
   (setq alc-org-agenda-view-scheduled-today
@@ -210,7 +225,7 @@
                   (org-agenda-start-on-weekday nil)
                   (org-agenda-time-grid nil)
                   (org-agenda-skip-function
-                   '(org-agenda-skip-entry-if 'todo '("WAITING" "HOLD" "DONE" "CANCELED"))))))
+                   '(org-agenda-skip-entry-if 'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
 
 ;; **** Custom commands
 
@@ -220,9 +235,9 @@
           ;; views
           (,alc-org-agenda-view-events-today
            ,alc-org-agenda-view-scheduled-today
-           ,alc-org-agenda-view-inbox
            ,alc-org-agenda-view-deadlines
-           ,alc-org-agenda-view-waiting)
+           ,alc-org-agenda-view-waiting
+           ,alc-org-agenda-view-inbox)
           ;; global settings
           ((org-agenda-format-date ""))
           ;; files
