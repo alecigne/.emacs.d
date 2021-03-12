@@ -23,3 +23,10 @@
 /games
 /.last-package-update-day
 /.emacs.desktop*
+
+# cask packages
+/.cask/
+/dist/
+
+# request.el
+/request/

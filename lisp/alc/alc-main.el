@@ -525,7 +525,14 @@ the date DATE."
 
 ;; * Multimedia
 
-(use-package somafm)
+(eval-and-compile
+  (defun alc-get-somafm-load-path ()
+    (expand-file-name "lisp/somafm" user-emacs-directory)))
+
+(use-package somafm
+  :ensure nil
+  :commands (somafm somafm-by-completion)
+  :load-path (lambda () (list (alc-get-somafm-load-path))))
 
 ;; * Other tools and gadgets
 

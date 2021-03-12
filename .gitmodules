@@ -1,3 +1,6 @@
 [submodule "lisp/youtube-dl-emacs"]
 	path = lisp/youtube-dl-emacs
 	url = https://github.com/skeeto/youtube-dl-emacs
+[submodule "lisp/somafm"]
+	path = lisp/somafm
+	url = https://github.com/alecigne/somafm.el
