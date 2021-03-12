@@ -446,7 +446,6 @@ the date DATE."
 
 (unless (alc-work-system-p)
   (use-package slime
-    :if (personal-system-p)
     :config
     (when (eq system-type 'gnu/linux)
       (setq slime-contribs '(slime-fancy)
