@@ -72,6 +72,8 @@ Possible values are 'personal (by defaut) or 'work."
 (column-number-mode t)
 (size-indication-mode t)
 
+(delight 'auto-fill-function nil t)
+
 ;; ** Interaction
 
 (setq inhibit-startup-screen t
