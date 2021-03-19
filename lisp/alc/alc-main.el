@@ -531,7 +531,11 @@ the date DATE."
 (use-package somafm
   :ensure nil
   :commands (somafm somafm-by-completion)
-  :load-path (lambda () (list (alc-get-somafm-load-path))))
+  :load-path (lambda () (list (alc-get-somafm-load-path)))
+  :config
+  (defun alc-somafm-format-favorite (song)
+    (concat (format-time-string "- [%F %R] ") song))
+  (setq somafm-format-favorite-function #'alc-somafm-format-favorite))
 
 ;; * Other tools and gadgets
 
