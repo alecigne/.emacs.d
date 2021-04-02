@@ -165,6 +165,18 @@ non-empty lines in the block (excluding the line with
 
   (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
 
+  ;; Some diary entries are displayed in the agenda
+
+  (defun diary-sunrise ()
+    (replace-regexp-in-string
+     "\\(Sunrise [^ ]*\\).*" "\\1"
+     (diary-sunrise-sunset)))
+
+  (defun diary-sunset ()
+    (replace-regexp-in-string
+     ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
+     (diary-sunrise-sunset)))
+
   ;; For agenda commands, I only use the format for composite buffers:
   ;; (key desc ((type match settings)) settings files)
   ;;
@@ -239,7 +251,7 @@ non-empty lines in the block (excluding the line with
            ,alc-org-agenda-view-waiting
            ,alc-org-agenda-view-inbox)
           ;; global settings
-          ((org-agenda-format-date ""))
+          nil
           ;; files
           nil))
 
