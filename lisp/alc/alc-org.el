@@ -355,6 +355,11 @@ non-empty lines in the block (excluding the line with
 
 (use-package demo-it)
 
+(use-package org-edna
+  :after org
+  :config
+  (org-edna-mode))
+
 ;; * Wrapping up
 
 (provide 'alc-org)
