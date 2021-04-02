@@ -474,7 +474,9 @@ the date DATE."
   (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
                                                 alc-root-dir)))
 
-;; * Staying in touch with the world
+;; * World
+
+;; ** Communication
 
 (use-package erc
   :ensure nil
@@ -523,6 +525,11 @@ the date DATE."
     :init
     (setq slack-buffer-emojify t)
     (setq slack-prefer-current-team t)))
+
+;; ** Weather
+
+(use-package wttrin
+  :commands (wttrin))
 
 ;; * Multimedia
 
