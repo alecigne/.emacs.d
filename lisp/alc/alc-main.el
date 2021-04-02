@@ -542,9 +542,7 @@ the date DATE."
   :commands (somafm somafm-by-completion)
   :load-path (lambda () (list (alc-get-somafm-load-path)))
   :config
-  (defun alc-somafm-format-favorite (song)
-    (concat (format-time-string "- [%F %R] ") song))
-  (setq somafm-format-favorite-function #'alc-somafm-format-favorite))
+  (setq somafm-favorites-file "/media/veracrypt1/org/notes/drone_zone.org"))
 
 ;; * Other tools and gadgets
 
