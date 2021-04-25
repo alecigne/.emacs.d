@@ -236,6 +236,21 @@ line. This is useful, e.g., for use with `visual-line-mode'."
             (setq default-justification 'left)
             (setq fill-column 70)))
 
+;; Encoding
+(setq system-time-locale "fr_FR.UTF-8"
+      ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+      utf-translate-cjk-mode nil
+      locale-coding-system 'utf-8)
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+
+(unless (eq system-type 'windows-nt)
+  (set-selection-coding-system 'utf-8))
+
+(prefer-coding-system 'utf-8)
+
 ;; *** Completion
 
 (use-package company
