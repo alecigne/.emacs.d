@@ -45,7 +45,8 @@
 ;; ** Hyperlinks
 
   (add-to-list 'org-modules 'org-id)
-  (setq org-id-link-to-org-use-id 'create-if-interactive)
+  (setq org-id-link-to-org-use-id 'create-if-interactive
+        org-link-file-path-type 'relative)
 
   ;; https://emacs.stackexchange.com/a/10714
   (defun alc-org-replace-link-by-link-description ()
