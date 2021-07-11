@@ -24,25 +24,33 @@ Possible values are 'personal (by defaut) or 'work."
 (defun alc-work-system-p () (eq alc-system-type 'work))
 (defun alc-personal-system-p () (eq alc-system-type 'personal))
 
+;; f.el, a library for working with files and directories
+;; https://github.com/rejeep/f.el
+(use-package f
+  :demand t)
+
 ;; Emacs Start Up Profiler
+;; https://github.com/jschaf/esup
 (use-package esup)
 
 ;; * Personal directory structure
 
-(setq alc-root-dir "~/"
-      alc-org-dir (concat alc-root-dir "org/")
-      alc-tmp-dir (concat alc-root-dir "tmp/")
-      alc-backup-dir (concat alc-tmp-dir "emacs-backup/"))
+(setq alc-root-dir (getenv "ALC_DATA_DIR")
+      alc-org-dir (f-join alc-root-dir "org")
+      alc-tmp-dir (f-join alc-root-dir "tmp")
+      alc-backup-dir (f-join alc-tmp-dir "emacs-backup"))
 
 (let ((dir-list (list alc-org-dir alc-tmp-dir alc-backup-dir)))
   (dolist (dir dir-list)
     (unless (file-exists-p dir)
       (make-directory dir t))))
 
-(setq alc-org-todo-file (concat alc-org-dir "todo.org"))
+(setq alc-org-todo-file (f-join alc-org-dir "todo.org")
+      alc-org-inbox-file (f-join alc-org-dir "inbox.org")
+      alc-org-almanac-file (f-join alc-org-dir "almanac.org"))
 
 (alc-with-system-type personal
-  (setq alc-org-entourage-file (concat alc-org-dir "entourage.org")))
+  (setq alc-org-entourage-file (f-join alc-org-dir "entourage.org")))
 
 ;; * Basics
 

@@ -116,18 +116,26 @@
           ("CNCL" . alc-org-done-kwd)))
 
   (setq org-capture-templates
-        '(;; New task in inbox
+        `(;; New task
           ("t" "Capture [t]ask"
            entry
-           (file+olp alc-org-todo-file "Inbox")
+           (file alc-org-inbox-file)
            "* TODO %?"
-           :prepend t
+           :kill-buffer t)
+          ;; New note
+          ("n" "Capture [n]ote"
+           entry
+           (file alc-org-inbox-file)
+           ,(concat "* Note (taken from %a)\n" "\n" "%?\n")
            :kill-buffer t)))
 
 ;; *** Agenda
 
-  (setq org-agenda-files (list alc-org-todo-file)
+  (setq org-agenda-files (list alc-org-todo-file alc-org-inbox-file alc-org-almanac-file)
         org-agenda-format-date "%Y-%m-%d %a")
+
+  (alc-with-system-type personal
+    (add-to-list org-agenda-files alc-org-entourage-file))
 
   ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
   (defun alc-org-agenda-delete-empty-blocks ()
@@ -305,6 +313,10 @@ non-empty lines in the block (excluding the line with
   (defadvice org-insert-heading (after alc-org-insert-heading-created-advice activate)
     (org-expiry-insert-created))
   (ad-activate 'org-insert-heading)
+
+  ;; Do the same for org-capture since `org-insert-heading' is not
+  ;; called explicitely.
+  (add-hook 'org-capture-before-finalize-hook #'org-expiry-insert-created)
 
   ;; Don't show these timestamps in the agenda.
   (setq org-expiry-inactive-timestamps t))
