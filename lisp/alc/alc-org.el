@@ -135,7 +135,7 @@
         org-agenda-format-date "%Y-%m-%d %a")
 
   (alc-with-system-type personal
-    (add-to-list org-agenda-files alc-org-entourage-file))
+    (add-to-list 'org-agenda-files alc-org-entourage-file))
 
   ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
   (defun alc-org-agenda-delete-empty-blocks ()
