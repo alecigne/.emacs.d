@@ -54,6 +54,13 @@ Possible values are 'personal (by defaut) or 'work."
 
 ;; * Basics
 
+;; ** Personal info
+
+(run-with-idle-timer
+ 3 nil
+ (lambda ()
+   (load-library (f-join alc-lisp-dir "secrets.el.gpg"))))
+
 ;; ** Look & feel
 
 (use-package doom-themes

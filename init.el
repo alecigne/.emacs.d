@@ -37,10 +37,13 @@
 
 ;; * Loading my init code
 
-(defvar alc-lisp-dir (expand-file-name "lisp/alc/" user-emacs-directory)
+(defvar alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
+  "Lisp directory.")
+
+(defvar alc-my-lisp-dir (expand-file-name "alc/" alc-lisp-dir)
   "My personal lisp directory.")
 
-(add-to-list 'load-path alc-lisp-dir)
+(add-to-list 'load-path alc-my-lisp-dir)
 (require 'alc-main)
 (require 'alc-org)
 
