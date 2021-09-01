@@ -2,8 +2,10 @@
 #+AUTHOR: Anthony Le Cigne
 #+OPTIONS: num:nil
 
-This is my Emacs configuration. It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] to
-make things:
+This is my Emacs configuration. It is part of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git
+submodule.
+
+It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] to make things:
 
 - Neatly organized :: Everything is grouped by package. I also use
   [[https://github.com/alphapapa/outshine][outshine]] to organize code by sections.
@@ -12,7 +14,7 @@ make things:
   keywords.
 
 - Self-installable :: All Emacs packages are downloaded automatically
-  when I first start Emacs on a new environement.
+  when I first start Emacs on a new environment.
 
 * Structure
 
