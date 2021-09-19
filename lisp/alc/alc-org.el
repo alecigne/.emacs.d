@@ -88,6 +88,7 @@
                     "HOLD(h@/!)"
                     "|"
                     "DONE(d!)"
+                    "GIVN(g@)"
                     "CNCL(c@)")))
 
   (defface alc-org-todo-kwd
@@ -113,6 +114,7 @@
           ("WAIT" . alc-org-in-progress-kwd)
           ("HOLD" . alc-org-in-progress-kwd)
           ("DONE" . alc-org-done-kwd)
+          ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
 
   (setq org-capture-templates
