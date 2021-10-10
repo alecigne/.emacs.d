@@ -30,6 +30,33 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
 
   + =alc-org.el= - my Org-mode config.
 
+* Local configuration
+
+I usually add a short configuration on each machine for local
+customizations.
+
+- The =org-agenda-files= variable will mix different Org projects that
+  depend on the machine I am working on. This way, I can separate Org
+  projects at the file level but still mix tasks and events in the
+  agenda to get a clear picture of my day. I then filter everything by
+  context to avoid distraction.
+
+- The =org-capture= function will be advised so I can capture tasks
+  and notes in the relevant target project. For example:
+
+  #+begin_src emacs-lisp
+    (setq alc-org-projects-alist `(("Some work-related Org dir" . ,path-to-this-org-dir)
+                                   ("Personal Org dir" . ,path-to-that-org-dir)))
+    
+    (defun alc-org-capture-advice (func &rest args)
+      (let* ((project-names (mapcar 'car alc-org-projects-alist))
+             (chosen-project (completing-read "Choose a project: " project-names nil t))
+             (org-directory (assoc-default chosen-project alc-org-projects-alist)))
+        (apply func args)))
+    
+    (advice-add #'org-capture :around #'alc-org-capture-advice)
+  #+end_src
+
 * About literate Emacs configurations
 
 It used to be a so-called "literate config" based on a network of [[https://www.orgmode.org/][Org

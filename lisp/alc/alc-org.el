@@ -117,27 +117,27 @@
           ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
 
+  ;; The default value for `org-directory', `~/org', will be used. On
+  ;; my individual machines, I usually add an advice around
+  ;; `org-capture' so it lets me choose a project in which the capture
+  ;; will happen. See the README for more info.
   (setq org-capture-templates
         `(;; New task
           ("t" "Capture [t]ask"
            entry
-           (file alc-org-inbox-file)
+           (file "inbox.org")
            "* TODO %?"
            :kill-buffer t)
           ;; New note
           ("n" "Capture [n]ote"
            entry
-           (file alc-org-inbox-file)
+           (file "inbox.org")
            ,(concat "* Note (taken from %a)\n" "\n" "%?\n")
            :kill-buffer t)))
 
 ;; *** Agenda
 
-  (setq org-agenda-files (list alc-org-todo-file alc-org-inbox-file alc-org-almanac-file)
-        org-agenda-format-date "%Y-%m-%d %a")
-
-  (alc-with-system-type personal
-    (add-to-list 'org-agenda-files alc-org-entourage-file))
+  (setq org-agenda-format-date "%Y-%m-%d %a")
 
   ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
   (defun alc-org-agenda-delete-empty-blocks ()

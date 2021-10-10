@@ -33,24 +33,14 @@ Possible values are 'personal (by defaut) or 'work."
 ;; https://github.com/jschaf/esup
 (use-package esup)
 
-;; * Personal directory structure
+;; * Directory structure
 
-(setq alc-root-dir (getenv "ALC_DATA_DIR")
-      alc-org-dir (f-join alc-root-dir "org")
-      alc-tmp-dir (f-join alc-root-dir "tmp")
-      alc-backup-dir (f-join alc-tmp-dir "emacs-backup"))
-
-(let ((dir-list (list alc-org-dir alc-tmp-dir alc-backup-dir)))
-  (dolist (dir dir-list)
-    (unless (file-exists-p dir)
-      (make-directory dir t))))
-
-(setq alc-org-todo-file (f-join alc-org-dir "todo.org")
-      alc-org-inbox-file (f-join alc-org-dir "inbox.org")
-      alc-org-almanac-file (f-join alc-org-dir "almanac.org"))
-
-(alc-with-system-type personal
-  (setq alc-org-entourage-file (f-join alc-org-dir "entourage.org")))
+;; On Windows, I want the homedir to be `C:\Users\<username>' and not
+;; `C:\Users\<username>\AppData\Roaming'.
+(setq alc-home-dir
+      (if (eq system-type 'windows-nt)
+          (getenv "USERPROFILE")
+        (getenv "HOME")))
 
 ;; * Basics
 
@@ -291,7 +281,7 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 ;; ** Backup
 
-(setq backup-directory-alist `(("." . ,alc-backup-dir)))
+(setq backup-directory-alist `(("." . ,(f-join alc-home-dir "tmp" "emacs-backup"))))
 
 (setq backup-by-copying t
       delete-old-versions t
@@ -507,7 +497,7 @@ the date DATE."
   :init
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
-                                                alc-root-dir)))
+                                                alc-home-dir)))
 
 ;; * World
 
