@@ -100,6 +100,8 @@ Possible values are 'personal (by defaut) or 'work."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(setq ring-bell-function 'ignore)
+
 (use-package helm
   :delight
   :defer 1
@@ -145,6 +147,8 @@ Possible values are 'personal (by defaut) or 'work."
   (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 1.0))
+
+
 
 ;; ** Frames, windows and buffers
 
