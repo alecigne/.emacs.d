@@ -261,6 +261,8 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 (prefer-coding-system 'utf-8)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; *** Completion
 
 (use-package company
