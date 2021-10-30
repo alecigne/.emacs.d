@@ -4,8 +4,8 @@
 
 (setq package-quickstart t
       package-archives '(("gnu" .   "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" .   "https://orgmode.org/elpa/"))
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "https://melpa.org/packages/"))
       package-archive-priorities '(("melpa" . 10)
                                    ("gnu"     . 5)))
 (package-initialize)

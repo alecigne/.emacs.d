@@ -1,8 +1,7 @@
 ;; * Org
 
 (use-package org
-  :pin org
-  :ensure org-plus-contrib
+  :pin gnu
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
@@ -296,6 +295,9 @@ non-empty lines in the block (excluding the line with
 ;; * Org-related packages
 
 ;; ** Contrib
+
+(use-package org-contrib
+  :pin nongnu)
 
 ;; TODO useful?
 (with-eval-after-load 'org
