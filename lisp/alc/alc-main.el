@@ -263,6 +263,19 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; Highlights URLs and turns them into clickable links.
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Goto-Address-mode.html
+;;
+;; Not activated in Org mode since it provides its own highlighting
+;; system.
+(use-package goto-addr
+  :hook ((prog-mode . goto-address-prog-mode)
+         (text-mode . (lambda ()
+                        (unless (derived-mode-p 'org-mode)
+                          (goto-address-mode)))))
+  :bind (:map goto-address-highlight-keymap
+              ("C-c C-o" . goto-address-at-point)))
+
 ;; *** Completion
 
 (use-package company
