@@ -461,11 +461,9 @@ the date DATE."
   :delight magit-status-mode "magit"
   :bind (("C-c g" . magit-status)))
 
-(use-package gitignore-mode
-  :mode ".gitignore$")
-
-(use-package gitconfig-mode
-  :mode ".gitconfig$")
+;; Emacs major modes for Git configuration files
+;; https://github.com/magit/git-modes
+(use-package git-modes)
 
 (use-package git-gutter
   :hook prog-mode
