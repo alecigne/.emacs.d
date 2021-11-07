@@ -242,7 +242,7 @@ non-empty lines in the block (excluding the line with
                  ((org-agenda-overriding-header "Deadlines")
                   (org-agenda-span 'day)
                   (org-agenda-entry-types '(:deadline))
-                  (org-deadline-warning-days 365)
+                  (org-deadline-warning-days 28)
                   (org-agenda-time-grid nil)
                   (org-agenda-sorting-strategy '(deadline-up)))))
 
