@@ -23,6 +23,8 @@
 /games
 /.last-package-update-day
 /.emacs.desktop*
+/org-roam.db
+/network-security.data
 
 # cask packages
 /.cask/
