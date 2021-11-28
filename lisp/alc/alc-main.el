@@ -512,6 +512,10 @@ the date DATE."
   (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
                                                 alc-home-dir)))
 
+;; ** Groovy
+
+(use-package groovy-mode)
+
 ;; * World
 
 ;; ** Communication
