@@ -288,6 +288,7 @@ line. This is useful, e.g., for use with `visual-line-mode'."
   :delight yas-minor-mode
   :defer 5
   :config
+  (use-package yasnippet-snippets)
   (yas-global-mode 1))
 
 ;; ** Navigating
