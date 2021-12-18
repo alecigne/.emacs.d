@@ -25,6 +25,7 @@
 /.emacs.desktop*
 /org-roam.db
 /network-security.data
+/eln-cache/
 
 # cask packages
 /.cask/
