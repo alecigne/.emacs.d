@@ -575,27 +575,14 @@ the date DATE."
          ("k" . previous-line)
          ("c" . alc-elfeed-clear-filter))
   :config
+  (setq elfeed-search-filter "")
   (defun elfeed-search-format-date (date)
     (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
 
   (defun alc-elfeed-clear-filter ()
     (interactive)
     (setq elfeed-search-filter "")
-    (elfeed-update))
-
-  (setq elfeed-feeds
-        '("https://news.ycombinator.com/rss"
-          ("https://www.reddit.com/r/emacs/.rss" emacs)
-          ("http://sachachua.com/blog/category/emacs-news/feed" emacs)
-          ("http://endlessparentheses.com/atom.xml" emacs)
-          ("http://www.masteringemacs.org/feed/" emacs)
-          ("http://emacs-fu.blogspot.com/feeds/posts/default" emacs)
-          ("http://emacsredux.com/atom.xml" emacs)
-          ("http://emacshorrors.com/feed.atom" emacs)
-          ("http://pragmaticemacs.com/feed/" emacs)
-          ("https://xkcd.com/atom.xml")
-          ("http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/" emacs))
-        elfeed-search-filter ""))
+    (elfeed-update)))
 
 (alc-with-system-type work
   (use-package slack
