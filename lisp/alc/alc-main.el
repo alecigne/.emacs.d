@@ -602,14 +602,10 @@ the date DATE."
 
 ;; * Multimedia
 
-(eval-and-compile
-  (defun alc-get-somafm-load-path ()
-    (expand-file-name "lisp/somafm" user-emacs-directory)))
-
 (use-package somafm
   :ensure nil
   :commands (somafm somafm-by-completion)
-  :load-path (lambda () (list (alc-get-somafm-load-path)))
+  :load-path "lisp/somafm" ; Forked to add a "favorites" feature
   :config
   (setq somafm-favorites-file "/media/veracrypt1/org/notes/drone_zone.org"))
 
