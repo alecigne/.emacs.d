@@ -4,3 +4,7 @@
 [submodule "lisp/somafm"]
 	path = lisp/somafm
 	url = https://github.com/alecigne/somafm.el
+[submodule "lisp/wttrin"]
+	path = lisp/wttrin
+	url = git@github.com:alecigne/emacs-wttrin.git
+	branch = fix-output
