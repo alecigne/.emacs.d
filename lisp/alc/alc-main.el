@@ -24,14 +24,15 @@ Possible values are 'personal (by defaut) or 'work."
 (defun alc-work-system-p () (eq alc-system-type 'work))
 (defun alc-personal-system-p () (eq alc-system-type 'personal))
 
-;; f.el, a library for working with files and directories
-;; https://github.com/rejeep/f.el
 (use-package f
+  ;; f.el, a library for working with files and directories
+  ;; https://github.com/rejeep/f.el
   :demand t)
 
-;; Emacs Start Up Profiler
-;; https://github.com/jschaf/esup
-(use-package esup)
+(use-package esup
+  ;; Emacs Start Up Profiler
+  ;; https://github.com/jschaf/esup
+  )
 
 ;; * Directory structure
 
@@ -141,8 +142,7 @@ Possible values are 'personal (by defaut) or 'work."
   (setq which-key-idle-delay 1.0))
 
 (use-package dashboard
-  ;; An extensible emacs startup screen showing you what's most
-  ;; important.
+  ;; An extensible emacs startup screen showing you what's most important.
   ;; https://github.com/emacs-dashboard/emacs-dashboard
   :demand t
   :config
@@ -208,8 +208,9 @@ Possible values are 'personal (by defaut) or 'work."
   :ensure nil
   :bind (("C-c ù" . (lambda () (interactive) (ibuffer t)))))
 
-;; organize ibuffer by Projectile projects
 (use-package ibuffer-projectile
+  ;; Group buffers in ibuffer list by projectile project
+  ;; https://github.com/purcell/ibuffer-projectile
   :after projectile
   :init
   (add-hook 'ibuffer-hook
@@ -218,7 +219,8 @@ Possible values are 'personal (by defaut) or 'work."
               (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic)))))
 
-(setq uniquify-buffer-name-style 'post-forward ; "file.el|dir1" and "file.el|dir2"
+(setq uniquify-buffer-name-style 'post-forward ; "file.el|dir1" and
+                                               ; "file.el|dir2"
       uniquify-ignore-buffers-re "^\\*")
 
 ;; ** Editing
@@ -234,8 +236,9 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package aggressive-fill-paragraph)
 
 (defun alc-unfill-region (beg end)
-  "Unfill the region, joining text paragraphs into a single logical
-line. This is useful, e.g., for use with `visual-line-mode'."
+  "Unfill the region, joining text paragraphs into a single
+logical line. This is useful, e.g., for use with
+`visual-line-mode'."
   (interactive "*r")
   (let ((fill-column (point-max)))
     (fill-region beg end)))
@@ -277,13 +280,11 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; Highlights URLs and turns them into clickable links.
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Goto-Address-mode.html
-;;
-;; Not activated in Org mode since it provides its own highlighting
-;; system.
 (use-package goto-addr
+  ;; Highlights URLs and turns them into clickable links.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Goto-Address-mode.html
   :hook ((prog-mode . goto-address-prog-mode)
+         ;; Do no not activate in Org mode since it already handles links
          (text-mode . (lambda ()
                         (unless (derived-mode-p 'org-mode)
                           (goto-address-mode)))))
@@ -291,8 +292,8 @@ line. This is useful, e.g., for use with `visual-line-mode'."
               ("C-c C-o" . goto-address-at-point)))
 
 (use-package page-break-lines
-  ;; This Emacs library provides a global mode which displays ugly
-  ;; form feed characters as tidy horizontal rules.
+  ;; This Emacs library provides a global mode which displays ugly form feed
+  ;; characters as tidy horizontal rules.
   ;; https://github.com/purcell/page-break-lines
   :delight
   )
@@ -318,7 +319,8 @@ line. This is useful, e.g., for use with `visual-line-mode'."
 
 ;; ** Backup
 
-(setq backup-directory-alist `(("." . ,(f-join alc-home-dir "tmp" "emacs-backup"))))
+(let ((backup-dir (f-join alc-home-dir "tmp" "emacs-backup")))
+  (setq backup-directory-alist `(("." . ,backup-dir))))
 
 (setq backup-by-copying t
       delete-old-versions t
@@ -340,8 +342,7 @@ line. This is useful, e.g., for use with `visual-line-mode'."
         (lambda () (format " π[%s]" (projectile-project-name))))
   (use-package helm-projectile
     :init
-    ;; override projectile functionalities with their helm-projectile
-    ;; equivalent
+    ;; override projectile functionalities with their helm-projectile equivalent
     (helm-projectile-on)))
 
 (use-package treemacs
@@ -411,6 +412,9 @@ the date DATE."
 (global-set-key (kbd "H-SPC w") #'alc-insert-week-number)
 
 (use-package crux
+  ;; A Collection of Ridiculously Useful eXtensions for Emacs. crux bundles many
+  ;; useful interactive commands to enhance your overall Emacs experience.
+  ;; https://github.com/bbatsov/crux
   :bind
   (("H-SPC f d" . crux-delete-file-and-buffer)
    ("C-c d" . crux-duplicate-current-line-or-region))
@@ -439,7 +443,8 @@ the date DATE."
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
 
-;; ** Dired hacks - https://github.com/Fuco1/dired-hacks
+;; ** Dired hacks
+;; https://github.com/Fuco1/dired-hacks
 
 (use-package dired-narrow
   :after dired
@@ -483,9 +488,10 @@ the date DATE."
   :delight magit-status-mode "magit"
   :bind (("C-c g" . magit-status)))
 
-;; Emacs major modes for Git configuration files
-;; https://github.com/magit/git-modes
-(use-package git-modes)
+(use-package git-modes
+  ;; Emacs major modes for Git configuration files
+  ;; https://github.com/magit/git-modes
+  )
 
 (use-package git-gutter
   :hook prog-mode
@@ -500,9 +506,15 @@ the date DATE."
 ;; ** Emacs Lisp
 
 (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
+(add-hook 'emacs-lisp-mode-hook 'display-fill-column-indicator-mode)
 
-;; unit testing for Emacs Lisp
-(use-package buttercup)
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+                                  (setq-default fill-column 80)))
+
+(use-package buttercup
+  ;; Behavior-Driven Emacs Lisp Testing
+  ;; https://github.com/jorgenschaefer/emacs-buttercup
+  )
 
 ;; ** Common Lisp
 
@@ -516,8 +528,10 @@ the date DATE."
 
     (defun alc-swank-listening-p ()
       (ignore-errors
-        (let ((p (open-network-stream "SLIME Lisp Connection Test" nil "localhost" 4005)))
-          (when p (delete-process p) t))))
+        (let ((swank-process
+               (open-network-stream "SLIME Lisp Connection Test" nil
+                                    "localhost" 4005)))
+          (when swank-process (delete-process swank-process) t))))
 
     (defun alc-swank-autoconnect (&rest args)
       (if (and (not (slime-connected-p))

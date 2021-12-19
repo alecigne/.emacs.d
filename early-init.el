@@ -15,7 +15,8 @@
                (lambda ()
                  (setq gc-cons-threshold default-gc-cons-threshold)
                  (garbage-collect)))
-              (message "Emacs started in %.03fs." (float-time (time-since start-time))))))
+              (message "Emacs started in %.03fs."
+                       (float-time (time-since start-time))))))
 
 ;; Tweak UI
 (menu-bar-mode -1)

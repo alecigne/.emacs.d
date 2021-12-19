@@ -47,9 +47,10 @@
   (setq org-id-link-to-org-use-id 'create-if-interactive
         org-link-file-path-type 'relative)
 
-  ;; https://emacs.stackexchange.com/a/10714
   (defun alc-org-replace-link-by-link-description ()
-    "Replace an org link by its description or if empty its address."
+    "Replace an org link by its description or if empty its
+address."
+    ;; https://emacs.stackexchange.com/a/10714
     (interactive)
     (if (org-in-regexp org-link-bracket-re 1)
         (save-excursion
@@ -68,15 +69,15 @@
         org-confirm-babel-evaluate nil
         org-use-fast-todo-selection 'expert
         org-log-into-drawer t
-        ;; recursive statistics cookies
+        ;; Recursive statistics cookies
         org-hierarchical-todo-statistics nil
-        ;; block DONE state on parent if a child isn't DONE
+        ;; Block DONE state on parent if a child isn't DONE
         org-enforce-todo-dependencies t
         org-provide-todo-statistics '("TODO" "PROG" "WAIT")
-        ;; do not dim DONE items
+        ;; Do not dim DONE items
         org-fontify-done-headline nil)
 
-  ;; exclude the 'project' tag from inheritance
+  ;; Exclude the 'project' tag from inheritance
   (add-to-list 'org-tags-exclude-from-inheritance "project")
 
   (setq org-todo-keywords
@@ -116,10 +117,10 @@
           ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
 
-  ;; The default value for `org-directory', `~/org', will be used. On
-  ;; my individual machines, I usually add an advice around
-  ;; `org-capture' so it lets me choose a project in which the capture
-  ;; will happen. See the README for more info.
+  ;; The default value for `org-directory', `~/org', will be used. On my
+  ;; individual machines, I usually add an advice around `org-capture' so it
+  ;; lets me choose a project in which the capture will happen. See the README
+  ;; for more info.
   (setq org-capture-templates
         `(;; New task
           ("t" "Capture [t]ask"
@@ -140,7 +141,8 @@
 time of change will be 23:59 on that day"
     (interactive "P")
     (let* ((hour (nth 2 (decode-time (org-current-time))))
-           (daysback (- (date-to-day (current-time-string)) (org-time-string-to-absolute (org-read-date))))
+           (daysback (- (date-to-day (current-time-string))
+                        (org-time-string-to-absolute (org-read-date))))
            (org-extend-today-until (+ 1 (* 24 (- daysback 1)) hour))
            (org-use-effective-time t)) ; use the adjusted timestamp for logging
       (if (eq major-mode 'org-agenda-mode)
@@ -151,13 +153,13 @@ time of change will be 23:59 on that day"
 
   (setq org-agenda-format-date "%Y-%m-%d %a")
 
-  ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
   (defun alc-org-agenda-delete-empty-blocks ()
     "Remove empty agenda blocks.
 
 A block is identified as empty if there are fewer than 2
 non-empty lines in the block (excluding the line with
 `org-agenda-block-separator' characters)."
+    ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
     (when org-agenda-compact-blocks
       (user-error "Cannot delete empty compact blocks"))
     (setq buffer-read-only nil)
@@ -180,8 +182,8 @@ non-empty lines in the block (excluding the line with
         (when (< content-line-count 2)
           (delete-region start-pos (point-max)))
         (goto-char (point-min))
-        ;; The above strategy can leave a separator line at the beginning
-        ;; of the buffer.
+        ;; The above strategy can leave a separator line at the beginning of the
+        ;; buffer.
         (when (looking-at-p block-re)
           (delete-region (point) (1+ (point-at-eol))))))
     (setq buffer-read-only t))
@@ -200,41 +202,42 @@ non-empty lines in the block (excluding the line with
      ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
      (diary-sunrise-sunset)))
 
-  ;; For agenda commands, I only use the format for composite buffers:
-  ;; (key desc ((type match settings)) settings files)
+  ;; For agenda commands, I only use the format for composite buffers: (key desc
+  ;; ((type match settings)) settings files)
   ;;
-  ;; see the docs for the `org-agenda-custom-commands' variable.
+  ;; See the docs for the `org-agenda-custom-commands' variable.
   ;;
-  ;; This allows me to declare multiple (type match settings)
-  ;; structures and to reuse them afterwards. I call these structures
-  ;; 'views' below.
+  ;; This allows me to declare multiple (type match settings) structures and to
+  ;; reuse them afterwards. I call these structures 'views' below.
   ;;
   ;; Example custom filter:
   ;;
   ;; (defun my-custom-filter ()
   ;;   (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-  ;;     (when (member (org-get-todo-state) '("WAITING" "HOLD" "DONE" "CANCELED"))
-  ;;         subtree-end)))
+  ;;     (when (member (org-get-todo-state)
+  ;;                   '("WAITING" "HOLD" "DONE" "CANCELED"))
+  ;;       subtree-end)))
 
 ;; **** Views
 
-  ;; events today
+  ;; Events today
   (setq alc-org-agenda-view-events-today
         '(agenda ""
                  ((org-agenda-overriding-header "Events today")
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-span 'day))))
 
-  ;; events this month
+  ;; Events this month
   (setq alc-org-agenda-view-events-month
         '(agenda ""
                  ((org-agenda-overriding-header "Events this month")
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-span 'month))))
 
-  ;; tasks in the inbox
+  ;; Tasks in the inbox
   (setq alc-org-agenda-view-inbox
-        '(tags-todo "inbox" ((org-agenda-overriding-header "Tasks in the inbox\n"))))
+        '(tags-todo "inbox"
+                    ((org-agenda-overriding-header "Tasks in the inbox\n"))))
 
   ;; deadlines
   (setq alc-org-agenda-view-deadlines
@@ -260,39 +263,40 @@ non-empty lines in the block (excluding the line with
                   (org-agenda-start-on-weekday nil)
                   (org-agenda-time-grid nil)
                   (org-agenda-skip-function
-                   '(org-agenda-skip-entry-if 'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
+                   '(org-agenda-skip-entry-if
+                     'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
 
 ;; **** Custom commands
 
   (setq alc-org-agenda-custom-command-daily-digest
-        `(;; key and desc
+        `(;; Key and desc
           "d" "Today"
-          ;; views
+          ;; Views
           (,alc-org-agenda-view-events-today
            ,alc-org-agenda-view-scheduled-today
            ,alc-org-agenda-view-deadlines
            ,alc-org-agenda-view-waiting
            ,alc-org-agenda-view-inbox)
-          ;; global settings
+          ;; Global settings
           nil
-          ;; files
+          ;; Files
           nil))
 
   (setq alc-org-agenda-custom-command-events-month
-        `(;; key and desc
+        `(;; Key and desc
           "v" "Events this month"
-          ;; views
+          ;; Views
           (,alc-org-agenda-view-events-month)
-          ;; global settings
+          ;; Global settings
           nil
-          ;; files
+          ;; Files
           nil))
 
-  ;; wrapping up
+  ;; Wrapping up
   (setq org-agenda-custom-commands
-        `(;; daily digest
+        `(;; Daily digest
           ,alc-org-agenda-custom-command-daily-digest
-          ;; events this month
+          ;; Events this month
           ,alc-org-agenda-custom-command-events-month))
 
 ;; ** Babel
@@ -321,18 +325,18 @@ non-empty lines in the block (excluding the line with
   :after org
   :demand t  ; no autoloads
   :config
-  ;; Track heading creation in a PROPERTIES drawer. It also works for
-  ;; TODO headings since `org-insert-todo-heading' calls
-  ;; `org-insert-heading'.
+  ;; Track heading creation in a PROPERTIES drawer. It also works for TODO
+  ;; headings since `org-insert-todo-heading' calls `org-insert-heading'.
   ;;
-  ;; `org-expiry-insinuate' would do this for an editing session (and
-  ;; a few more things). I don't really use it that way.
-  (defadvice org-insert-heading (after alc-org-insert-heading-created-advice activate)
+  ;; `org-expiry-insinuate' would do this for an editing session (and a few more
+  ;; things). I don't really use it that way.
+  (defadvice org-insert-heading
+      (after alc-org-insert-heading-created-advice activate)
     (org-expiry-insert-created))
   (ad-activate 'org-insert-heading)
 
-  ;; Do the same for org-capture since `org-insert-heading' is not
-  ;; called explicitely.
+  ;; Do the same for org-capture since `org-insert-heading' is not called
+  ;; explicitely.
   (add-hook 'org-capture-before-finalize-hook #'org-expiry-insert-created)
 
   ;; Don't show these timestamps in the agenda.
@@ -346,7 +350,7 @@ non-empty lines in the block (excluding the line with
   :bind (:map org-mode-map ("C-c C-x t" . org-inlinetask-insert-task)))
 
 (use-package org-crypt
-  :ensure nil ; in contrib
+  :ensure nil ; In contrib
   :bind (("C-c z" . org-decrypt-entry))
   :config
   (org-crypt-use-before-save-magic)
@@ -355,10 +359,10 @@ non-empty lines in the block (excluding the line with
 
 ;; ** Others
 
-;; Org-roam
-;; https://github.com/org-roam/org-roam
-;; https://www.orgroam.com/manual.html
 (use-package org-roam
+  ;; Org-roam
+  ;; https://github.com/org-roam/org-roam
+  ;; https://www.orgroam.com/manual.html
   :after org
   :init (setq org-roam-v2-ack t)
   :config
