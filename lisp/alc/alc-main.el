@@ -84,6 +84,8 @@ Possible values are 'personal (by defaut) or 'work."
 
 (setq inhibit-startup-screen t
       initial-scratch-message nil
+      ;; For some reason `lisp-interaction-mode' is very slow
+      initial-major-mode 'fundamental-mode
       disabled-command-function nil)
 
 (tooltip-mode 0)
@@ -138,7 +140,19 @@ Possible values are 'personal (by defaut) or 'work."
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 1.0))
 
-
+(use-package dashboard
+  ;; An extensible emacs startup screen showing you what's most
+  ;; important.
+  ;; https://github.com/emacs-dashboard/emacs-dashboard
+  :demand t
+  :config
+  (setq dashboard-items '((recents  . 5)
+                          (projects . 5))
+        dashboard-center-content t
+        dashboard-set-heading-icons t
+        dashboard-set-file-icons t
+        dashboard-page-separator "\n\f\n")
+  (dashboard-setup-startup-hook))
 
 ;; ** Frames, windows and buffers
 
@@ -275,6 +289,13 @@ line. This is useful, e.g., for use with `visual-line-mode'."
                           (goto-address-mode)))))
   :bind (:map goto-address-highlight-keymap
               ("C-c C-o" . goto-address-at-point)))
+
+(use-package page-break-lines
+  ;; This Emacs library provides a global mode which displays ugly
+  ;; form feed characters as tidy horizontal rules.
+  ;; https://github.com/purcell/page-break-lines
+  :delight
+  )
 
 ;; *** Completion
 
