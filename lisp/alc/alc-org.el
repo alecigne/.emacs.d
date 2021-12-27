@@ -384,6 +384,11 @@ non-empty lines in the block (excluding the line with
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+(use-package org-ql
+  ;; This package provides a query language for Org files.
+  ;; https://github.com/alphapapa/org-ql
+  )
+
 (use-package outline
   :delight outline-minor-mode)
 
