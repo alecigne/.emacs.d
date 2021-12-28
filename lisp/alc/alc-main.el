@@ -324,6 +324,20 @@ logical line. This is useful, e.g., for use with
   (setq projectile-mode-line-function
         (lambda () (format " π[%s]" (projectile-project-name)))))
 
+(use-package perspective
+  ;; The Perspective package provides multiple named workspaces (or
+  ;; "perspectives") in Emacs, similar to multiple desktops in window managers
+  ;; like Awesome and XMonad, and Spaces on the Mac.
+  ;; https://github.com/nex3/perspective-el
+  :bind (("C-x k" . persp-kill-buffer*))
+  :init
+  (persp-mode))
+
+(use-package persp-projectile
+  ;; Perspective integration with Projectile
+  ;; https://github.com/bbatsov/persp-projectile
+  )
+
 (use-package treemacs
   :config
   ;; (treemacs-follow-mode t)
