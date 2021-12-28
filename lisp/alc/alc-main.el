@@ -56,6 +56,9 @@ Possible values are 'personal (by defaut) or 'work."
 ;; ** Look & feel
 
 (use-package doom-themes
+  ;; A megapack of themes for GNU Emacs, from the Doom Emacs configuration
+  ;; framework.
+  ;; https://github.com/doomemacs/themes
   :init
   (load-theme 'doom-one t)
   :config
@@ -83,17 +86,18 @@ Possible values are 'personal (by defaut) or 'work."
 
 ;; ** Interaction
 
+(key-chord-define-global ";b" 'switch-to-buffer)
+(define-key help-mode-map "q" 'kill-this-buffer)
+
 (setq inhibit-startup-screen t
       initial-scratch-message nil
       ;; For some reason `lisp-interaction-mode' is very slow
       initial-major-mode 'fundamental-mode
-      disabled-command-function nil)
+      disabled-command-function nil
+      ring-bell-function 'ignore)
 
 (tooltip-mode 0)
-
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-(setq ring-bell-function 'ignore)
 
 (use-package vertico
   ;; Vertico provides a performant and minimalistic vertical completion UI based
@@ -117,6 +121,8 @@ Possible values are 'personal (by defaut) or 'work."
   :custom (completion-styles '(orderless)))
 
 (use-package which-key
+  ;; Display available keybindings in popup.
+  ;; https://github.com/justbur/emacs-which-key
   :defer 1
   :delight
   :config
@@ -184,6 +190,8 @@ Possible values are 'personal (by defaut) or 'work."
 (global-set-key (kbd "C-<f6>") 'alc-kill-other-window)
 
 (use-package popwin
+  ;; Popup Window Manager for Emacs.
+  ;; https://github.com/emacsorphanage/popwin
   :defer 1
   :config (popwin-mode 1))
 
@@ -213,8 +221,7 @@ Possible values are 'personal (by defaut) or 'work."
 (delete-selection-mode)
 (show-paren-mode)
 
-;; see also `crux-kill-whole-line'
-(global-set-key (kbd "C-S-k") 'kill-whole-line)
+(global-set-key (kbd "C-S-k") 'crux-kill-whole-line)
 
 (use-package aggressive-fill-paragraph)
 
@@ -227,6 +234,8 @@ logical line. This is useful, e.g., for use with
     (fill-region beg end)))
 
 (use-package move-text
+  ;; Move current line or region up or down.
+  ;; https://github.com/emacsfodder/move-text
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
@@ -314,7 +323,6 @@ logical line. This is useful, e.g., for use with
 ;; ** File/project management
 
 (use-package projectile
-  :ensure t
   :defer 1
   :bind-keymap
   ("H-p" . projectile-command-map)
@@ -468,6 +476,8 @@ the date DATE."
 ;; ** Common
 
 (setq-default indent-tabs-mode nil)
+
+(add-hook 'prog-mode-hook 'linum-mode)
 
 (use-package rainbow-mode
   :delight
