@@ -397,10 +397,6 @@ non-empty lines in the block (excluding the line with
   :config (setq outshine-use-speed-commands t)
   :hook (emacs-lisp-mode . outshine-mode))
 
-(use-package helm-org-rifle
-  :bind
-  (:map org-mode-map ("C-c s" . helm-org-rifle-current-buffer)))
-
 (alc-with-system gnu/linux
   (use-package org-bullets
     :hook (org-mode . (lambda () (org-bullets-mode 1)))))

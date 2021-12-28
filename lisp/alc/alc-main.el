@@ -95,43 +95,26 @@ Possible values are 'personal (by defaut) or 'work."
 
 (setq ring-bell-function 'ignore)
 
-(use-package helm
-  :delight
-  :defer 1
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-mini)
-         ("M-y" . helm-show-kill-ring)
-         :map helm-map
-         ("<tab>" . helm-execute-persistent-action)
-         ("C-i" . helm-execute-persistent-action)
-         ("C-z" . helm-select-action))
-  :chords (";b" . helm-mini)
-  :config
-  (setq helm-split-window-in-side-p t
-        helm-move-to-line-cycle-in-source t
-        helm-ff-search-library-in-sexp t
-        helm-scroll-amount 8
-        helm-ff-file-name-history-use-recentf t
-        helm-M-x-fuzzy-match t
-        helm-buffers-fuzzy-matching t
-        helm-recentf-fuzzy-match t
-        helm-follow-mode-persistent t)
+(use-package vertico
+  ;; Vertico provides a performant and minimalistic vertical completion UI based
+  ;; on the default completion system.
+  ;; https://github.com/minad/vertico
+  :init
+  (setq vertico-cycle t
+        vertico-count 20)
+  (vertico-mode))
 
-  (when (executable-find "curl")
-    (setq helm-google-suggest-use-curl-p t))
-  ;; Generic Helm completion (e.g., variables, etc.)
-  (helm-mode 1))
+(use-package marginalia
+  ;; Rich annotations in the minibuffer
+  ;; https://github.com/minad/vertico
+  :after vertico
+  :init
+  (marginalia-mode))
 
-(use-package helm-descbinds
-  :after helm
-  :config
-  (helm-descbinds-mode)
-  (setq-default helm-descbinds-window-style 'split-window))
-
-(use-package helm-describe-modes
-  :after helm
-  :bind ([remap describe-mode] . helm-describe-modes))
+(use-package orderless
+  ;; Emacs completion style that matches multiple regexps in any order.
+  ;; https://github.com/oantolin/orderless
+  :custom (completion-styles '(orderless)))
 
 (use-package which-key
   :defer 1
@@ -339,11 +322,7 @@ logical line. This is useful, e.g., for use with
   :config
   (projectile-mode +1)
   (setq projectile-mode-line-function
-        (lambda () (format " π[%s]" (projectile-project-name))))
-  (use-package helm-projectile
-    :init
-    ;; override projectile functionalities with their helm-projectile equivalent
-    (helm-projectile-on)))
+        (lambda () (format " π[%s]" (projectile-project-name)))))
 
 (use-package treemacs
   :config
