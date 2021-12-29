@@ -87,7 +87,13 @@ Possible values are 'personal (by defaut) or 'work."
 ;; ** Interaction
 
 (key-chord-define-global ";b" 'switch-to-buffer)
-(define-key help-mode-map "q" 'kill-this-buffer)
+
+(use-package help-mode
+  ;; The mode used by *Help* buffers.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Help-Mode.html
+  :ensure nil
+  :bind (:map help-mode-map
+              ("q" . kill-this-buffer)))
 
 (setq inhibit-startup-screen t
       initial-scratch-message nil
