@@ -103,8 +103,6 @@ Possible values are 'personal (by defaut) or 'work."
 
 ;; ** Interaction
 
-(key-chord-define-global ";b" 'switch-to-buffer)
-
 (use-package help-mode
   ;; The mode used by *Help* buffers.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Help-Mode.html
@@ -144,6 +142,53 @@ Possible values are 'personal (by defaut) or 'work."
   ;; https://github.com/oantolin/orderless
   :ensure t
   :custom (completion-styles '(orderless)))
+
+(use-package consult
+  ;; Consult provides practical commands based on the Emacs completion function
+  ;; completing-read.
+  ;; https://github.com/minad/consult
+  :ensure t
+  :bind
+  (;; C-x
+   ("C-x b" . consult-buffer)
+   ("C-x M-:" . consult-complex-command)
+   ;; Other
+   ("M-y" . consult-yank-pop)
+   ;; M-g bindings (goto-map)
+   ("M-g e" . consult-compile-error)
+   ("M-g f" . consult-flymake)
+   ("M-g o" . consult-outline)
+   ("M-g m" . consult-mark)
+   ("M-g k" . consult-global-mark)
+   ("M-g i" . consult-imenu)
+   ("M-g I" . consult-imenu-multi)
+   ;; M-s bindings (search-map)
+   ("M-s d" . consult-find)
+   ("M-s D" . consult-locate)
+   ("M-s g" . consult-grep)
+   ("M-s G" . consult-git-grep)
+   ("M-s r" . consult-ripgrep)
+   ("M-s l" . consult-line)
+   ("M-s L" . consult-line-multi)
+   ("M-s m" . consult-multi-occur)
+   ("M-s k" . consult-keep-lines)
+   ("M-s u" . consult-focus-lines))
+  :chords ((";b" . consult-buffer)))
+
+(use-package embark
+  ;; Emacs Mini-Buffer Actions Rooted in Keymaps.
+  ;; https://github.com/oantolin/embark
+  :ensure t
+  :bind
+  (("C-;" . embark-act)
+   ("C-:" . embark-dwim)
+   ("C-h B" . embark-bindings)))
+
+(use-package embark-consult
+  ;; Consult integration for Embark.
+  ;; https://github.com/oantolin/embark/blob/master/embark-consult.el
+  :ensure t
+  :after (embark consult))
 
 (use-package which-key
   ;; Display available keybindings in popup.
