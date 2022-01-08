@@ -34,6 +34,15 @@ Possible values are 'personal (by defaut) or 'work."
   ;; https://github.com/jschaf/esup
   )
 
+(use-package anaphora
+  ;; Anaphoric expressions for Emacs Lisp, providing implicit temporary
+  ;; variables.
+  ;; https://github.com/rolandwalker/anaphora
+  :after emacs-lisp-mode
+  :config
+  ;; Fontify `it' and `self'
+  (anaphora-install-font-lock-keywords))
+
 ;; * Directory structure
 
 ;; On Windows, I want the homedir to be `C:\Users\<username>' and not
