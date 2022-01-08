@@ -358,7 +358,17 @@ logical line. This is useful, e.g., for use with
 (use-package persp-projectile
   ;; Perspective integration with Projectile
   ;; https://github.com/bbatsov/persp-projectile
-  )
+  :after (perspective projectile)
+  :config
+  (defun alc-move-buffer-to-project-perspective ()
+    "Move a buffer to its project perspective."
+    (interactive)
+    (when (and (projectile-project-p)
+               (not (string= (projectile-project-name) (persp-current-name))))
+      (let ((source-buffer (buffer-name)))
+        (persp-switch (projectile-project-name))
+        (persp-set-buffer source-buffer)
+        (persp-switch-to-buffer* source-buffer)))))
 
 (use-package treemacs
   :config
