@@ -804,6 +804,11 @@ the date DATE."
   ;; https://github.com/domtronn/all-the-icons.el
   :ensure t)
 
+(use-package snow
+  ;; Let it snow in Emacs!
+  ;; https://github.com/alphapapa/snow.el
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-main)
