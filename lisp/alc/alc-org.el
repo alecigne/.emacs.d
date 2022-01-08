@@ -445,6 +445,22 @@ non-empty lines in the block (excluding the line with
   ;; A presentation tool for org-mode based on the visibility of outline trees.
   ;; https://github.com/takaxp/org-tree-slide
   :ensure t
+  :custom
+  (org-tree-slide-activate-message "Presentation started...")
+  (org-tree-slide-deactivate-message "Presentation finished.")
+  :init
+  (defun alc-org-tree-slide-setup ()
+    (hide-mode-line-mode 1)
+    (org-display-inline-images)
+    (let ((text-scale-mode-amount 2))
+      (text-scale-mode 1)))
+
+  (defun alc-org-tree-slide-end ()
+    (hide-mode-line-mode 0)
+    (text-scale-mode 0))
+
+  (add-hook 'org-tree-slide-play-hook 'alc-org-tree-slide-setup)
+  (add-hook 'org-tree-slide-stop-hook 'alc-org-tree-slide-end)
   :bind (:map org-tree-slide-mode-map
               ("<f9>" . org-tree-slide-move-previous-tree)
               ("<f10>" . org-tree-slide-move-next-tree)))

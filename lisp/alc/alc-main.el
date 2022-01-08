@@ -96,6 +96,11 @@ Possible values are 'personal (by defaut) or 'work."
 
 (delight 'auto-fill-function nil t)
 
+(use-package hide-mode-line
+  ;; An Emacs plugin that hides (or masks) the current buffer's mode-line.
+  ;; https://github.com/hlissner/emacs-hide-mode-line
+  :ensure t)
+
 ;; ** Interaction
 
 (key-chord-define-global ";b" 'switch-to-buffer)
