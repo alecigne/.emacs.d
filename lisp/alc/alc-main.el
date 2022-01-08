@@ -27,17 +27,19 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package f
   ;; f.el, a library for working with files and directories
   ;; https://github.com/rejeep/f.el
+  :ensure t
   :demand t)
 
 (use-package esup
   ;; Emacs Start Up Profiler
   ;; https://github.com/jschaf/esup
-  )
+  :ensure t)
 
 (use-package anaphora
   ;; Anaphoric expressions for Emacs Lisp, providing implicit temporary
   ;; variables.
   ;; https://github.com/rolandwalker/anaphora
+  :ensure t
   :after emacs-lisp-mode
   :config
   ;; Fontify `it' and `self'
@@ -68,6 +70,7 @@ Possible values are 'personal (by defaut) or 'work."
   ;; A megapack of themes for GNU Emacs, from the Doom Emacs configuration
   ;; framework.
   ;; https://github.com/doomemacs/themes
+  :ensure t
   :init
   (load-theme 'doom-one t)
   :config
@@ -100,7 +103,6 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package help-mode
   ;; The mode used by *Help* buffers.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Help-Mode.html
-  :ensure nil
   :bind (:map help-mode-map
               ("q" . kill-this-buffer)))
 
@@ -118,6 +120,7 @@ Possible values are 'personal (by defaut) or 'work."
   ;; Vertico provides a performant and minimalistic vertical completion UI based
   ;; on the default completion system.
   ;; https://github.com/minad/vertico
+  :ensure t
   :init
   (setq vertico-cycle t
         vertico-count 20)
@@ -126,6 +129,7 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package marginalia
   ;; Rich annotations in the minibuffer
   ;; https://github.com/minad/vertico
+  :ensure t
   :after vertico
   :init
   (marginalia-mode))
@@ -133,11 +137,13 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package orderless
   ;; Emacs completion style that matches multiple regexps in any order.
   ;; https://github.com/oantolin/orderless
+  :ensure t
   :custom (completion-styles '(orderless)))
 
 (use-package which-key
   ;; Display available keybindings in popup.
   ;; https://github.com/justbur/emacs-which-key
+  :ensure t
   :defer 1
   :delight
   :config
@@ -148,6 +154,7 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package dashboard
   ;; An extensible emacs startup screen showing you what's most important.
   ;; https://github.com/emacs-dashboard/emacs-dashboard
+  :ensure t
   :demand t
   :config
   (setq dashboard-items '((recents  . 5)
@@ -206,16 +213,20 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package popwin
   ;; Popup Window Manager for Emacs.
   ;; https://github.com/emacsorphanage/popwin
+  :ensure t
   :defer 1
   :config (popwin-mode 1))
 
 (use-package ibuffer
-  :ensure nil
+  ;; IBuffer is a major mode for viewing a list of buffers and operating on them
+  ;; in a way analogous to that of Dired.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Buffer-Menus.html
   :bind (("C-c ù" . (lambda () (interactive) (ibuffer t)))))
 
 (use-package ibuffer-projectile
   ;; Group buffers in ibuffer list by projectile project
   ;; https://github.com/purcell/ibuffer-projectile
+  :ensure t
   :after projectile
   :init
   (add-hook 'ibuffer-hook
@@ -229,7 +240,6 @@ Possible values are 'personal (by defaut) or 'work."
       uniquify-ignore-buffers-re "^\\*")
 
 (use-package autorevert
-  :ensure nil
   :delight auto-revert-mode
   :config
   (global-auto-revert-mode t))
@@ -243,7 +253,11 @@ Possible values are 'personal (by defaut) or 'work."
 
 (global-set-key (kbd "C-S-k") 'crux-kill-whole-line)
 
-(use-package aggressive-fill-paragraph)
+(use-package aggressive-fill-paragraph
+  ;; An emacs minor-mode for keeping paragraphs filled (in both comments and
+  ;; prose).
+  ;; https://github.com/davidshepherd7/aggressive-fill-paragraph-mode
+  :ensure t)
 
 (defun alc-unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -256,17 +270,24 @@ logical line. This is useful, e.g., for use with
 (use-package move-text
   ;; Move current line or region up or down.
   ;; https://github.com/emacsfodder/move-text
+  :ensure t
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
 (use-package undo-tree
+  ;; Treat undo history as a tree.
+  ;; https://gitlab.com/tsc25/undo-tree
+  :ensure t
   :defer 5
   :delight
   :config
   (global-undo-tree-mode))
 
 (use-package expand-region
+  ;; Emacs extension to increase selected region by semantic units.
+  ;; https://github.com/magnars/expand-region.el
+  :ensure t
   :bind ("C-=" . er/expand-region))
 
 (add-hook 'text-mode-hook
@@ -307,22 +328,31 @@ logical line. This is useful, e.g., for use with
   ;; This Emacs library provides a global mode which displays ugly form feed
   ;; characters as tidy horizontal rules.
   ;; https://github.com/purcell/page-break-lines
-  :delight
-  )
+  :ensure t
+  :delight)
 
 ;; *** Completion
 
 (use-package company
+  ;; Modular in-buffer completion framework for Emacs
+  ;; https://github.com/company-mode/company-mode
+  :ensure t
   :defer 2
   :delight
   :config
   (global-company-mode))
 
 (use-package yasnippet
+  ;; A template system for Emacs.
+  ;; https://github.com/joaotavora/yasnippet
+  :ensure t
   :delight yas-minor-mode
   :defer 5
   :config
-  (use-package yasnippet-snippets)
+  (use-package yasnippet-snippets
+    ;; A collection of yasnippet snippets for many languages.
+    ;; https://github.com/AndreaCrotti/yasnippet-snippets
+    :ensure t)
   (yas-global-mode 1))
 
 ;; ** Navigating
@@ -343,6 +373,9 @@ logical line. This is useful, e.g., for use with
 ;; ** File/project management
 
 (use-package projectile
+  ;; Project Interaction Library for Emacs.
+  ;; https://github.com/bbatsov/projectile
+  :ensure t
   :defer 1
   :bind-keymap
   ("H-p" . projectile-command-map)
@@ -357,6 +390,7 @@ logical line. This is useful, e.g., for use with
   ;; "perspectives") in Emacs, similar to multiple desktops in window managers
   ;; like Awesome and XMonad, and Spaces on the Mac.
   ;; https://github.com/nex3/perspective-el
+  :ensure t
   :bind (("C-x k" . persp-kill-buffer*))
   :init
   (persp-mode))
@@ -364,6 +398,7 @@ logical line. This is useful, e.g., for use with
 (use-package persp-projectile
   ;; Perspective integration with Projectile
   ;; https://github.com/bbatsov/persp-projectile
+  :ensure t
   :after (perspective projectile)
   :config
   (defun alc-move-buffer-to-project-perspective ()
@@ -377,6 +412,9 @@ logical line. This is useful, e.g., for use with
         (persp-switch-to-buffer* source-buffer)))))
 
 (use-package treemacs
+  ;; Treemacs is a file and project explorer.
+  ;; https://github.com/Alexander-Miller/treemacs
+  :ensure t
   :config
   ;; (treemacs-follow-mode t)
   ;; (treemacs-filewatch-mode t)
@@ -385,15 +423,22 @@ logical line. This is useful, e.g., for use with
   (:map global-map ("C-x t t"   . treemacs)))
 
 (use-package treemacs-icons-dired
+  ;; Treemacs icons for dired.
+  ;; https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-icons-dired.el
+  :ensure t
   :after treemacs dired
   :config (treemacs-icons-dired-mode))
 
 (use-package treemacs-all-the-icons
+  ;; `all-the-icons' integration for treemacs.
+  ;; https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-all-the-icons.el
+  :ensure t
   :after treemacs
   :config (treemacs-load-theme 'all-the-icons))
 
 (use-package recentf
-  :ensure nil
+  ;; Setup a menu of recently opened files.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/File-Conveniences.html
   :config
   (setq recentf-max-saved-items 50))
 
@@ -404,18 +449,26 @@ logical line. This is useful, e.g., for use with
 (global-set-key (kbd "C-h C-v") 'find-variable)
 
 (use-package eldoc
-  :ensure nil
+  ;; Show function arglist or variable docstring in echo area.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html
   :delight)
 
 (use-package company-quickhelp
+  ;; Documentation popup for Company.
+  ;; https://github.com/company-mode/company-quickhelp
+  :ensure t
   :hook (company-mode . company-quickhelp-mode))
 
 ;; ** Privacy
 
-(use-package password-store)
+(use-package password-store
+  ;; Password store (pass) support.
+  ;; https://www.passwordstore.org/
+  :ensure t)
 
 (use-package auth-source
-  :ensure nil
+  ;; Authentication sources for Emacs.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Authentication.html
   :config
   (setq auth-sources '(password-store))
   (auth-source-pass-enable))
@@ -446,6 +499,7 @@ the date DATE."
   ;; A Collection of Ridiculously Useful eXtensions for Emacs. crux bundles many
   ;; useful interactive commands to enhance your overall Emacs experience.
   ;; https://github.com/bbatsov/crux
+  :ensure t
   :bind
   (("H-SPC f d" . crux-delete-file-and-buffer)
    ("C-c d" . crux-duplicate-current-line-or-region))
@@ -455,7 +509,8 @@ the date DATE."
 ;; * Dired
 
 (use-package dired
-  :ensure nil
+  ;; Directory-browsing commands.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html
   :init
   (define-prefix-command 'alc-dired-hacks-map)
   :bind
@@ -465,19 +520,26 @@ the date DATE."
   (setq dired-listing-switches "-lha"))
 
 (use-package dired+
-  :ensure nil
+  ;; Extensions to Dired.
+  ;; https://www.emacswiki.org/emacs/DiredPlus
   :load-path "~/.emacs.d/lisp/dired+/"
   :after dired
   :config
   (diredp-toggle-find-file-reuse-dir 1))
 
 (use-package all-the-icons-dired
+  ;; Add dired support to all-the-icons.
+  ;; https://github.com/wyuenho/all-the-icons-dired
+  :ensure t
   :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; ** Dired hacks
 ;; https://github.com/Fuco1/dired-hacks
 
 (use-package dired-narrow
+  ;; Live-narrowing of search results for dired.
+  ;; https://github.com/Fuco1/dired-hacks/blob/master/dired-narrow.el
+  :ensure t
   :after dired
   :bind (:map alc-dired-hacks-map
               ("n" . dired-narrow)
@@ -485,12 +547,18 @@ the date DATE."
               ("r" . dired-narrow-regexp)))
 
 (use-package dired-collapse
+  ;; Collapse unique nested paths in dired listing
+  ;; https://github.com/Fuco1/dired-hacks/blob/master/dired-collapse.el
+  :ensure t
   :after dired
   :hook (dired-mode . dired-collapse-mode))
 
 ;; * Markup
 
 (use-package markdown-mode
+  ;; Emacs Markdown Mode.
+  ;; https://github.com/jrblevin/markdown-mode
+  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -498,6 +566,9 @@ the date DATE."
   :init (setq markdown-command "multimarkdown"))
 
 (use-package yaml-mode
+  ;; The emacs major mode for editing files in the YAML data serialization
+  ;; format.
+  ;; https://github.com/yoshiki/yaml-mode
   :ensure t
   :mode ("\\.ya?ml\\'" . yaml-mode))
 
@@ -510,27 +581,44 @@ the date DATE."
 (add-hook 'prog-mode-hook 'linum-mode)
 
 (use-package rainbow-mode
+  ;; Colorize color names in buffers.
+  ;; https://elpa.gnu.org/packages/rainbow-mode.html
+  :ensure t
   :delight
   :hook prog-mode)
 
 (use-package magit
+  ;; An interface to the version control system Git, implemented as an Emacs
+  ;; package.
+  ;; https://github.com/magit/magit
+  :ensure t
   :delight magit-status-mode "magit"
   :bind (("C-c g" . magit-status)))
 
 (use-package git-modes
   ;; Emacs major modes for Git configuration files
   ;; https://github.com/magit/git-modes
-  )
+  :ensure t)
 
 (use-package git-gutter
+  ;; Emacs port of GitGutter which is Sublime Text Plugin.
+  ;; https://github.com/emacsorphanage/git-gutter
+  :ensure t
   :hook prog-mode
   :init
   ;; No changes = no gutter
   (setq git-gutter:hide-gutter t)
   :delight)
 
-(use-package git-timemachine)
-(use-package git-messenger)
+(use-package git-timemachine
+  ;; Step through historic versions of git controlled file.
+  ;; https://gitlab.com/pidu/git-timemachine/
+  :ensure t)
+
+(use-package git-messenger
+  ;; Popup last commit of current line.
+  ;; https://github.com/emacsorphanage/git-messenger
+  :ensure t)
 
 ;; ** Emacs Lisp
 
@@ -543,12 +631,15 @@ the date DATE."
 (use-package buttercup
   ;; Behavior-Driven Emacs Lisp Testing
   ;; https://github.com/jorgenschaefer/emacs-buttercup
-  )
+  :ensure t)
 
 ;; ** Common Lisp
 
 (unless (alc-work-system-p)
   (use-package slime
+    ;; The Superior Lisp Interaction Mode for Emacs.
+    ;; https://github.com/slime/slime
+    :ensure t
     :config
     (when (eq system-type 'gnu/linux)
       (setq slime-contribs '(slime-fancy)
@@ -572,6 +663,9 @@ the date DATE."
 ;; ** PlantUML
 
 (use-package plantuml-mode
+  ;; A major mode for editing PlantUML sources in Emacs.
+  ;; https://github.com/skuro/plantuml-mode
+  :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (setq org-plantuml-jar-path (expand-file-name "bin/plantuml.jar"
@@ -579,14 +673,18 @@ the date DATE."
 
 ;; ** Groovy
 
-(use-package groovy-mode)
+(use-package groovy-mode
+  ;; A groovy major mode, grails minor mode, and a groovy inferior mode.
+  ;; https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes
+  :ensure t)
 
 ;; * World
 
 ;; ** Communication
 
 (use-package erc
-  :ensure nil
+  ;; A modular and extensible IRC client for Emacs.
+  ;; https://www.gnu.org/software/emacs/manual/erc.html
   :bind (:map erc-mode-map ("C-c C-x" . nil))
   :config
   (setq erc-track-position-in-mode-line 'before-modes
@@ -597,6 +695,9 @@ the date DATE."
         erc-autojoin-channels-alist '((".*\\.freenode.net" "#emacs"))))
 
 (use-package elfeed
+  ;; An Emacs web feeds client.
+  ;; https://github.com/skeeto/elfeed
+  :ensure t
   :commands elfeed
   :bind (("C-x w" . elfeed)
          :map elfeed-search-mode-map
@@ -615,6 +716,9 @@ the date DATE."
 
 (alc-with-system-type work
   (use-package slack
+    ;; Slack client for emacs.
+    ;; https://github.com/yuya373/emacs-slack
+    :ensure t
     :commands (slack-start)
     :init
     (setq slack-buffer-emojify t)
@@ -625,6 +729,7 @@ the date DATE."
 (use-package wttrin
   ;; Emacs frontend for weather web service wttr.in
   ;; https://github.com/bcbcarl/emacs-wttrin
+  :ensure t
   :load-path "lisp/wttrin" ; I use my own fork since the original package has a
                            ; bug in it
   :commands (wttrin))
@@ -632,7 +737,9 @@ the date DATE."
 ;; * Multimedia
 
 (use-package somafm
-  :ensure nil
+  ;; A simple somafm interface in emacs.
+  ;; https://github.com/alecigne/somafm.el
+  :if (not (eq system-type 'windows-nt))
   :commands (somafm somafm-by-completion)
   :load-path "lisp/somafm" ; Forked to add a "favorites" feature
   :config
@@ -641,22 +748,47 @@ the date DATE."
 ;; * Other tools and gadgets
 
 (use-package ledger-mode
+  ;; Emacs Lisp files for interacting with the C++Ledger accounting system.
+  ;; https://github.com/ledger/ledger-mode
+  :ensure t
   :config
   (setq ledger-default-date-format ledger-iso-date-format))
 
 (use-package google-this
+  ;; A set of emacs functions and bindings to google under point.
+  ;; https://github.com/Malabarba/emacs-google-this
+  :ensure t
   :bind-keymap ("C-x g" . google-this-mode-submap))
 
 (use-package writeroom-mode
+  ;; Writeroom-mode: distraction-free writing for Emacs.
+  ;; https://github.com/joostkremers/writeroom-mode
+  :ensure t
   :bind ("H-<f10>" . writeroom-mode)
   :config
   (setq writeroom-restore-window-config t
         writeroom-width 120))
 
-(use-package emojify)
-(use-package fireplace)
-(use-package lorem-ipsum)
-(use-package all-the-icons)
+(use-package emojify
+  ;; Display emojis in Emacs.
+  ;; https://github.com/iqbalansari/emacs-emojify
+  :ensure t)
+
+(use-package fireplace
+  ;; A cozy fireplace for Emacs.
+  ;; https://github.com/johanvts/emacs-fireplace
+  :ensure t)
+
+(use-package lorem-ipsum
+  ;; Add lorem ipsum filler text to Emacs.
+  ;; https://github.com/jschaf/emacs-lorem-ipsum
+  :ensure t)
+
+(use-package all-the-icons
+  ;; A utility package to collect various Icon Fonts and propertize them within
+  ;; Emacs.
+  ;; https://github.com/domtronn/all-the-icons.el
+  :ensure t)
 
 ;; * Wrapping up
 

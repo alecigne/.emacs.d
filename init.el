@@ -19,19 +19,26 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'use-package-ensure)
-
-(setq use-package-always-defer t
-      use-package-always-ensure t)
+(setq use-package-always-defer t)
 
 (use-package auto-package-update
+  ;; Automatically update Emacs packages.
+  ;; https://github.com/rranelli/auto-package-update.el
+  :ensure t
   :config
   (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
-(use-package delight)
+(use-package delight
+  ;; Enables you to customise the mode names displayed in the mode line.
+  ;; https://elpa.gnu.org/packages/delight.html
+  :ensure t)
 
 (use-package use-package-chords
+  ;; The :chords keyword allows you to define key-chord bindings for use-package
+  ;; declarations in the same manner as the :bind keyword.
+  ;; https://github.com/jwiegley/use-package/blob/master/use-package-chords.el
+  :ensure t
   :demand t
   :config (key-chord-mode 1))
 

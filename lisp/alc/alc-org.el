@@ -1,6 +1,9 @@
 ;; * Org
 
 (use-package org
+  ;; Outline-based notes management and organizer.
+  ;; https://orgmode.org/
+  :ensure t
   :pin gnu
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
@@ -315,6 +318,9 @@ non-empty lines in the block (excluding the line with
 ;; ** Contrib
 
 (use-package org-contrib
+  ;; Unmaintained add-ons for Org-mode.
+  ;; https://elpa.nongnu.org/nongnu/org-contrib.html
+  :ensure t
   :pin nongnu)
 
 ;; TODO useful?
@@ -322,7 +328,8 @@ non-empty lines in the block (excluding the line with
   (add-to-list 'org-modules 'org-expiry))
 
 (use-package org-expiry
-  :ensure nil
+  ;; Expiry mechanism for Org entries.
+  ;; https://git.sr.ht/~bzg/org-contrib/tree/master/item/lisp/org-expiry.el
   :after org
   :demand t  ; no autoloads
   :config
@@ -344,14 +351,16 @@ non-empty lines in the block (excluding the line with
   (setq org-expiry-inactive-timestamps t))
 
 (use-package org-inlinetask
-  :ensure nil
+  ;; Tasks independent of outline hierarchy.
+  ;; https://git.savannah.gnu.org/cgit/emacs/org-mode.git/tree/lisp/org-inlinetask.el
   :init
   (put 'org-inlinetask-min-level 'safe-local-variable #'numberp)
   :commands org-inlinetask-insert-task
   :bind (:map org-mode-map ("C-c C-x t" . org-inlinetask-insert-task)))
 
 (use-package org-crypt
-  :ensure nil ; In contrib
+  ;; Public Key Encryption for Org Entries.
+  ;; https://git.savannah.gnu.org/cgit/emacs/org-mode.git/tree/lisp/org-crypt.el
   :bind (("C-c z" . org-decrypt-entry))
   :config
   (org-crypt-use-before-save-magic)
@@ -364,6 +373,7 @@ non-empty lines in the block (excluding the line with
   ;; Org-roam
   ;; https://github.com/org-roam/org-roam
   ;; https://www.orgroam.com/manual.html
+  :ensure t
   :after org
   :init
   (setq org-roam-v2-ack t)
@@ -379,6 +389,9 @@ non-empty lines in the block (excluding the line with
   (org-roam-setup))
 
 (use-package org-roam-ui
+  ;; A graphical frontend for exploring your org-roam Zettelkasten.
+  ;; https://github.com/org-roam/org-roam-ui
+  :ensure t
   :after org-roam
   :config
   (setq org-roam-ui-sync-theme t
@@ -389,35 +402,64 @@ non-empty lines in the block (excluding the line with
 (use-package org-ql
   ;; This package provides a query language for Org files.
   ;; https://github.com/alphapapa/org-ql
-  )
+  :ensure t)
 
 (use-package outline
+  ;; Outline mode is a major mode derived from Text mode, which is specialized
+  ;; for editing outlines.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Mode.html
   :delight outline-minor-mode)
 
 (use-package outshine
+  ;; Org-mode for non-Org buffers.
+  ;; https://github.com/alphapapa/outshine
+  :ensure t
   :delight
   :config (setq outshine-use-speed-commands t)
   :hook (emacs-lisp-mode . outshine-mode))
 
 (alc-with-system gnu/linux
   (use-package org-bullets
+    ;; UTF-8 bullets for org-mode.
+    ;; https://github.com/integral-dw/org-bullets
+    :ensure t
     :hook (org-mode . (lambda () (org-bullets-mode 1)))))
 
 (use-package org-sticky-header
+  ;; Show off-screen Org heading at top of window.
+  ;; https://github.com/alphapapa/org-sticky-header
+  :ensure t
+  :disabled
   :config
   (setq org-sticky-header-full-path 'full))
 
 (use-package toc-org
+  ;; `toc-org' is an Emacs utility to have an up-to-date table of contents in
+  ;; the org files without exporting (useful primarily for readme files on
+  ;; GitHub).
+  ;; https://github.com/snosov1/toc-org
+  :ensure t
   :hook (org-mode . toc-org-enable))
 
 (use-package org-tree-slide
+  ;; A presentation tool for org-mode based on the visibility of outline trees.
+  ;; https://github.com/takaxp/org-tree-slide
+  :ensure t
   :bind (:map org-tree-slide-mode-map
               ("<f9>" . org-tree-slide-move-previous-tree)
               ("<f10>" . org-tree-slide-move-next-tree)))
 
-(use-package demo-it)
+(use-package demo-it
+  ;; An Emacs package for running demonstrations, screencasts and presentations
+  ;; from within Emacs.
+  ;; https://github.com/howardabrams/demo-it
+  :ensure t)
 
 (use-package org-edna
+  ;; Edna provides an extensible means of specifying conditions which must be
+  ;; fulfilled before a task can be completed and actions to take once it is.
+  ;; https://savannah.nongnu.org/projects/org-edna-el/
+  :ensure t
   :after org
   :config
   (org-edna-mode))
