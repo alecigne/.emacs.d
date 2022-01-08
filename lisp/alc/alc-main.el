@@ -170,6 +170,15 @@ Possible values are 'personal (by defaut) or 'work."
         dashboard-page-separator "\n\f\n")
   (dashboard-setup-startup-hook))
 
+(use-package right-click-context
+  ;; Emacs Right Click Context menu.
+  ;; https://github.com/zonuexe/right-click-context
+  :ensure t
+  :defer 10
+  :delight
+  :config
+  (right-click-context-mode))
+
 ;; ** Frames, windows and buffers
 
 (setq frame-title-format
