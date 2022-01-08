@@ -161,9 +161,8 @@ Possible values are 'personal (by defaut) or 'work."
 ;; ** Frames, windows and buffers
 
 (setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
+      '("[" invocation-name "@" system-name "] "
+        (:eval (aif (buffer-file-name) (abbreviate-file-name it) "%b"))))
 
 ;; current buffer and window
 
