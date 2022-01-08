@@ -228,6 +228,12 @@ Possible values are 'personal (by defaut) or 'work."
                                                ; "file.el|dir2"
       uniquify-ignore-buffers-re "^\\*")
 
+(use-package autorevert
+  :ensure nil
+  :delight auto-revert-mode
+  :config
+  (global-auto-revert-mode t))
+
 ;; ** Editing
 
 (global-set-key (kbd "M-à") 'mark-word)
@@ -506,10 +512,6 @@ the date DATE."
 (use-package rainbow-mode
   :delight
   :hook prog-mode)
-
-(use-package autorevert
-  :ensure nil
-  :delight auto-revert-mode)
 
 (use-package magit
   :delight magit-status-mode "magit"
