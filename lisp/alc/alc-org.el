@@ -19,7 +19,8 @@
         org-startup-indented t
         org-special-ctrl-a/e t
         org-special-ctrl-k t
-        org-startup-folded t)
+        org-startup-folded t
+        org-image-actual-width nil)
 
   (delight 'org-indent-mode nil "org-indent")
 
