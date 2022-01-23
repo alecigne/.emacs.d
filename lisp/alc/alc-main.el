@@ -719,6 +719,44 @@ the date DATE."
 
     (alc-swank-autoconnect)))
 
+;; ** Clojure
+
+(use-package paredit
+  ;; Minor mode for editing parentheses.
+  ;; http://mumble.net/~campbell/git/paredit.git/
+  :ensure t
+  :hook (clojure-mode . paredit-mode))
+
+(use-package clojure-mode
+  ;; Emacs support for the Clojure(Script) programming language.
+  ;; https://github.com/clojure-emacs/clojure-mode
+  :ensure t)
+
+(use-package clojure-mode-extra-font-locking
+  ;; Extra font-locking for Clojure mode
+  ;; https://github.com/clojure-emacs/clojure-mode/blob/master/clojure-mode-extra-font-locking.el
+  :ensure t)
+
+(use-package cider
+  ;; The Clojure Interactive Development Environment that Rocks for Emacs.
+  ;; https://github.com/clojure-emacs/cider
+  :ensure t)
+
+(use-package rainbow-delimiters
+  ;; Emacs rainbow delimiters mode.
+  ;; https://github.com/Fanael/rainbow-delimiters
+  :ensure t)
+
+(use-package tagedit
+  ;; A collection of paredit-like functions for editing in html-mode.
+  ;; https://github.com/magnars/tagedit
+  :ensure t)
+
+(use-package clojure-snippets
+  ;; Yasnippet's for Clojure
+  ;; https://github.com/swannodette/clojure-snippets
+  :ensure t)
+
 ;; ** PlantUML
 
 (use-package plantuml-mode
