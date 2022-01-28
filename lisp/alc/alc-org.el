@@ -480,6 +480,12 @@ non-empty lines in the block (excluding the line with
   :config
   (org-edna-mode))
 
+(use-package org-transclusion
+  ;; Org-transclusion lets you insert a copy of text content via a file link or
+  ;; ID link within an Org file.
+  ;; https://github.com/nobiot/org-transclusion
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-org)
