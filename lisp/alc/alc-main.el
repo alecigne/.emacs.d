@@ -390,6 +390,10 @@ logical line. This is useful, e.g., for use with
   :ensure t
   :delight)
 
+;; *** Spelling
+
+(setq ispell-program-name "aspell")
+
 ;; *** Completion
 
 (use-package company
