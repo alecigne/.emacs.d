@@ -390,6 +390,12 @@ logical line. This is useful, e.g., for use with
   :ensure t
   :delight)
 
+(use-package multiple-cursors
+  ;; Multiple cursors for Emacs.
+  ;; https://github.com/magnars/multiple-cursors.el
+  :ensure t
+  :bind (("<M-S-mouse-1>" . 'mc/add-cursor-on-click)))
+
 ;; *** Spelling
 
 (setq ispell-program-name "aspell")
