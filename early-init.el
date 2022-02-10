@@ -22,7 +22,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(fringe-mode '(2 . 0))
+(fringe-mode '(2 . 2))
 (setq frame-inhibit-implied-resize t)
 
 ;; Do not initialize packages automatically

@@ -388,7 +388,8 @@ logical line. This is useful, e.g., for use with
   ;; characters as tidy horizontal rules.
   ;; https://github.com/purcell/page-break-lines
   :ensure t
-  :delight)
+  :delight
+  :hook (dashboard-mode . page-break-lines-mode))
 
 (use-package multiple-cursors
   ;; Multiple cursors for Emacs.
