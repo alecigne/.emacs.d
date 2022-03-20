@@ -849,9 +849,8 @@ the date DATE."
   ;; https://github.com/alecigne/somafm.el
   :if (not (eq system-type 'windows-nt))
   :commands (somafm somafm-by-completion)
-  :load-path "lisp/somafm" ; Forked to add a "favorites" feature
-  :config
-  (setq somafm-favorites-file "/media/veracrypt1/org/notes/drone_zone.org"))
+  ;; Forked to add a "favorites" feature
+  :load-path "lisp/somafm")
 
 ;; * Other tools and gadgets
 
