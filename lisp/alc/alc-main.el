@@ -54,6 +54,8 @@ Possible values are 'personal (by defaut) or 'work."
           (getenv "USERPROFILE")
         (getenv "HOME")))
 
+(setq alc-tmp-dir (f-join alc-home-dir "tmp"))
+
 ;; * Basics
 
 ;; ** Personal info
@@ -340,6 +342,8 @@ logical line. This is useful, e.g., for use with
   :ensure t
   :defer 5
   :delight
+  :init
+  (setq undo-tree-history-directory-alist `(("." . ,alc-tmp-dir)))
   :config
   (global-undo-tree-mode))
 
@@ -431,7 +435,7 @@ logical line. This is useful, e.g., for use with
 
 ;; ** Backup
 
-(let ((backup-dir (f-join alc-home-dir "tmp" "emacs-backup")))
+(let ((backup-dir (f-join alc-tmp-dir "emacs-backup")))
   (setq backup-directory-alist `(("." . ,backup-dir))))
 
 (setq backup-by-copying t
