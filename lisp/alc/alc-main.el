@@ -853,8 +853,9 @@ the date DATE."
   ;; https://github.com/alecigne/somafm.el
   :if (not (eq system-type 'windows-nt))
   :commands (somafm somafm-by-completion)
-  ;; Forked to add a "favorites" feature
-  :load-path "lisp/somafm")
+  :load-path "lisp/somafm" ;; I use my own fork
+  :config
+  (setq somafm-favorites-file "~/org/drone_zone.org"))
 
 ;; * Other tools and gadgets
 
