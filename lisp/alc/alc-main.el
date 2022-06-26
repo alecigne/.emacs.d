@@ -772,6 +772,13 @@ the date DATE."
   ;; https://github.com/swannodette/clojure-snippets
   :ensure t)
 
+;; ** Racket
+
+(use-package racket-mode
+  ;; Emacs major and minor modes for Racket.
+  ;; https://github.com/greghendershott/racket-mode
+  :ensure t)
+
 ;; ** PlantUML
 
 (use-package plantuml-mode

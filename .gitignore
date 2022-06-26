@@ -33,3 +33,6 @@
 
 # request.el
 /request/
+
+# Racket
+/racket-mode/

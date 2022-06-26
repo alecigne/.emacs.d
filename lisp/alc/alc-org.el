@@ -305,13 +305,16 @@ non-empty lines in the block (excluding the line with
 
 ;; ** Babel
 
+  (setq org-babel-clojure-backend 'cider)
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((dot . t)
      (lisp . t)
      (plantuml . t)
      (python . t)
-     (shell . t))))
+     (shell . t)
+     (clojure . t))))
 
 ;; * Org-related packages
 
