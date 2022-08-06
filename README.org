@@ -1,6 +1,6 @@
-#+TITLE: alc-emacs
-#+AUTHOR: Anthony Le Cigne
-#+OPTIONS: num:nil
+#+title: alc-emacs
+#+author: Anthony Le Cigne
+#+options: num:nil
 
 This is my Emacs configuration. It is part of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git
 submodule.
@@ -26,9 +26,11 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
   =package.el= and then loads my personal config files located in
   =./lisp/alc/=:
 
-  + =alc-main.el= - my main config.
+  + =alc-main.el= -- my main config.
 
-  + =alc-org.el= - my Org-mode config.
+  + =alc-org.el= -- my Org-mode config.
+
+  + =alc-work.el= -- my work config (not loaded by default).
 
 * Local configuration
 
@@ -41,19 +43,21 @@ customizations.
   agenda to get a clear picture of my day. I then filter everything by
   context to avoid distraction.
 
-- The =org-capture= function will be advised so I can capture tasks
+- If I am at work, I will probably ~require~ =alc-work.el=.
+
+- The =org-capture= function might be advised so I can capture tasks
   and notes in the relevant target project. For example:
 
   #+begin_src emacs-lisp
     (setq alc-org-projects-alist `(("Some work-related Org dir" . ,path-to-this-org-dir)
                                    ("Personal Org dir" . ,path-to-that-org-dir)))
-    
+
     (defun alc-org-capture-advice (func &rest args)
       (let* ((project-names (mapcar 'car alc-org-projects-alist))
              (chosen-project (completing-read "Choose a project: " project-names nil t))
              (org-directory (assoc-default chosen-project alc-org-projects-alist)))
         (apply func args)))
-    
+
     (advice-add #'org-capture :around #'alc-org-capture-advice)
   #+end_src
 
