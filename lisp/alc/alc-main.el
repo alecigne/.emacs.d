@@ -580,6 +580,10 @@ the date DATE."
   :chords
   (("jh" . crux-switch-to-previous-buffer)))
 
+(defun alc-insert-iso-today ()
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d")))
+
 ;; * Dired
 
 (use-package dired
