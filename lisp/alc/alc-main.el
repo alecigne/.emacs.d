@@ -584,6 +584,19 @@ the date DATE."
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
 
+(defun alc-delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if filename
+        (if (y-or-n-p (format "Delete file %s?" filename))
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s." filename)
+              (kill-buffer))
+          (message "Leaving file %s alone." filename))
+      (message "Not a file visiting buffer!"))))
+
 ;; * Dired
 
 (use-package dired
