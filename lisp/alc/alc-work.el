@@ -1,9 +1,5 @@
 ;;; alc-work.el --- Work-related configuration
 
-;; Copyright (C) 2022
-
-;; Author: Anthony Le Cigne <dev@lecigne.net>
-
 ;; * Jira
 
 (require 'request)
@@ -35,7 +31,7 @@
                            :type "POST"
                            :data (json-encode `((body . ,body)))))
 
-(defun alc-work-get-issue-title (issue-id)
+(defun alc-work-jira-get-issue-title (issue-id)
   (interactive)
   (let ((issue (alc-work-jira-get-issue issue-id)))
     (cdr (assoc 'summary (cdr (assoc 'fields issue))))))
