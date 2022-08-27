@@ -389,6 +389,9 @@ non-empty lines in the block (excluding the line with
                 ("C-c n a" . org-roam-alias-add)
                 ("C-c n l" . org-roam-buffer-toggle))))
   :config
+  (setq org-roam-node-display-template
+        (concat "${title:*} "
+                (propertize "${tags:50}" 'face 'org-tag)))
   (org-roam-setup))
 
 (use-package org-roam-ui
