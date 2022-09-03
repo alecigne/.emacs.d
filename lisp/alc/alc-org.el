@@ -492,6 +492,11 @@ non-empty lines in the block (excluding the line with
   ;; https://github.com/nobiot/org-transclusion
   :ensure t)
 
+(use-package orgit
+  ;; Support for Org links to Magit buffers
+  ;; https://github.com/magit/orgit
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-org)
