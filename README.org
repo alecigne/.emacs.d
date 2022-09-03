@@ -45,22 +45,6 @@ customizations.
 
 - If I am at work, I will probably ~require~ =alc-work.el=.
 
-- The =org-capture= function might be advised so I can capture tasks
-  and notes in the relevant target project. For example:
-
-  #+begin_src emacs-lisp
-    (setq alc-org-projects-alist `(("Some work-related Org dir" . ,path-to-this-org-dir)
-                                   ("Personal Org dir" . ,path-to-that-org-dir)))
-
-    (defun alc-org-capture-advice (func &rest args)
-      (let* ((project-names (mapcar 'car alc-org-projects-alist))
-             (chosen-project (completing-read "Choose a project: " project-names nil t))
-             (org-directory (assoc-default chosen-project alc-org-projects-alist)))
-        (apply func args)))
-
-    (advice-add #'org-capture :around #'alc-org-capture-advice)
-  #+end_src
-
 * About literate Emacs configurations
 
 It used to be a so-called "literate config" based on a network of [[https://www.orgmode.org/][Org
