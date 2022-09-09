@@ -36,6 +36,20 @@
   (let ((issue (alc-work-jira-get-issue issue-id)))
     (cdr (assoc 'summary (cdr (assoc 'fields issue))))))
 
+(defun alc-work-jira-insert-issue (id)
+  (interactive "sJira ID: ")
+  (insert (alc-work-jira-get-issue-title id)))
+
+(defmacro region-or-prompt (prompt)
+  `(interactive
+    (if (region-active-p)
+        (list (buffer-substring-no-properties (region-beginning) (region-end)))
+      (list (read-string ,prompt)))))
+
+(defun alc-work-jira-browse-issue (id)
+  (region-or-prompt "Jira ID: ")
+  (browse-url (format (concat alc-work-jira-base-url "/browse/%s") id)))
+
 ;; * Wrapping up
 
 (provide 'alc-work)
