@@ -466,6 +466,7 @@ logical line. This is useful, e.g., for use with
   ;; https://github.com/nex3/perspective-el
   :ensure t
   :bind (("C-x k" . persp-kill-buffer*))
+  :custom (persp-mode-prefix-key (kbd "C-c M-p"))
   :init
   (persp-mode))
 
