@@ -670,7 +670,7 @@ the date DATE."
 
 (setq-default indent-tabs-mode nil)
 
-(add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (use-package rainbow-mode
   ;; Colorize color names in buffers.
