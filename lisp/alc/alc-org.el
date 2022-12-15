@@ -45,6 +45,27 @@
           (replace-match "\\1\\2"))
         (org-align-tags))))
 
+  (defun alc-org-insert-created ()
+    "Insert a CREATED property with the current date."
+    (interactive)
+    (let* ((property-name "CREATED")
+           (existing-date (org-entry-get (point) property-name))
+           (time-format (concat "[" (cdr org-time-stamp-formats) "]")))
+      (when (null existing-date)
+        (save-excursion
+	  (org-entry-put
+	   (point) property-name (format-time-string time-format))))))
+
+  (defadvice org-insert-heading
+      (after alc-org-insert-heading-created-advice activate)
+    (alc-org-insert-created))
+
+  (ad-activate 'org-insert-heading)
+
+  ;; Do the same for org-capture since `org-insert-heading' is not called
+  ;; explicitely.
+  (add-hook 'org-capture-before-finalize-hook #'alc-org-insert-created)
+
 ;; ** Hyperlinks
 
   (add-to-list 'org-modules 'org-id)
@@ -335,6 +356,7 @@ non-empty lines in the block (excluding the line with
   ;; https://git.sr.ht/~bzg/org-contrib/tree/master/item/lisp/org-expiry.el
   :after org
   :demand t  ; no autoloads
+  :disabled
   :config
   ;; Track heading creation in a PROPERTIES drawer. It also works for TODO
   ;; headings since `org-insert-todo-heading' calls `org-insert-heading'.
