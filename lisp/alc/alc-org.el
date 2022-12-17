@@ -56,11 +56,8 @@
 	  (org-entry-put
 	   (point) property-name (format-time-string time-format))))))
 
-  (defadvice org-insert-heading
-      (after alc-org-insert-heading-created-advice activate)
-    (alc-org-insert-created))
-
-  (ad-activate 'org-insert-heading)
+  (dolist (fn '(org-insert-heading org-toggle-heading))
+    (advice-add fn :after #'alc-org-insert-created))
 
   ;; Do the same for org-capture since `org-insert-heading' is not called
   ;; explicitely.
