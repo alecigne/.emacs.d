@@ -25,11 +25,11 @@
   ;; Automatically update Emacs packages.
   ;; https://github.com/rranelli/auto-package-update.el
   :ensure t
+  :demand t
   :config
   (setq auto-package-update-delete-old-versions t
         auto-package-update-prompt-before-update t
-        auto-package-update-hide-results t
-        auto-package-update-interval 7)
+        auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
 (use-package delight
