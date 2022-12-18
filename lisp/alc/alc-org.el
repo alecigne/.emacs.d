@@ -57,7 +57,7 @@
 	   (point) property-name (format-time-string time-format))))))
 
   (dolist (fn '(org-insert-heading org-toggle-heading))
-    (advice-add fn :after #'alc-org-insert-created))
+    (advice-add fn :after #'(lambda (&rest _) (alc-org-insert-created))))
 
   ;; Do the same for org-capture since `org-insert-heading' is not called
   ;; explicitely.
