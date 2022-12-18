@@ -388,6 +388,8 @@ logical line. This is useful, e.g., for use with
 (use-package goto-addr
   ;; Highlights URLs and turns them into clickable links.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Goto-Address-mode.html
+  :custom
+  (goto-address-url-face 'underline)
   :hook ((prog-mode . goto-address-prog-mode)
          ;; Do no not activate in Org mode since it already handles links
          (text-mode . (lambda ()
