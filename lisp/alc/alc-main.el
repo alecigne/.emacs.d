@@ -208,13 +208,19 @@ Possible values are 'personal (by defaut) or 'work."
   ;; https://github.com/emacs-dashboard/emacs-dashboard
   :ensure t
   :demand t
+  :custom
+  (dashboard-navigator-buttons
+   `(;; line1
+     (("" "Update" "Update emacs"
+       (lambda (&rest _) (auto-package-update-now))))))
+  (dashboard-items '((recents  . 5)
+                     (projects . 5)))
+  (dashboard-center-content t)
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-page-separator "\n\f\n")
+  (dashboard-set-navigator t)
   :config
-  (setq dashboard-items '((recents  . 5)
-                          (projects . 5))
-        dashboard-center-content t
-        dashboard-set-heading-icons t
-        dashboard-set-file-icons t
-        dashboard-page-separator "\n\f\n")
   (dashboard-setup-startup-hook))
 
 (use-package right-click-context
