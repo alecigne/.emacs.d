@@ -305,6 +305,8 @@ Possible values are 'personal (by defaut) or 'work."
       uniquify-ignore-buffers-re "^\\*")
 
 (use-package autorevert
+  ;; Revert buffers when files on disk change.
+  ;; https://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/autorevert.el
   :delight auto-revert-mode
   :config
   (global-auto-revert-mode t))
