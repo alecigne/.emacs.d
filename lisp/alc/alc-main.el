@@ -305,6 +305,11 @@ Possible values are 'personal (by defaut) or 'work."
   :config
   (global-auto-revert-mode t))
 
+(use-package saveplace
+  ;; Automatically save place in files.
+  ;; https://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/saveplace.el
+  :init (save-place-mode))
+
 ;; ** Editing
 
 (global-set-key (kbd "M-à") 'mark-word)

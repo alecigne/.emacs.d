@@ -26,6 +26,7 @@
 /org-roam.db
 /network-security.data
 /eln-cache/
+/places
 
 # cask packages
 /.cask/
