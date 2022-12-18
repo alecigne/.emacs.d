@@ -113,8 +113,6 @@ Possible values are 'personal (by defaut) or 'work."
 
 (setq inhibit-startup-screen t
       initial-scratch-message nil
-      ;; For some reason `lisp-interaction-mode' is very slow
-      initial-major-mode 'fundamental-mode
       disabled-command-function nil
       ring-bell-function 'ignore)
 
