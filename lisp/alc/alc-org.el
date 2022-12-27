@@ -45,16 +45,18 @@
           (replace-match "\\1\\2"))
         (org-align-tags))))
 
+  (setq alc-org-insert-created-timestamp-format "[%Y-%m-%d %a %H:%M]"
+        alc-org-insert-created-property "CREATED")
+
   (defun alc-org-insert-created ()
     "Insert a CREATED property with the current date."
     (interactive)
-    (let* ((property-name "CREATED")
-           (existing-date (org-entry-get (point) property-name))
-           (time-format (concat "[" (cdr org-time-stamp-formats) "]")))
+    (let ((existing-date (org-entry-get (point) alc-org-insert-created-property))
+          (now (format-time-string alc-org-insert-created-timestamp-format)))
       (when (null existing-date)
         (save-excursion
 	  (org-entry-put
-	   (point) property-name (format-time-string time-format))))))
+	   (point) alc-org-insert-created-property now)))))
 
   (dolist (fn '(org-insert-heading org-toggle-heading))
     (advice-add fn :after #'(lambda (&rest _) (alc-org-insert-created))))
