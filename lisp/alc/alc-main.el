@@ -635,6 +635,7 @@ the date DATE."
   ;; Add dired support to all-the-icons.
   ;; https://github.com/wyuenho/all-the-icons-dired
   :ensure t
+  :delight
   :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; ** Dired hacks
