@@ -88,6 +88,8 @@ address."
 
 ;; ** Gettings Things Done: todos, agenda, capture
 
+  (add-to-list 'org-modules 'org-habit t)
+
   (setq org-treat-S-cursor-todo-selection-as-state-change nil
         org-treat-insert-todo-heading-as-state-change t
         org-confirm-babel-evaluate nil
@@ -97,7 +99,7 @@ address."
         org-hierarchical-todo-statistics nil
         ;; Block DONE state on parent if a child isn't DONE
         org-enforce-todo-dependencies t
-        org-provide-todo-statistics '("TODO" "PROG" "WAIT")
+        org-provide-todo-statistics '("MAYB" "TODO" "PROG" "WAIT")
         ;; Do not dim DONE items
         org-fontify-done-headline nil)
 
@@ -106,7 +108,7 @@ address."
 
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
-                    "IDEA(i!)"
+                    "MAYB(m!)"
                     "PROG(p!)"
                     "WAIT(w@/!)"
                     "HOLD(h@/!)"
@@ -115,36 +117,33 @@ address."
                     "GIVN(g@)"
                     "CNCL(c@)")))
 
+  (defface alc-org-mayb-kwd
+    '((t (:weight bold :foreground "dark red")))
+    "Face used to display tasks that might never be worked on.")
+
   (defface alc-org-todo-kwd
     '((t (:weight bold :foreground "red")))
     "Face used to display tasks yet to be worked on.")
 
-  (defface alc-org-in-progress-kwd
+  (defface alc-org-prog-kwd
     '((t (:weight bold :foreground "orange")))
     "Face used to display tasks in progress.")
 
-  (defface alc-org-idea-kwd
-    '((t (:weight bold :foreground "deep sky blue")))
-    "Face used to display tasks that might be done someday.")
-
   (defface alc-org-done-kwd
     '((t (:weight bold :foreground "forest green")))
-    "Face used to display org state DONE.")
+    "Face used to display done tasks.")
 
   (setq org-todo-keyword-faces
-        '(("TODO" . alc-org-todo-kwd)
-          ("IDEA" . alc-org-idea-kwd)
-          ("PROG" . alc-org-in-progress-kwd)
-          ("WAIT" . alc-org-in-progress-kwd)
-          ("HOLD" . alc-org-in-progress-kwd)
+        '(("MAYB" . alc-org-mayb-kwd)
+          ("TODO" . alc-org-todo-kwd)
+          ("PROG" . alc-org-prog-kwd)
+          ("WAIT" . alc-org-prog-kwd)
+          ("HOLD" . alc-org-prog-kwd)
           ("DONE" . alc-org-done-kwd)
           ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
 
-  ;; The default value for `org-directory', `~/org', will be used. On my
-  ;; individual machines, I usually add an advice around `org-capture' so it
-  ;; lets me choose a project in which the capture will happen. See the README
-  ;; for more info.
+  ;; The default value for `org-directory', `~/org', will be used.
   (setq org-capture-templates
         `(;; New task
           ("t" "Capture [t]ask"
@@ -173,17 +172,27 @@ time of change will be 23:59 on that day"
           (org-agenda-todo arg)
         (org-todo arg))))
 
+  (setq alc-org-next-tag "next")
+
+  ;; Do not mark all tasks in a project as being "next"
+  (add-to-list 'org-tags-exclude-from-inheritance alc-org-next-tag)
+
 ;; *** Agenda
 
   (setq org-agenda-format-date "%Y-%m-%d %a")
+
+  ;; I don't want to see the taskpool tag in the agenda since I use a dedicated
+  ;; section
+  (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag)))
 
   (defun alc-org-agenda-delete-empty-blocks ()
     "Remove empty agenda blocks.
 
 A block is identified as empty if there are fewer than 2
 non-empty lines in the block (excluding the line with
-`org-agenda-block-separator' characters)."
-    ;; https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st
+`org-agenda-block-separator' characters).
+
+Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st"
     (when org-agenda-compact-blocks
       (user-error "Cannot delete empty compact blocks"))
     (setq buffer-read-only nil)
@@ -212,6 +221,11 @@ non-empty lines in the block (excluding the line with
           (delete-region (point) (1+ (point-at-eol))))))
     (setq buffer-read-only t))
 
+  (defun alc-org-filter-subtree-when (func)
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (when (funcall func)
+        subtree-end)))
+
   (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
 
   ;; Some diary entries are displayed in the agenda
@@ -226,102 +240,66 @@ non-empty lines in the block (excluding the line with
      ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
      (diary-sunrise-sunset)))
 
-  ;; For agenda commands, I only use the format for composite buffers: (key desc
-  ;; ((type match settings)) settings files)
-  ;;
-  ;; See the docs for the `org-agenda-custom-commands' variable.
-  ;;
-  ;; This allows me to declare multiple (type match settings) structures and to
-  ;; reuse them afterwards. I call these structures 'views' below.
-  ;;
-  ;; Example custom filter:
-  ;;
-  ;; (defun my-custom-filter ()
-  ;;   (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-  ;;     (when (member (org-get-todo-state)
-  ;;                   '("WAITING" "HOLD" "DONE" "CANCELED"))
-  ;;       subtree-end)))
-
-;; **** Views
-
-  ;; Events today
-  (setq alc-org-agenda-view-events-today
-        '(agenda ""
-                 ((org-agenda-overriding-header "Events today")
-                  (org-agenda-entry-types '(:timestamp :sexp))
-                  (org-agenda-span 'day))))
-
-  ;; Events this month
-  (setq alc-org-agenda-view-events-month
-        '(agenda ""
-                 ((org-agenda-overriding-header "Events this month")
-                  (org-agenda-entry-types '(:timestamp :sexp))
-                  (org-agenda-span 'month))))
+  ;; Scheduled today
+  (setq alc-org-agenda-block-agenda-today
+        '(agenda nil
+                 ((org-agenda-span 'day)
+                  (org-agenda-skip-function
+                   '(or (org-agenda-skip-entry-if
+                         'deadline
+                         'todo '("WAIT" "HOLD" "DONE" "CNCL"))
+                        (alc-org-filter-subtree-when
+                         #'(lambda () (member "cleaning" (org-get-tags)))))))))
 
   ;; Tasks in the inbox
-  (setq alc-org-agenda-view-inbox
+  (setq alc-org-agenda-block-inbox
         '(tags-todo "inbox"
-                    ((org-agenda-overriding-header "Tasks in the inbox\n"))))
+                    ((org-agenda-overriding-header "Inbox\n"))))
 
-  ;; deadlines
-  (setq alc-org-agenda-view-deadlines
+  ;; Deadlines
+  (setq alc-org-agenda-block-deadlines
         '(agenda ""
                  ((org-agenda-overriding-header "Deadlines")
+                  (org-agenda-format-date "")
                   (org-agenda-span 'day)
                   (org-agenda-entry-types '(:deadline))
                   (org-deadline-warning-days 28)
                   (org-agenda-time-grid nil)
                   (org-agenda-sorting-strategy '(deadline-up)))))
 
-  ;; waiting
-  (setq alc-org-agenda-view-waiting
+  ;; Waiting
+  (setq alc-org-agenda-block-waiting
         '(todo "WAIT"
                ((org-agenda-overriding-header "Waiting for something\n"))))
 
-  (setq alc-org-agenda-view-scheduled-today
-        '(agenda ""
-                 ((org-agenda-overriding-header "Scheduled today")
-                  (org-agenda-entry-types '(:scheduled))
-                  (org-agenda-span 'day)
-                  (org-agenda-sorting-strategy '(priority-down time-down))
-                  (org-agenda-start-on-weekday nil)
-                  (org-agenda-time-grid nil)
-                  (org-agenda-skip-function
-                   '(org-agenda-skip-entry-if
-                     'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
+  ;; Next
+  (setq alc-org-agenda-block-next
+        '(tags alc-org-next-tag
+               ((org-agenda-overriding-header "Task pool\n")
+                (org-agenda-skip-function
+                 '(org-agenda-skip-entry-if
+                   'scheduled 'timestamp)))))
 
-;; **** Custom commands
-
-  (setq alc-org-agenda-custom-command-daily-digest
-        `(;; Key and desc
-          "d" "Today"
-          ;; Views
-          (,alc-org-agenda-view-events-today
-           ,alc-org-agenda-view-scheduled-today
-           ,alc-org-agenda-view-deadlines
-           ,alc-org-agenda-view-waiting
-           ,alc-org-agenda-view-inbox)
-          ;; Global settings
-          nil
-          ;; Files
-          nil))
-
-  (setq alc-org-agenda-custom-command-events-month
-        `(;; Key and desc
-          "v" "Events this month"
-          ;; Views
-          (,alc-org-agenda-view-events-month)
-          ;; Global settings
-          nil
-          ;; Files
-          nil))
-
-  ;; Wrapping up
   (setq org-agenda-custom-commands
-        `(;; Daily digest
-          ,alc-org-agenda-custom-command-daily-digest
-          ;; Events this month
-          ,alc-org-agenda-custom-command-events-month))
+        `(("g" "Get Things Done"
+           (,alc-org-agenda-block-agenda-today
+            ,alc-org-agenda-block-deadlines
+            ,alc-org-agenda-block-waiting
+            ,alc-org-agenda-block-inbox
+            ,alc-org-agenda-block-next))
+          ("v" "Events this month"
+           agenda ""
+           ((org-agenda-overriding-header "Events this month")
+            (org-agenda-entry-types '(:timestamp :sexp))
+            (org-agenda-span 'month)))
+          ("c" "Cleaning tasks"
+           agenda nil
+           ((org-agenda-span 'day)
+            (org-agenda-time-grid nil)
+            (org-agenda-overriding-header "Cleaning tasks\n")
+            (org-agenda-skip-function
+             '(alc-org-filter-subtree-when
+               #'(lambda () (not (member "cleaning" (org-get-tags))))))))))
 
 ;; ** Babel
 
