@@ -315,6 +315,8 @@ Possible values are 'personal (by defaut) or 'work."
   ;; https://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/saveplace.el
   :init (save-place-mode))
 
+(setq native-comp-async-report-warnings-errors 'silent)
+
 ;; ** Editing
 
 (global-set-key (kbd "M-à") 'mark-word)
