@@ -468,6 +468,8 @@ logical line. This is useful, e.g., for use with
   :bind-keymap
   ("H-p" . projectile-command-map)
   ("C-c p" . projectile-command-map)
+  :custom
+  (projectile-track-known-projects-automatically nil)
   :config
   (projectile-mode +1)
   (setq projectile-mode-line-function
