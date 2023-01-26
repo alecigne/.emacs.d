@@ -50,6 +50,11 @@
   (region-or-prompt "Jira ID: ")
   (browse-url (format (concat alc-work-jira-base-url "/browse/%s") id)))
 
+(defun alc-work-insert-last-daily ()
+  "Insert the last Org roam daily."
+  (interactive)
+  (insert-file (car (last (org-roam-dailies--list-files)))))
+
 ;; * Wrapping up
 
 (provide 'alc-work)
