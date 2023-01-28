@@ -172,7 +172,9 @@ Possible values are 'personal (by defaut) or 'work."
    ("M-s m" . consult-multi-occur)
    ("M-s k" . consult-keep-lines)
    ("M-s u" . consult-focus-lines))
-  :chords ((";b" . consult-buffer)))
+  :chords ((";b" . consult-buffer))
+  :config
+  (setq consult-project-function (lambda (_) (projectile-project-root))))
 
 (use-package embark
   ;; Emacs Mini-Buffer Actions Rooted in Keymaps.
