@@ -103,8 +103,14 @@ address."
         ;; Do not dim DONE items
         org-fontify-done-headline nil)
 
-  ;; Exclude the 'project' tag from inheritance
-  (add-to-list 'org-tags-exclude-from-inheritance "project")
+  (setq alc-org-next-tag "next"
+        alc-org-project-tag "project")
+
+  ;; Exclude the project tag from inheritance
+  (add-to-list 'org-tags-exclude-from-inheritance alc-org-project-tag)
+
+  ;; Do not mark all tasks in a project as being "next"
+  (add-to-list 'org-tags-exclude-from-inheritance alc-org-next-tag)
 
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
@@ -182,18 +188,13 @@ time of change will be 23:59 on that day"
           (org-agenda-todo arg)
         (org-todo arg)))))
 
-  (setq alc-org-next-tag "next")
-
-  ;; Do not mark all tasks in a project as being "next"
-  (add-to-list 'org-tags-exclude-from-inheritance alc-org-next-tag)
-
 ;; *** Agenda
 
   (setq org-agenda-format-date "%Y-%m-%d %a")
 
-  ;; I don't want to see the taskpool tag in the agenda since I use a dedicated
-  ;; section
-  (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag)))
+  ;; I don't want to see these tags in the agenda
+  (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag
+                                                  ,alc-org-project-tag)))
 
   (defun alc-org-agenda-delete-empty-blocks ()
     "Remove empty agenda blocks.
@@ -231,10 +232,15 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
           (delete-region (point) (1+ (point-at-eol))))))
     (setq buffer-read-only t))
 
-  (defun alc-org-filter-subtree-when (func)
+  (defun alc-org-skip-subtree-when (func)
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
       (when (funcall func)
         subtree-end)))
+
+  (defun alc-org-skip-entry-when (func)
+    (let ((entry-end (org-entry-end-position)))
+      (when (funcall func)
+        entry-end)))
 
   (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
 
@@ -258,7 +264,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                    '(or (org-agenda-skip-entry-if
                          'deadline
                          'todo '("WAIT" "HOLD" "DONE" "CNCL"))
-                        (alc-org-filter-subtree-when
+                        (alc-org-skip-subtree-when
                          #'(lambda () (member "cleaning" (org-get-tags)))))))))
 
   ;; Tasks in the inbox
@@ -290,26 +296,79 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                  '(org-agenda-skip-entry-if
                    'scheduled 'timestamp)))))
 
+  (setq alc-org-agenda-block-projects
+        '(tags-todo alc-org-project-tag
+                    ;; Don't dim tasks in the projet view - by definition, a
+                    ;; project is very often blocked by children
+                    ((org-agenda-overriding-header "Ongoing projects\n")
+                     (org-agenda-dim-blocked-tasks nil))))
+
+  ;; Review
+
+  (setq org-agenda-custom-command-review
+        '("r" "Review"
+          ((todo ""
+                 ((org-agenda-overriding-header "Unscheduled")
+                  (org-agenda-skip-function
+                   '(or (org-agenda-skip-entry-if 'timestamp)
+                        (alc-org-skip-entry-when
+                         #'(lambda ()
+                             (let ((todo-state (org-entry-get nil "TODO"))
+                                   (tags (org-get-tags)))
+                               (or (member todo-state '("HOLD" "WAIT"))
+                                   (member alc-org-next-tag tags)
+                                   (cl-intersection '("@computer" "@outside") tags)))))))))
+           (todo ""
+                 ((org-agenda-overriding-header "Unscheduled - @computer\n")
+                  (org-agenda-skip-function
+                   '(or (org-agenda-skip-entry-if 'timestamp)
+                        (alc-org-skip-entry-when
+                         #'(lambda ()
+                             (let ((todo-state (org-entry-get nil "TODO"))
+                                   (tags (org-get-tags)))
+                               (or (member todo-state '("HOLD" "WAIT"))
+                                   (member alc-org-next-tag tags)
+                                   (not (member "@computer" tags))))))))))
+           (todo ""
+                 ((org-agenda-overriding-header "Unscheduled - @outside\n")
+                  (org-agenda-skip-function
+                   '(or (org-agenda-skip-entry-if 'timestamp)
+                        (alc-org-skip-entry-when
+                         #'(lambda ()
+                             (let ((todo-state (org-entry-get nil "TODO"))
+                                   (tags (org-get-tags)))
+                               (or (member todo-state '("HOLD" "WAIT"))
+                                   (member alc-org-next-tag tags)
+                                   (not (member "@outside" tags))))))))))
+           (todo "HOLD"
+                 ((org-agenda-overriding-header "On hold\n"))))))
+
+  ;; Final commands
+
   (setq org-agenda-custom-commands
         `(("g" "Get Things Done"
            (,alc-org-agenda-block-agenda-today
             ,alc-org-agenda-block-deadlines
             ,alc-org-agenda-block-waiting
             ,alc-org-agenda-block-inbox
-            ,alc-org-agenda-block-next))
+            ,alc-org-agenda-block-next
+            ,alc-org-agenda-block-projects))
           ("v" "Events this month"
            agenda ""
            ((org-agenda-overriding-header "Events this month")
             (org-agenda-entry-types '(:timestamp :sexp))
-            (org-agenda-span 'month)))
+            (org-agenda-span 'month)
+            ;; Dimmed events are easy to miss in this view
+            (org-agenda-dim-blocked-tasks nil)))
           ("c" "Cleaning tasks"
            agenda nil
            ((org-agenda-span 'day)
             (org-agenda-time-grid nil)
             (org-agenda-overriding-header "Cleaning tasks\n")
             (org-agenda-skip-function
-             '(alc-org-filter-subtree-when
-               #'(lambda () (not (member "cleaning" (org-get-tags))))))))))
+             '(alc-org-skip-subtree-when
+               #'(lambda () (not (member "cleaning" (org-get-tags))))))))
+          ,org-agenda-custom-command-review))
 
 ;; ** Babel
 
