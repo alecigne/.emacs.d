@@ -2,6 +2,9 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+;; Hide warning about package still requiring 'cl
+(setq byte-compile-warnings '(cl-functions))
+
 (setq package-quickstart t
       package-archives '(("gnu" .   "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
