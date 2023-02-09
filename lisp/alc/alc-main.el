@@ -72,7 +72,7 @@ Possible values are 'personal (by defaut) or 'work."
   ;; https://github.com/doomemacs/themes
   :ensure t
   :init
-  (load-theme 'doom-one t)
+  (load-theme 'doom-dark+ t)
   :config
   (setq doom-themes-treemacs-theme "doom-colors")
   (doom-themes-treemacs-config)
@@ -86,7 +86,9 @@ Possible values are 'personal (by defaut) or 'work."
 (cond ((eq system-type 'windows-nt)
        (alc-set-font "Consolas" 100))
       ((eq system-type 'gnu/linux)
-       (alc-set-font "Source Code Pro" 105)))
+       (alc-set-font "JetBrains Mono" 120)))
+
+(setq-default line-spacing nil)
 
 (setq-default cursor-type 'bar)
 (global-hl-line-mode 1)
