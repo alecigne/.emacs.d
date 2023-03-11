@@ -95,8 +95,8 @@ Possible values are 'personal (by defaut) or 'work."
 (blink-cursor-mode 0)
 (column-number-mode t)
 (size-indication-mode t)
-(pixel-scroll-precision-mode)
-
+(unless (version< emacs-version "29")
+  (pixel-scroll-precision-mode))
 (delight 'auto-fill-function nil t)
 
 (use-package hide-mode-line
