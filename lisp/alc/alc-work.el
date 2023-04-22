@@ -55,6 +55,28 @@
   (interactive)
   (insert-file (car (last (org-roam-dailies--list-files)))))
 
+;; TODO It would be nice if the slug was built from the issue ID.
+(defun alc-work-jira-create-roam-node (issue-id)
+  "Create and populate an Org roam node from a Jira issue ID."
+  (region-or-prompt "Jira ID: ")
+  (let ((title (alc-work-jira-get-issue-title issue-id)))
+    (org-roam-capture-
+     :node (org-roam-node-create
+            :title title
+            :tags ":issue:"
+            :aliases issue-id)
+     :templates '(("d" "default" plain "%?"
+                   :target
+                   (file+head
+                    "%<%Y%m%d%H%M%S>-${slug}.org"
+                    ":PROPERTIES:
+:ID:       ${id}
+:ROAM_ALIASES: ${aliases}
+:END:
+#+title: ${title}
+#+filetags: ${tags}")
+                   :unnarrowed t)))))
+
 ;; * Wrapping up
 
 (provide 'alc-work)
