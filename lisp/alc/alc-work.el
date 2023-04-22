@@ -1,5 +1,32 @@
 ;;; alc-work.el --- Work-related configuration
 
+;; * Utils
+
+(defmacro region-or-prompt (prompt)
+  `(interactive
+    (if (region-active-p)
+        (list (buffer-substring-no-properties (region-beginning) (region-end)))
+      (list (read-string ,prompt)))))
+
+;; * Org Roam
+
+(defun alc-work-insert-last-daily ()
+  "Insert the last Org roam daily."
+  (interactive)
+  (insert-file (car (last (org-roam-dailies--list-files)))))
+
+(defun alc-work-create-daily-entry ()
+  "Create a formatted entry in an Org Roam daily."
+  (interactive)
+  (let* ((node (org-roam-node-read))
+         (link-desc (org-roam-node-formatted node))
+         (link (org-link-make-string
+                     (concat "id:" (org-roam-node-id node))
+                     link-desc))
+         (description (org-roam-node-file-title node))
+         (pattern "- [ ] [%s] %s"))
+    (insert (format pattern link description))))
+
 ;; * Jira
 
 (require 'request)
@@ -40,20 +67,11 @@
   (interactive "sJira ID: ")
   (insert (alc-work-jira-get-issue-title id)))
 
-(defmacro region-or-prompt (prompt)
-  `(interactive
-    (if (region-active-p)
-        (list (buffer-substring-no-properties (region-beginning) (region-end)))
-      (list (read-string ,prompt)))))
-
 (defun alc-work-jira-browse-issue (id)
   (region-or-prompt "Jira ID: ")
   (browse-url (format (concat alc-work-jira-base-url "/browse/%s") id)))
 
-(defun alc-work-insert-last-daily ()
-  "Insert the last Org roam daily."
-  (interactive)
-  (insert-file (car (last (org-roam-dailies--list-files)))))
+;; * Org Roam / Jira
 
 ;; TODO It would be nice if the slug was built from the issue ID.
 (defun alc-work-jira-create-roam-node (issue-id)
