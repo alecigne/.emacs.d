@@ -666,6 +666,13 @@ the date DATE."
   :after dired
   :hook (dired-mode . dired-collapse-mode))
 
+;; * Search
+
+(use-package rg
+  ;;  Emacs search tool based on ripgrep.
+  ;; https://github.com/dajva/rg.el
+  :ensure t)
+
 ;; * Markup
 
 (use-package markdown-mode
