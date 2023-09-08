@@ -601,6 +601,11 @@ the date DATE."
   :chords
   (("jh" . crux-switch-to-previous-buffer)))
 
+(defun alc-insert-iso-date (arg)
+  (interactive "P")
+  (let ((date (if arg (org-read-date) (format-time-string "%Y-%m-%d"))))
+    (insert date)))
+
 (defun alc-insert-iso-today ()
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
