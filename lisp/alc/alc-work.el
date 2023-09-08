@@ -15,8 +15,7 @@
   (interactive)
   (insert-file (car (last (org-roam-dailies--list-files)))))
 
-(defun alc-work-create-daily-entry ()
-  "Create a formatted entry in an Org Roam daily."
+(defun alc-work-format-roam-node ()
   (interactive)
   (let* ((node (org-roam-node-read))
          (link-desc (org-roam-node-formatted node))
@@ -24,7 +23,7 @@
                      (concat "id:" (org-roam-node-id node))
                      link-desc))
          (description (org-roam-node-file-title node))
-         (pattern "- [ ] [%s] %s"))
+         (pattern "[%s] %s"))
     (insert (format pattern link description))))
 
 ;; * Jira
@@ -71,18 +70,27 @@
   (region-or-prompt "Jira ID: ")
   (browse-url (format (concat alc-work-jira-base-url "/browse/%s") id)))
 
-;; * Org Roam / Jira
+;; * Org & Org Roam / Jira
+
+(defun alc-work-jira-insert-jira-link (issue-id)
+  (region-or-prompt "Jira ID: ")
+  (let ((org-link (org-link-make-string
+               (concat alc-work-jira-base-url "/browse/" issue-id)
+               issue-id)))
+    (insert org-link)))
 
 ;; TODO It would be nice if the slug was built from the issue ID.
 (defun alc-work-jira-create-roam-node (issue-id)
   "Create and populate an Org roam node from a Jira issue ID."
   (region-or-prompt "Jira ID: ")
-  (let ((title (alc-work-jira-get-issue-title issue-id)))
+  (let ((title (alc-work-jira-get-issue-title issue-id))
+        (ref (concat alc-work-jira-base-url "/browse/" issue-id)))
     (org-roam-capture-
      :node (org-roam-node-create
             :title title
             :tags ":issue:"
-            :aliases issue-id)
+            :aliases issue-id
+            :refs ref)
      :templates '(("d" "default" plain "%?"
                    :target
                    (file+head
@@ -90,6 +98,7 @@
                     ":PROPERTIES:
 :ID:       ${id}
 :ROAM_ALIASES: ${aliases}
+:ROAM_REFS: ${refs}
 :END:
 #+title: ${title}
 #+filetags: ${tags}")
