@@ -606,10 +606,6 @@ the date DATE."
   (let ((date (if arg (org-read-date) (format-time-string "%Y-%m-%d"))))
     (insert date)))
 
-(defun alc-insert-iso-today ()
-  (interactive)
-  (insert (format-time-string "%Y-%m-%d")))
-
 (defun alc-delete-file-and-buffer ()
   "Kill the current buffer and deletes the file it is visiting."
   (interactive)
