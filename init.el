@@ -1,5 +1,7 @@
 ;; * Packages-related configuration
 
+;; ** packages.el
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; Hide warning about package still requiring 'cl
@@ -13,19 +15,11 @@
                                    ("gnu"     . 5)))
 (package-initialize)
 
+;; ** use-package
+
 (setq use-package-always-defer t)
 
-(use-package auto-package-update
-  ;; Automatically update Emacs packages.
-  ;; https://github.com/rranelli/auto-package-update.el
-  :ensure t
-  :disabled t
-  :config
-  (setq auto-package-update-delete-old-versions t
-        auto-package-update-prompt-before-update t
-        auto-package-update-hide-results t)
-  (auto-package-update-maybe))
-
+;; For use-package's :delight keyword
 (use-package delight
   ;; Enables you to customise the mode names displayed in the mode line.
   ;; https://elpa.gnu.org/packages/delight.html
@@ -38,6 +32,20 @@
   :ensure t
   :demand t
   :config (key-chord-mode 1))
+
+;; ** Misc.
+
+;; For use-package's :chords keyword
+(use-package auto-package-update
+  ;; Automatically update Emacs packages.
+  ;; https://github.com/rranelli/auto-package-update.el
+  :ensure t
+  :disabled t
+  :config
+  (setq auto-package-update-delete-old-versions t
+        auto-package-update-prompt-before-update t
+        auto-package-update-hide-results t)
+  (auto-package-update-maybe))
 
 ;; * Loading my init code
 
