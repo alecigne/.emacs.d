@@ -1,11 +1,12 @@
-#+title: alc-emacs
+#+title: SwanEmacs 🦢
 #+author: Anthony Le Cigne
 #+options: num:nil
 
-This is my Emacs configuration. It is part of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git
-submodule.
+This is my Emacs configuration, compatible with Emacs 29+. It is part
+of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git submodule.
 
-It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] to make things:
+It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] (now part of Emacs 29!) to make
+things:
 
 - Neatly organized :: Everything is grouped by package. I also use
   [[https://github.com/alphapapa/outshine][outshine]] to organize code by sections.
@@ -18,13 +19,11 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
 
 * Structure
 
-- Emacs 27's [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][early-init.el]] is loaded. It contains a few specific
-  customizations that can take effect before the normal init process
-  begins.
+- [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][early-init.el]] is loaded. It contains a few specific customizations
+  that can take effect before the normal init process begins.
 
-- =init.el= loads [[http://wikemacs.org/wiki/Package.el][package.el]], bootstraps =use-package= using
-  =package.el= and then loads my personal config files located in
-  =./lisp/alc/=:
+- =init.el= loads [[http://wikemacs.org/wiki/Package.el][package.el]], add a few tweaks to =use-package= and
+  then loads my personal config files located in =./lisp/alc/=:
 
   + =alc-main.el= -- my main config.
 
@@ -34,20 +33,18 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
 
 * Local configuration
 
-I usually add a short configuration on each machine for local
-customizations.
-
-- The =org-agenda-files= variable will mix different Org projects that
-  depend on the machine I am working on. This way, I can separate Org
-  projects at the file level but still mix tasks and events in the
-  agenda to get a clear picture of my day. I then filter everything by
-  context to avoid distraction.
-
-- If I am at work, I will probably ~require~ =alc-work.el=.
+I usually add a short configuration (=alc-local.el= -- not included on
+any public branch) on each machine for local customizations. For
+example, the =org-agenda-files= variable will mix different Org
+projects that depend on the machine I am working on. This way, I can
+separate Org projects at the file level but still mix tasks and events
+in the agenda to get a clear picture of my day. I then filter
+everything by context to avoid distraction.
 
 * About literate Emacs configurations
 
-It used to be a so-called "literate config" based on a network of [[https://www.orgmode.org/][Org
-file]], but I switched for the sake of simplicity. [[https://github.com/alecigne/.emacs.d/tree/faa6d3727074f9fce746fb9653a9b4242eedce6e][Browse the last
-commit]] of that Org config if you're interested, or check the numerous
-literate configs out there.
+I am not a fan of literate Emacs configurations (yeah, I hate
+them). This one used to be such a "literate config" based on a network
+of [[https://www.orgmode.org/][Org file]], but I switched for the sake of simplicity. [[https://github.com/alecigne/.emacs.d/tree/faa6d3727074f9fce746fb9653a9b4242eedce6e][Browse the
+last commit]] of that Org config if you're interested, or check the
++way too+ numerous literate configs out there.
