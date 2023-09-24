@@ -19,7 +19,7 @@
   ;; Automatically update Emacs packages.
   ;; https://github.com/rranelli/auto-package-update.el
   :ensure t
-  :demand t
+  :disabled t
   :config
   (setq auto-package-update-delete-old-versions t
         auto-package-update-prompt-before-update t
