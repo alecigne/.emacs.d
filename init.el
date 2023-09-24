@@ -1,4 +1,4 @@
-;; * Loading `package.el'
+;; * Packages-related configuration
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -12,15 +12,6 @@
       package-archive-priorities '(("melpa" . 10)
                                    ("gnu"     . 5)))
 (package-initialize)
-
-;; * Bootstrapping `use-package'
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
 
 (setq use-package-always-defer t)
 
