@@ -72,6 +72,12 @@
 
 ;; * Org & Org Roam / Jira
 
+(use-package ox-jira
+  ;; Org-mode export backend for JIRA markup
+  ;; https://github.com/stig/ox-jira.el
+  :ensure t
+  :after org)
+
 (defun alc-work-jira-insert-jira-link (issue-id)
   (region-or-prompt "Jira ID: ")
   (let ((org-link (org-link-make-string
