@@ -116,6 +116,7 @@ address."
         '((sequence "TODO(t!)"
                     "MAYB(m!)"
                     "PROG(p!)"
+                    "OPEN(o!)"
                     "WAIT(w@/!)"
                     "HOLD(h@/!)"
                     "|"
@@ -131,6 +132,10 @@ address."
     '((t (:weight bold :foreground "red")))
     "Face used to display tasks yet to be worked on.")
 
+  (defface alc-org-open-kwd
+    '((t (:weight bold :foreground "royal blue")))
+    "Face used to display tasks yet to be worked on.")
+
   (defface alc-org-prog-kwd
     '((t (:weight bold :foreground "orange")))
     "Face used to display tasks in progress.")
@@ -141,6 +146,7 @@ address."
 
   (setq org-todo-keyword-faces
         '(("MAYB" . alc-org-mayb-kwd)
+          ("OPEN" . alc-org-open-kwd)
           ("TODO" . alc-org-todo-kwd)
           ("PROG" . alc-org-prog-kwd)
           ("WAIT" . alc-org-prog-kwd)
