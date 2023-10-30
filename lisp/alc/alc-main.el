@@ -741,6 +741,12 @@ the date DATE."
   ;; https://github.com/emacsorphanage/git-messenger
   :ensure t)
 
+(use-package restclient
+  ;; HTTP REST client tool for emacs
+  ;; https://github.com/pashky/restclient.el
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)))
+
 ;; ** Emacs Lisp
 
 (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
