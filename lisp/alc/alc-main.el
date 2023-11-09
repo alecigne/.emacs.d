@@ -747,6 +747,10 @@ the date DATE."
   :ensure t
   :mode (("\\.http\\'" . restclient-mode)))
 
+;; ** JavaScript
+
+(setq js-indent-level 2)
+
 ;; ** Emacs Lisp
 
 (global-set-key (kbd "C-c e") 'crux-eval-and-replace)
