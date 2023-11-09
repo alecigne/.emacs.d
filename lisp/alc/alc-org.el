@@ -387,7 +387,8 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
      (plantuml . t)
      (python . t)
      (shell . t)
-     (clojure . t))))
+     (clojure . t)
+     (restclient . t))))
 
 ;; * Org-related packages
 
@@ -570,6 +571,12 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; Support for Org links to Magit buffers
   ;; https://github.com/magit/orgit
   :ensure t)
+
+(use-package ob-restclient
+  ;; An org-mode extension to restclient.el
+  ;; https://github.com/alf/ob-restclient.el
+  :ensure t
+  :after (org restclient))
 
 ;; * Wrapping up
 
