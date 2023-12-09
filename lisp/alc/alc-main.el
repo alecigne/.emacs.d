@@ -760,6 +760,14 @@ the date DATE."
   :ensure t
   :mode (("\\.http\\'" . restclient-mode)))
 
+(use-package company-restclient
+  ;; Company-mode completion back-end for restclient-mode
+  ;; https://github.com/iquiw/company-restclient
+  :ensure t
+  :after (company restclient)
+  :config
+  (add-to-list 'company-backends 'company-restclient))
+
 ;; ** JavaScript
 
 (setq js-indent-level 2)
