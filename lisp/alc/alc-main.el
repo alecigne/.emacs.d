@@ -321,6 +321,14 @@ Possible values are 'personal (by defaut) or 'work."
 
 (setq native-comp-async-report-warnings-errors 'silent)
 
+(use-package default-text-scale
+  ;; Easily adjust the font size in all Emacs frames.
+  ;; https://github.com/purcell/default-text-scale
+  :defer 5
+  :ensure t
+  :config
+  (default-text-scale-mode 1))
+
 ;; ** Editing
 
 (global-set-key (kbd "M-à") 'mark-word)
