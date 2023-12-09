@@ -427,6 +427,11 @@ logical line. This is useful, e.g., for use with
   :ensure t
   :bind (("<M-S-mouse-1>" . 'mc/add-cursor-on-click)))
 
+(use-package visual-fill-column
+  ;; Emacs mode for wrapping visual-line-mode buffers at fill-column.
+  ;; https://codeberg.org/joostkremers/visual-fill-column
+  :ensure t)
+
 ;; *** Spelling
 
 (setq ispell-program-name "aspell")
