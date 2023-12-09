@@ -550,6 +550,11 @@ logical line. This is useful, e.g., for use with
   :config
   (setq recentf-max-saved-items 50))
 
+(use-package hl-todo
+  ;; Highlight TODO keywords
+  ;; https://github.com/tarsius/hl-todo
+  :ensure t)
+
 ;; ** Help
 
 ;; Jump to directly to function/variable
