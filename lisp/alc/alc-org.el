@@ -522,6 +522,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   :ensure t
   :hook (org-mode . toc-org-enable))
 
+;; TODO Delete this package and use org-present only?
 (use-package org-tree-slide
   ;; A presentation tool for org-mode based on the visibility of outline trees.
   ;; https://github.com/takaxp/org-tree-slide
@@ -545,6 +546,45 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   :bind (:map org-tree-slide-mode-map
               ("<f9>" . org-tree-slide-move-previous-tree)
               ("<f10>" . org-tree-slide-move-next-tree)))
+
+(use-package org-present
+  ;; Ultra-minimalist presentation minor-mode for Emacs org-mode.
+  ;; https://github.com/rlister/org-present
+  :ensure t
+  :config
+
+  ;; The cursor can be hidden with (internal-show-cursor (selected-window) nil)
+
+  (defun alc-org-present-setup ()
+    ;; General
+    (toggle-frame-fullscreen)
+    (setq header-line-format " ")
+    (hide-mode-line-mode 1)
+    ;; org
+    (org-tidy-mode 1)
+    (org-display-inline-images)
+    ;; org-present
+    (org-present-big))
+
+  (add-hook 'org-present-mode-hook 'alc-org-present-setup)
+
+  (defun alc-org-present-tear-down ()
+    ;; General
+    (toggle-frame-fullscreen)
+    (setq header-line-format nil)
+    (hide-mode-line-mode 0)
+    ;; org
+    (org-tidy-mode 0)
+    (org-remove-inline-images)
+    ;; org-present
+    (org-present-small))
+
+  (add-hook 'org-present-mode-quit-hook 'alc-org-present-tear-down))
+
+(use-package org-tidy
+  ;; An Emacs minor mode to automatically tidy org-mode property drawers.
+  ;; https://github.com/jxq0/org-tidy
+  :ensure t)
 
 (use-package demo-it
   ;; An Emacs package for running demonstrations, screencasts and presentations
