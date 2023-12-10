@@ -312,7 +312,9 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                   (org-agenda-entry-types '(:deadline))
                   (org-deadline-warning-days 28)
                   (org-agenda-time-grid nil)
-                  (org-agenda-sorting-strategy '(deadline-up)))))
+                  (org-agenda-sorting-strategy '(deadline-up))
+                  (org-agenda-skip-function
+                   '(org-agenda-skip-entry-if 'todo '("DONE" "CNCL"))))))
 
   ;; Waiting
   (setq alc-org-agenda-block-waiting
