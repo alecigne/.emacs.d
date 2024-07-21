@@ -653,8 +653,16 @@ the date DATE."
 (use-package dired+
   ;; Extensions to Dired.
   ;; https://www.emacswiki.org/emacs/DiredPlus
-  :load-path "~/.emacs.d/lisp/dired+/"
+  ;; https://github.com/emacsmirror/dired-plus
+  ;; This package is available on Emacs Wiki and mirrored on GitHub by the
+  ;; Emacsmirror project.
+  :ensure t
   :after dired
+  :vc (dired+
+       :url "https://github.com/emacsmirror/dired-plus"
+       :main-file "dired+.el"
+       :branch "master"
+       :rev :newest)
   :config
   (diredp-toggle-find-file-reuse-dir 1))
 
