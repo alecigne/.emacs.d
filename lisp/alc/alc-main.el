@@ -656,7 +656,6 @@ the date DATE."
   ;; https://github.com/emacsmirror/dired-plus
   ;; This package is available on Emacs Wiki and mirrored on GitHub by the
   ;; Emacsmirror project.
-  :ensure t
   :after dired
   :vc (dired+
        :url "https://github.com/emacsmirror/dired-plus"
