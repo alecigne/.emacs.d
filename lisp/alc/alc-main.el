@@ -939,11 +939,16 @@ the date DATE."
 (use-package somafm
   ;; A simple somafm interface in emacs.
   ;; https://github.com/alecigne/somafm.el
+  :ensure t
   :if (not (eq system-type 'windows-nt))
   :commands (somafm somafm-by-completion)
-  :load-path "lisp/somafm" ;; I use my own fork
-  :config
-  (setq somafm-favorites-file "~/org/drone_zone.org"))
+  ;; I use my own fork since I once contributed to this package. Also an
+  ;; illustration of the :vc keyword :)
+  :vc (somafm
+       :url "https://github.com/alecigne/somafm.el"
+       :main-file "somafm.el"
+       :branch "dev"
+       :rev :newest))
 
 ;; * Other tools and gadgets
 
