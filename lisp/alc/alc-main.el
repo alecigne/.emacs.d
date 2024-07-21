@@ -930,10 +930,8 @@ the date DATE."
 
 (use-package wttrin
   ;; Emacs frontend for weather web service wttr.in
-  ;; https://github.com/bcbcarl/emacs-wttrin
+  ;; https://github.com/cjennings/emacs-wttrin
   :ensure t
-  :load-path "lisp/wttrin" ; I use my own fork since the original package has a
-                           ; bug in it
   :commands (wttrin))
 
 ;; * Multimedia
