@@ -40,3 +40,6 @@
 
 # project.el
 /projects
+
+# somafm.el
+/.somafm-favorites
