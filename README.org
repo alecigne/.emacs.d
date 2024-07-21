@@ -5,8 +5,7 @@
 This is my Emacs configuration, compatible with Emacs 29+. It is part
 of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git submodule.
 
-It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] (now part of Emacs 29!) to make
-things:
+It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] (part of Emacs 29) to make things:
 
 - Neatly organized :: Everything is grouped by package. I also use
   [[https://github.com/alphapapa/outshine][outshine]] to organize code by sections.
@@ -16,6 +15,9 @@ things:
 
 - Self-installable :: All Emacs packages are downloaded automatically
   when I first start Emacs on a new environment.
+
+  Thanks to =use-package='s =:vc= keyword, packages can even be
+  fetched directly from source.
 
 * Structure
 
