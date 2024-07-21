@@ -37,3 +37,6 @@
 
 # Racket
 /racket-mode/
+
+# project.el
+/projects
