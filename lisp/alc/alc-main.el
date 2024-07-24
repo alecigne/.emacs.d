@@ -976,7 +976,14 @@ the date DATE."
                     (calendar-absolute-from-gregorian (list month day year)))))
           'font-lock-face 'font-lock-warning-face)
         calendar-intermonth-header
-        (propertize "Wk" 'font-lock-face 'font-lock-keyword-face)))
+        (propertize "Wk" 'font-lock-face 'font-lock-keyword-face))
+  :config
+  (defun alc-open-calendar-at-date (year month day)
+    "Open the Emacs calendar and jump to a specific date. YEAR, MONTH,
+and DAY specify the date to jump to."
+    (calendar)
+    (calendar-goto-date (list month day year))))
+
 
 (use-package ledger-mode
   ;; Emacs Lisp files for interacting with the C++Ledger accounting system.
