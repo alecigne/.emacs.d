@@ -959,6 +959,25 @@ the date DATE."
 
 ;; * Other tools and gadgets
 
+(use-package calendar
+  ;; Emacs provides the functions of a desk calendar, with a diary of planned or
+  ;; past events.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Calendar_002fDiary.html
+  :custom
+  (calendar-week-start-day 1)
+  :init
+  ;; Display week number
+  ;; https://stackoverflow.com/a/21367291
+  (setq calendar-intermonth-text
+        '(propertize
+          (format "%2d"
+                  (car
+                   (calendar-iso-from-absolute
+                    (calendar-absolute-from-gregorian (list month day year)))))
+          'font-lock-face 'font-lock-warning-face)
+        calendar-intermonth-header
+        (propertize "Wk" 'font-lock-face 'font-lock-keyword-face)))
+
 (use-package ledger-mode
   ;; Emacs Lisp files for interacting with the C++Ledger accounting system.
   ;; https://github.com/ledger/ledger-mode
