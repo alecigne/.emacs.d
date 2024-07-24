@@ -22,8 +22,8 @@
 ;; Provides a :vc use-package keyword for installing packages from VCS. Will be
 ;; included in Emacs 30 :)
 ;; https://github.com/slotThe/vc-use-package
-(if (and (version< emacs-version "30")
-         (not (package-installed-p 'vc-use-package)))
+(when (and (version< emacs-version "30")
+           (not (package-installed-p 'vc-use-package)))
   (package-vc-install "https://github.com/slotThe/vc-use-package")
   (require 'vc-use-package))
 
