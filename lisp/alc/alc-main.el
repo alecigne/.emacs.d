@@ -142,7 +142,7 @@ Possible values are 'personal (by defaut) or 'work."
   ;; Emacs completion style that matches multiple regexps in any order.
   ;; https://github.com/oantolin/orderless
   :ensure t
-  :custom (completion-styles '(orderless)))
+  :custom (completion-styles '(orderless basic)))
 
 (use-package consult
   ;; Consult provides practical commands based on the Emacs completion function
@@ -438,14 +438,29 @@ logical line. This is useful, e.g., for use with
 
 ;; *** Completion
 
-(use-package company
-  ;; Modular in-buffer completion framework for Emacs
-  ;; https://github.com/company-mode/company-mode
+(use-package corfu
+  ;; Corfu enhances in-buffer completion with a small completion popup.
+  ;; https://github.com/minad/corfu
   :ensure t
-  :defer 2
-  :delight
-  :config
-  (global-company-mode))
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
+
+(use-package kind-icon
+  ;; Icons for Corfu.
+  ;; https://github.com/jdtsmith/kind-icon
+  :ensure t
+  :after corfu
+  :init
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package cape
+  ;; Completion At Point Extensions.
+  ;; https://github.com/minad/cape
+  :ensure t)
 
 (use-package yasnippet
   ;; A template system for Emacs.
@@ -565,12 +580,6 @@ logical line. This is useful, e.g., for use with
   ;; Show function arglist or variable docstring in echo area.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Lisp-Doc.html
   :delight)
-
-(use-package company-quickhelp
-  ;; Documentation popup for Company.
-  ;; https://github.com/company-mode/company-quickhelp
-  :ensure t
-  :hook (company-mode . company-quickhelp-mode))
 
 ;; ** Privacy
 
@@ -767,18 +776,26 @@ the date DATE."
   :ensure t)
 
 (use-package restclient
-  ;; HTTP REST client tool for emacs
+  ;; HTTP REST client tool for Emacs.
   ;; https://github.com/pashky/restclient.el
   :ensure t
-  :mode (("\\.http\\'" . restclient-mode)))
+  :mode (("\\.http\\'" . restclient-mode))
+  :init
+  (when (and (package-installed-p 'cape)
+             (package-installed-p 'company-restclient))
+    (defun alc-init-restclient ()
+      "Init the restclient package by adding the adequate completion function."
+      (let ((capf (cape-company-to-capf #'company-restclient)))
+        (add-hook 'completion-at-point-functions capf)))
+    (add-hook 'restclient-mode-hook #'alc-init-restclient)))
 
 (use-package company-restclient
-  ;; Company-mode completion back-end for restclient-mode
+  ;; Company-mode completion back-end for restclient-mode.
   ;; https://github.com/iquiw/company-restclient
+  ;; The package is plugged into the completion functions through
+  ;; cape-company-to-capf to be used by corfu.
   :ensure t
-  :after (company restclient)
-  :config
-  (add-to-list 'company-backends 'company-restclient))
+  :after restclient)
 
 ;; ** JavaScript
 
