@@ -567,9 +567,17 @@ logical line. This is useful, e.g., for use with
   (setq recentf-max-saved-items 50))
 
 (use-package hl-todo
-  ;; Highlight TODO keywords
+  ;; Highlight todo keywords
   ;; https://github.com/tarsius/hl-todo
-  :ensure t)
+  :ensure t
+  :hook prog-mode)
+
+(use-package consult-todo
+  ;; Search and jump hl-todo keywords in buffers with consult.
+  ;; https://github.com/liuyinz/consult-todo
+  :ensure t
+  :after (hl-todo consult)
+  :bind (("M-s t" . consult-todo)))
 
 ;; ** Help
 
