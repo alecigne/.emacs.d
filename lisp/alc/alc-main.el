@@ -655,6 +655,14 @@ the date DATE."
           (message "Leaving file %s alone." filename))
       (message "Not a file visiting buffer!"))))
 
+(defun alc-random-string (&optional n)
+  "Generate a random alphanumeric string of length N."
+  (let* ((chars "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+         (nchars (length chars)))
+    (cl-loop
+     repeat (or n 5)
+     concat (char-to-string (aref chars (random nchars))))))
+
 ;; * Dired
 
 (use-package dired
