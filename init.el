@@ -17,19 +17,22 @@
 
 ;; ** use-package
 
-(setq use-package-always-defer t)
+(use-package use-package
+  :custom
+  (use-package-always-defer t))
 
 ;; Provides a :vc use-package keyword for installing packages from VCS. Will be
 ;; included in Emacs 30 :)
 ;; https://github.com/slotThe/vc-use-package
+;; TODO Remove this when Emacs 30 will be stable
 (when (and (version< emacs-version "30")
            (not (package-installed-p 'vc-use-package)))
   (package-vc-install "https://github.com/slotThe/vc-use-package")
   (require 'vc-use-package))
 
-;; For use-package's :delight keyword
 (use-package delight
-  ;; Enables you to customise the mode names displayed in the mode line.
+  ;; Enables you to customise the mode names displayed in the mode line. Useful
+  ;; for use-package's :delight keyword
   ;; https://elpa.gnu.org/packages/delight.html
   :ensure t)
 
@@ -43,7 +46,6 @@
 
 ;; ** Misc.
 
-;; For use-package's :chords keyword
 (use-package auto-package-update
   ;; Automatically update Emacs packages.
   ;; https://github.com/rranelli/auto-package-update.el

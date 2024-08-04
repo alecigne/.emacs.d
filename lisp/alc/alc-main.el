@@ -109,8 +109,7 @@ Possible values are 'personal (by defaut) or 'work."
 (use-package help-mode
   ;; The mode used by *Help* buffers.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Help-Mode.html
-  :bind (:map help-mode-map
-              ("q" . kill-this-buffer)))
+  :bind (:map help-mode-map ("q" . kill-current-buffer)))
 
 (setq inhibit-startup-screen t
       initial-scratch-message nil
@@ -174,7 +173,8 @@ Possible values are 'personal (by defaut) or 'work."
    ("M-s m" . consult-multi-occur)
    ("M-s k" . consult-keep-lines)
    ("M-s u" . consult-focus-lines))
-  :chords ((";b" . consult-buffer))
+  :chords ((";b" . consult-buffer)
+           (";l" . consult-line))
   :config
   (setq consult-project-function (lambda (_) (projectile-project-root))))
 
@@ -241,7 +241,7 @@ Possible values are 'personal (by defaut) or 'work."
 
 ;; current buffer and window
 
-(global-set-key (kbd "<f5>") 'kill-this-buffer)
+(global-set-key (kbd "<f5>") 'kill-current-buffer)
 (global-set-key (kbd "M-<f5>") 'kill-buffer-and-window)
 (global-set-key (kbd "C-<f5>") 'delete-window)
 (key-chord-define-global ";à" 'delete-window)        ; ";0"
@@ -803,9 +803,9 @@ the date DATE."
 
 ;; ** Emacs Lisp
 
-(global-set-key (kbd "C-c e") 'crux-eval-and-replace)
+(when (package-installed-p 'crux)
+  (global-set-key (kbd "C-c e") 'crux-eval-and-replace))
 (add-hook 'emacs-lisp-mode-hook 'display-fill-column-indicator-mode)
-
 (add-hook 'emacs-lisp-mode-hook (lambda ()
                                   (setq-default fill-column 80)))
 
