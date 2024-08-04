@@ -61,8 +61,9 @@ Possible values are 'personal (by defaut) or 'work."
 ;; ** Personal info
 
 (defun alc-load-secrets ()
+  "Load GPG-encrypted lisp config."
   (interactive)
-  (load-library (f-join alc-lisp-dir "secrets.el.gpg")))
+  (load-library (f-join alc-my-lisp-dir "alc-secrets.el.gpg")))
 
 ;; ** Look & feel
 
