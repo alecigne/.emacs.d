@@ -920,14 +920,8 @@ the date DATE."
 (use-package erc
   ;; A modular and extensible IRC client for Emacs.
   ;; https://www.gnu.org/software/emacs/manual/erc.html
-  :bind (:map erc-mode-map ("C-c C-x" . nil))
   :config
-  (setq erc-track-position-in-mode-line 'before-modes
-        erc-track-shorten-names nil
-        erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                  "324" "329" "332" "333" "353" "477")
-        erc-hide-list '("JOIN" "PART" "QUIT")
-        erc-autojoin-channels-alist '((".*\\.freenode.net" "#emacs"))))
+  (setq erc-hide-list '("JOIN" "PART" "QUIT")))
 
 (use-package elfeed
   ;; An Emacs web feeds client.
