@@ -17,6 +17,31 @@
 
 ;; ** Basics
 
+  ;; Color palette for headings
+  ;; https://redd.it/rg9ojl
+  (cl-flet ((col-strip (col-str)
+              (butlast (split-string (mapconcat (lambda (x)
+                                                  (concat "#" x " "))
+                                                (split-string col-str "-")
+                                                "") " "))))
+    (let ((theme (col-strip "388ebd-3dc2bd-84c292-dfb981-d06268")))
+      (set-face-attribute 'org-level-1 nil
+                          :height 1.0
+                          :foreground (nth 0 theme))
+      (set-face-attribute 'org-level-2 nil
+                          :height 1.0
+                          :foreground (nth 1 theme))
+      (set-face-attribute 'org-level-3 nil
+                          :height 1.0
+                          :foreground (nth 2 theme))
+      (set-face-attribute 'org-level-4 nil
+                          :height 1.0
+                          :foreground (nth 3 theme))
+      (set-face-attribute 'org-level-5 nil
+                          :foreground (nth 4 theme))
+      (set-face-attribute 'org-level-6 nil
+                          :foreground (nth 5 theme))))
+
   (setq org-use-speed-commands t
         org-speed-commands-user '(("a" org-archive-subtree))
         org-startup-indented t
