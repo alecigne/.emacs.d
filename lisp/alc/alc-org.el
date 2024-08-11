@@ -527,7 +527,15 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; https://github.com/alphapapa/outshine
   :ensure t
   :delight
-  :config (setq outshine-use-speed-commands t)
+  :config
+  (setq outshine-use-speed-commands t)
+  ;; TODO Can it be done better?
+  (set-face-attribute 'outshine-level-1 nil :inherit 'org-level-1)
+  (set-face-attribute 'outshine-level-2 nil :inherit 'org-level-2)
+  (set-face-attribute 'outshine-level-3 nil :inherit 'org-level-3)
+  (set-face-attribute 'outshine-level-4 nil :inherit 'org-level-4)
+  (set-face-attribute 'outshine-level-5 nil :inherit 'org-level-5)
+  (set-face-attribute 'outshine-level-6 nil :inherit 'org-level-6)
   :hook (emacs-lisp-mode . outshine-mode))
 
 (alc-with-system gnu/linux
