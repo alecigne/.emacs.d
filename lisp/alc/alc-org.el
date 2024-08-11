@@ -505,6 +505,12 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+(use-package consult-org-roam
+  ;; A bunch of convenience functions for operating org-roam with the help of
+  ;; consult.
+  ;; https://github.com/jgru/consult-org-roam
+  :ensure t)
+
 (use-package org-ql
   ;; This package provides a query language for Org files.
   ;; https://github.com/alphapapa/org-ql
