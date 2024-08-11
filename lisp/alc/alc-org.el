@@ -331,7 +331,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
         '(tags-todo alc-org-project-tag
                     ;; Don't dim tasks in the projet view - by definition, a
                     ;; project is very often blocked by children
-                    ((org-agenda-overriding-header "Ongoing projects\n")
+                    ((org-agenda-overriding-header "Projects\n")
                      (org-agenda-dim-blocked-tasks nil))))
 
   ;; Review
