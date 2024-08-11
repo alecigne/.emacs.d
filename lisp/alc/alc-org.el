@@ -24,7 +24,7 @@
                                                   (concat "#" x " "))
                                                 (split-string col-str "-")
                                                 "") " "))))
-    (let ((theme (col-strip "388ebd-3dc2bd-84c292-dfb981-d06268")))
+    (let ((theme (col-strip "1c97d9-1fe0da-66e182-efbd71-e84a52")))
       (set-face-attribute 'org-level-1 nil
                           :height 1.0
                           :foreground (nth 0 theme))
