@@ -287,10 +287,23 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
      ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
      (diary-sunrise-sunset)))
 
-  ;; Scheduled today
-  (setq alc-org-agenda-block-agenda-today
+  ;; Events today
+  (setq alc-org-agenda-block-events-today
         '(agenda nil
                  ((org-agenda-span 'day)
+                  (org-agenda-entry-types '(:timestamp :sexp))
+                  (org-agenda-overriding-header "Events today")
+                  (org-agenda-skip-function
+                   '(org-agenda-skip-entry-if
+                         'deadline
+                         'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
+
+  ;; Scheduled today
+  (setq alc-org-agenda-block-scheduled-today
+        '(agenda nil
+                 ((org-agenda-span 'day)
+                  (org-agenda-entry-types '(:scheduled))
+                  (org-agenda-overriding-header "Scheduled today")
                   (org-agenda-skip-function
                    '(or (org-agenda-skip-entry-if
                          'deadline
@@ -337,7 +350,6 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                      (org-agenda-dim-blocked-tasks nil))))
 
   ;; Review
-
   (setq org-agenda-custom-command-review
         '("r" "Review"
           ((todo ""
@@ -377,15 +389,16 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                  ((org-agenda-overriding-header "On hold\n"))))))
 
   ;; Final commands
-
   (setq org-agenda-custom-commands
         `(("g" "Get Things Done"
-           (,alc-org-agenda-block-agenda-today
+           (,alc-org-agenda-block-events-today
+            ,alc-org-agenda-block-scheduled-today
             ,alc-org-agenda-block-deadlines
             ,alc-org-agenda-block-waiting
             ,alc-org-agenda-block-inbox
             ,alc-org-agenda-block-next
             ,alc-org-agenda-block-projects))
+          ;; TODO It would be nice to hide sunrise and sunset in this view
           ("v" "Events this month"
            agenda ""
            ((org-agenda-overriding-header "Events this month")
