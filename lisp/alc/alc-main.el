@@ -573,6 +573,7 @@ logical line. This is useful, e.g., for use with
   :hook prog-mode
   :init
   ;; Do not highlight TODO keywords that start with a double quote
+  ;; https://github.com/tarsius/hl-todo/issues/64#issuecomment-907615685
   (modify-syntax-entry ?\" "w" hl-todo--syntax-table))
 
 (use-package consult-todo
