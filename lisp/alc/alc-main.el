@@ -570,7 +570,10 @@ logical line. This is useful, e.g., for use with
   ;; Highlight todo keywords
   ;; https://github.com/tarsius/hl-todo
   :ensure t
-  :hook prog-mode)
+  :hook prog-mode
+  :init
+  ;; Do not highlight TODO keywords that start with a double quote
+  (modify-syntax-entry ?\" "w" hl-todo--syntax-table))
 
 (use-package consult-todo
   ;; Search and jump hl-todo keywords in buffers with consult.
