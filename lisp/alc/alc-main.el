@@ -571,7 +571,7 @@ logical line. This is useful, e.g., for use with
   ;; https://github.com/tarsius/hl-todo
   :ensure t
   :hook prog-mode
-  :init
+  :config
   ;; Do not highlight TODO keywords that start with a double quote
   ;; https://github.com/tarsius/hl-todo/issues/64#issuecomment-907615685
   (modify-syntax-entry ?\" "w" hl-todo--syntax-table))
