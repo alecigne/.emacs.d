@@ -818,6 +818,11 @@ the date DATE."
   :ensure t
   :after restclient)
 
+(use-package just-mode
+  ;;  Emacs mode for justfiles.
+  ;; https://github.com/leon-barrett/just-mode.el
+  :ensure t)
+
 ;; ** JavaScript
 
 (setq js-indent-level 2)
