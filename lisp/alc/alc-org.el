@@ -664,7 +664,8 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
 (use-package orgit
   ;; Support for Org links to Magit buffers
   ;; https://github.com/magit/orgit
-  :ensure t)
+  :ensure t
+  :after (magit org))
 
 (use-package ob-restclient
   ;; An org-mode extension to restclient.el
