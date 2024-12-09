@@ -43,3 +43,6 @@
 
 # somafm.el
 /.somafm-favorites
+
+/.mc-lists.el
+/multisession/
