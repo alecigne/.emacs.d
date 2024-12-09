@@ -1,29 +1,6 @@
 ;; * Meta
 ;; Helpers for the init procress itself.
 
-(defun alc-read-system-type ()
-  "Read system type from an environment variable.
-Possible values are 'personal (by defaut) or 'work."
-  (let ((system-type (getenv "ALC_SYSTEM_TYPE")))
-    (if system-type (intern system-type) 'personal)))
-
-(setq alc-system-type (alc-read-system-type))
-
-(defmacro alc-with-system (type &rest body)
-  "Evaluate BODY if `system-type' equals TYPE."
-  (declare (indent defun))
-  `(when (eq system-type ',type)
-     ,@body))
-
-(defmacro alc-with-system-type (type &rest body)
-  "Evaluate BODY if `alc-system-type' equals TYPE."
-  (declare (indent defun))
-  `(when (eq alc-system-type ',type)
-     ,@body))
-
-(defun alc-work-system-p () (eq alc-system-type 'work))
-(defun alc-personal-system-p () (eq alc-system-type 'personal))
-
 (use-package f
   ;; f.el, a library for working with files and directories
   ;; https://github.com/rejeep/f.el
@@ -959,16 +936,6 @@ the date DATE."
     (interactive)
     (setq elfeed-search-filter "")
     (elfeed-update)))
-
-(alc-with-system-type work
-  (use-package slack
-    ;; Slack client for emacs.
-    ;; https://github.com/yuya373/emacs-slack
-    :ensure t
-    :commands (slack-start)
-    :init
-    (setq slack-buffer-emojify t)
-    (setq slack-prefer-current-team t)))
 
 ;; ** Weather
 

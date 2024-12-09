@@ -553,7 +553,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   (set-face-attribute 'outshine-level-6 nil :inherit 'org-level-6)
   :hook (emacs-lisp-mode . outshine-mode))
 
-(alc-with-system gnu/linux
+(when (eq system-type 'gnu/linux)
   (use-package org-bullets
     ;; UTF-8 bullets for org-mode.
     ;; https://github.com/integral-dw/org-bullets
