@@ -425,7 +425,9 @@ logical line. This is useful, e.g., for use with
   (corfu-auto t)
   :init
   (global-corfu-mode)
-  (corfu-popupinfo-mode))
+  (corfu-popupinfo-mode)
+  :config
+  (keymap-unset corfu-map "RET"))
 
 (use-package kind-icon
   ;; Icons for Corfu.
