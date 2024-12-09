@@ -806,6 +806,14 @@ the date DATE."
 
 (setq js-indent-level 2)
 
+;; ** Lisp
+
+(use-package paredit
+  ;; Minor mode for editing parentheses.
+  ;; http://mumble.net/~campbell/git/paredit.git/
+  :ensure t
+  :hook (clojure-mode . paredit-mode))
+
 ;; ** Emacs Lisp
 
 (when (package-installed-p 'crux)
@@ -819,40 +827,16 @@ the date DATE."
   ;; https://github.com/jorgenschaefer/emacs-buttercup
   :ensure t)
 
-;; ** Common Lisp
+;; *** Common Lisp
 
-(unless (alc-work-system-p)
-  (use-package slime
-    ;; The Superior Lisp Interaction Mode for Emacs.
-    ;; https://github.com/slime/slime
-    :ensure t
-    :config
-    (when (eq system-type 'gnu/linux)
-      (setq slime-contribs '(slime-fancy)
-            slime-protocol-version 'ignore
-            inferior-lisp-program "sbcl"))
-
-    (defun alc-swank-listening-p ()
-      (ignore-errors
-        (let ((swank-process
-               (open-network-stream "SLIME Lisp Connection Test" nil
-                                    "localhost" 4005)))
-          (when swank-process (delete-process swank-process) t))))
-
-    (defun alc-swank-autoconnect (&rest args)
-      (if (and (not (slime-connected-p))
-               (alc-swank-listening-p))
-          (ignore-errors (slime-connect "localhost" 4005))))
-
-    (alc-swank-autoconnect)))
-
-;; ** Clojure
-
-(use-package paredit
-  ;; Minor mode for editing parentheses.
-  ;; http://mumble.net/~campbell/git/paredit.git/
+(use-package sly
+  ;; Sylvester the Cat's Common Lisp IDE.
+  ;; https://github.com/joaotavora/sly
   :ensure t
-  :hook (clojure-mode . paredit-mode))
+  :config
+  (setq inferior-lisp-program "sbcl"))
+
+;; *** Clojure
 
 (use-package clojure-mode
   ;; Emacs support for the Clojure(Script) programming language.
@@ -884,7 +868,7 @@ the date DATE."
   ;; https://github.com/swannodette/clojure-snippets
   :ensure t)
 
-;; ** Racket
+;; *** Racket
 
 (use-package racket-mode
   ;; Emacs major and minor modes for Racket.
