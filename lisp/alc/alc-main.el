@@ -834,7 +834,8 @@ the date DATE."
   ;; https://github.com/joaotavora/sly
   :ensure t
   :config
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "sbcl"
+        org-babel-lisp-eval-fn #'sly-eval))
 
 ;; *** Clojure
 
