@@ -96,9 +96,9 @@
   (setq org-id-link-to-org-use-id 'create-if-interactive
         org-link-file-path-type 'relative)
 
-  (defun alc-org-replace-link-by-link-description ()
-    "Replace an org link by its description or if empty its
-address."
+  (defun alc-org-delete-link ()
+    "Delete an Org link by replacing it with its description, or its address if
+it has none."
     ;; https://emacs.stackexchange.com/a/10714
     (interactive)
     (if (org-in-regexp org-link-bracket-re 1)
