@@ -814,7 +814,7 @@ the date DATE."
   :ensure t
   :hook (clojure-mode . paredit-mode))
 
-;; ** Emacs Lisp
+;; *** Emacs Lisp
 
 (when (package-installed-p 'crux)
   (global-set-key (kbd "C-c e") 'crux-eval-and-replace))
@@ -874,6 +874,13 @@ the date DATE."
 (use-package racket-mode
   ;; Emacs major and minor modes for Racket.
   ;; https://github.com/greghendershott/racket-mode
+  :ensure t)
+
+;; *** Fennel
+
+(use-package fennel-mode
+  ;; Emacs support for the Fennel programming language.
+  ;; https://git.sr.ht/~technomancy/fennel-mode
   :ensure t)
 
 ;; ** PlantUML
