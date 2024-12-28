@@ -1031,6 +1031,11 @@ and DAY specify the date to jump to."
   ;; https://github.com/alphapapa/snow.el
   :ensure t)
 
+(use-package gptel
+  ;; A simple LLM client for Emacs.
+  ;; https://github.com/karthink/gptel
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-main)
