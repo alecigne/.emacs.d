@@ -901,6 +901,13 @@ the date DATE."
   ;; https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes
   :ensure t)
 
+;; ** Lua
+
+(use-package lua-mode
+  ;; Emacs major mode for editing Lua.
+  ;; https://github.com/immerrr/lua-mode
+  :ensure t)
+
 ;; * World
 
 ;; ** Communication
