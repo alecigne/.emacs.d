@@ -291,6 +291,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   (setq alc-org-agenda-block-events-today
         '(agenda nil
                  ((org-agenda-span 'day)
+                  (org-agenda-use-time-grid nil)
                   (org-agenda-entry-types '(:timestamp :sexp))
                   (org-agenda-overriding-header "Events today")
                   (org-agenda-skip-function
