@@ -616,7 +616,6 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
     (setq header-line-format " ")
     (hide-mode-line-mode 1)
     ;; org
-    (org-tidy-mode 1)
     (org-display-inline-images)
     ;; org-present
     (org-present-big))
@@ -629,16 +628,18 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
     (setq header-line-format nil)
     (hide-mode-line-mode 0)
     ;; org
-    (org-tidy-mode 0)
     (org-remove-inline-images)
     ;; org-present
     (org-present-small))
 
   (add-hook 'org-present-mode-quit-hook 'alc-org-present-tear-down))
 
-(use-package org-tidy
-  ;; An Emacs minor mode to automatically tidy org-mode property drawers.
-  ;; https://github.com/jxq0/org-tidy
+(use-package org-hide-drawers
+  ;; Hide drawers in org-mode with overlays[1]. Replace org-tidy[2] in my
+  ;; configuration.
+  ;; [1] https://github.com/krisbalintona/org-hide-drawers
+  ;; [2] https://github.com/jxq0/org-tidy
+  :hook (org-mode . org-hide-drawers-mode)
   :ensure t)
 
 (use-package demo-it
