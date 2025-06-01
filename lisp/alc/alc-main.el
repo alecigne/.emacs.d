@@ -134,12 +134,12 @@
    ("M-y" . consult-yank-pop)
    ;; M-g bindings (goto-map)
    ("M-g e" . consult-compile-error)
-   ("M-g f" . consult-flymake)
    ("M-g o" . consult-outline)
    ("M-g m" . consult-mark)
    ("M-g k" . consult-global-mark)
    ("M-g i" . consult-imenu)
    ("M-g I" . consult-imenu-multi)
+   ;; M-g f should run consult-flycheck -- see package's config
    ;; M-s bindings (search-map)
    ("M-s d" . consult-find)
    ("M-s D" . consult-locate)
@@ -155,6 +155,13 @@
            (";l" . consult-line))
   :config
   (setq consult-project-function (lambda (_) (projectile-project-root))))
+
+(use-package consult-flycheck
+  ;; Consult integration for Flycheck.
+  ;; https://github.com/minad/consult-flycheck
+  :ensure t
+  :after (flycheck consult)
+  :bind (("M-g f" . consult-flycheck)))
 
 (use-package embark
   ;; Emacs Mini-Buffer Actions Rooted in Keymaps.
@@ -800,6 +807,11 @@ the date DATE."
 (use-package just-mode
   ;;  Emacs mode for justfiles.
   ;; https://github.com/leon-barrett/just-mode.el
+  :ensure t)
+
+(use-package flycheck
+  ;; On the fly syntax checking for GNU Emacs.
+  ;; https://github.com/flycheck/flycheck
   :ensure t)
 
 ;; ** JavaScript
