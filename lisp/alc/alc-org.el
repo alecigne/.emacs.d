@@ -640,7 +640,8 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; [1] https://github.com/krisbalintona/org-hide-drawers
   ;; [2] https://github.com/jxq0/org-tidy
   :hook (org-mode . org-hide-drawers-mode)
-  :ensure t)
+  :ensure t
+  :delight)
 
 (use-package demo-it
   ;; An Emacs package for running demonstrations, screencasts and presentations
