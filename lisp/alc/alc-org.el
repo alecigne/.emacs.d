@@ -640,6 +640,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; [1] https://github.com/krisbalintona/org-hide-drawers
   ;; [2] https://github.com/jxq0/org-tidy
   :hook (org-mode . org-hide-drawers-mode)
+  :bind (:map org-mode-map ("C-c h" . org-hide-drawers-toggle))
   :ensure t
   :delight)
 
