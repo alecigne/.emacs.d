@@ -1055,6 +1055,16 @@ and DAY specify the date to jump to."
   ;; https://github.com/karthink/gptel
   :ensure t)
 
+(use-package xkcd-geohashing
+  ;; An implementation of XKCD's geohashing algorithm for Emacs.
+  ;; https://github.com/alecigne/xkcd-geohashing.el
+  :ensure t
+  :vc (xkcd-geohashing
+       :url "https://github.com/alecigne/xkcd-geohashing.el"
+       :main-file "xkcd-geohashing.el"
+       :branch "master"
+       :rev "v0.1.0"))
+
 ;; * Wrapping up
 
 (provide 'alc-main)
