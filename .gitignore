@@ -46,3 +46,5 @@
 
 /.mc-lists.el
 /multisession/
+/ielm-history.eld
+/xkcd-geohashing-cache.el
