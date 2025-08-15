@@ -307,7 +307,6 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                   (org-agenda-overriding-header "Scheduled today")
                   (org-agenda-skip-function
                    '(or (org-agenda-skip-entry-if
-                         'deadline
                          'todo '("WAIT" "HOLD" "DONE" "CNCL"))
                         (alc-org-skip-subtree-when
                          #'(lambda () (member "cleaning" (org-get-tags)))))))))
