@@ -13,7 +13,18 @@
 (defun alc-work-insert-last-daily ()
   "Insert the last Org roam daily."
   (interactive)
-  (insert-file (car (last (org-roam-dailies--list-files)))))
+  (let* ((files (org-roam-dailies--list-files))
+         (path (car (last files))))
+    (unless path (user-error "No dailies found"))
+    (let* ((content (with-temp-buffer
+                      (insert-file-contents path)
+                      (buffer-string)))
+           (now (format-time-string "[%Y-%m-%d %a %H:%M]"))
+           (updated (replace-regexp-in-string
+                     "^\\([ \t]*:CREATED:\\).*"
+                     (lambda (m) (concat (match-string 1 m) "  " now))
+                     content t t)))
+      (insert updated))))
 
 (defun alc-work-format-roam-node ()
   (interactive)
