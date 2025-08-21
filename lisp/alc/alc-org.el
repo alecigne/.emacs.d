@@ -641,7 +641,9 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   :hook (org-mode . org-hide-drawers-mode)
   :bind (:map org-mode-map ("C-c h" . org-hide-drawers-toggle))
   :ensure t
-  :delight)
+  :delight
+  :config
+  (setq org-hide-drawers-hide-top-level-properties-drawer nil))
 
 (use-package demo-it
   ;; An Emacs package for running demonstrations, screencasts and presentations
