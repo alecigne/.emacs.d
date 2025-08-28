@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: checkbox list item
+# key: <cb
+# condition: (derived-mode-p 'org-mode)
+# --
+- [ ] $0
