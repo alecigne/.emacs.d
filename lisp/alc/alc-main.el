@@ -49,12 +49,17 @@
   ;; framework.
   ;; https://github.com/doomemacs/themes
   :ensure t
-  :init
-  (load-theme 'doom-dark+ t)
+  :demand t
   :config
+  (load-theme 'doom-dark+ t)
   (setq doom-themes-treemacs-theme "doom-colors")
   (doom-themes-treemacs-config)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+
+  ;; Blue modeline, but not the one set by `doom-dark+-blue-modeline'
+  (custom-set-faces
+   '(mode-line ((t (:background "#204a87" :foreground "#ffffff"))))
+   '(mode-line-inactive ((t (:background "#152f52" :foreground "#888888"))))))
 
 (defun alc-set-font (font height)
   "Use FONT if installed, with height HEIGHT."
