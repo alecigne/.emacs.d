@@ -175,24 +175,17 @@
   :bind
   (("C-;" . embark-act)
    ("C-:" . embark-dwim)
-   ("C-h B" . embark-bindings)))
+   ("C-h B" . embark-bindings))
+  :init
+  ;; Useful for replacing which-key. See:
+  ;; https://www.matem.unam.mx/~omar/apropos-emacs.html#the-case-against-which-key-a-polemic
+  (setq prefix-help-command #'embark-prefix-help-command))
 
 (use-package embark-consult
   ;; Consult integration for Embark.
   ;; https://github.com/oantolin/embark/blob/master/embark-consult.el
   :ensure t
   :after (embark consult))
-
-(use-package which-key
-  ;; Display available keybindings in popup.
-  ;; https://github.com/justbur/emacs-which-key
-  :ensure t
-  :defer 1
-  :delight
-  :config
-  (which-key-mode)
-  (which-key-setup-side-window-bottom)
-  (setq which-key-idle-delay 1.0))
 
 (use-package dashboard
   ;; An extensible emacs startup screen showing you what's most important.
