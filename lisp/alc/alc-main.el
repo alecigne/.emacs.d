@@ -460,6 +460,12 @@ logical line. This is useful, e.g., for use with
     :ensure t)
   (yas-global-mode 1))
 
+(use-package consult-yasnippet
+  ;; Implements a consulting-read interface for yasnippet.
+  ;; https://github.com/mohkale/consult-yasnippet
+  :ensure t
+  :after yasnippet)
+
 ;; ** Navigating
 
 (setq isearch-allow-scroll 'unlimited)
