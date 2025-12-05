@@ -27,24 +27,14 @@
 /network-security.data
 /eln-cache/
 /places
-
-# cask packages
 /.cask/
 /dist/
-
-# request.el
 /request/
-
-# Racket
 /racket-mode/
-
-# project.el
 /projects
-
-# somafm.el
 /.somafm-favorites
-
 /.mc-lists.el
 /multisession/
 /ielm-history.eld
 /xkcd-geohashing-cache.el
+/org-persist/
