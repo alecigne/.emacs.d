@@ -24,7 +24,8 @@
                      "^\\([ \t]*:CREATED:\\).*"
                      (lambda (m) (concat (match-string 1 m) "  " now))
                      content t t)))
-      (insert updated))))
+      (insert updated)
+      (beginning-of-buffer))))
 
 (defun alc-work-format-roam-node ()
   (interactive)
