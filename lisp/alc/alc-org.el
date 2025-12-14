@@ -8,11 +8,11 @@
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
-         ("C-c f" . org-footnote-new)
          ("C-c c" . org-capture)
          ("<f7>" . org-agenda)
          :map org-mode-map
-         ("C-c C" . alc-org-insert-cookie))
+         ("C-c f" . org-footnote-new)
+         ("C-c C" . alc-org-insert-coeokie))
   :config
 
 ;; ** Basics
