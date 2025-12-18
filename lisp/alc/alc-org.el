@@ -12,7 +12,7 @@
          ("<f7>" . org-agenda)
          :map org-mode-map
          ("C-c f" . org-footnote-new)
-         ("C-c C" . alc-org-insert-coeokie))
+         ("C-c C" . alc-org-insert-cookie))
   :config
 
 ;; ** Basics
