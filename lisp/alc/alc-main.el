@@ -802,6 +802,16 @@ the date DATE."
   ;; https://github.com/flycheck/flycheck
   :ensure t)
 
+;; ** C (and maybe others)
+
+(use-package clang-format
+  ;; clang-format support for Emacs.
+  ;; https://github.com/llvm/llvm-project/blob/main/clang/tools/clang-format/clang-format.el
+  :if (executable-find "clang-format")
+  :ensure t
+  :after cc-mode
+  :bind (:map c-mode-base-map ("C-c f" . clang-format-buffer)))
+
 ;; ** JavaScript
 
 (setq js-indent-level 2)
