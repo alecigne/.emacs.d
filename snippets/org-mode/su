@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name : startup
+# key: <su
+# --
+#+startup: $1
