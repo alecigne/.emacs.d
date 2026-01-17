@@ -52,8 +52,6 @@
   :demand t
   :config
   (load-theme 'doom-dark+ t)
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config)
   (doom-themes-org-config)
 
   ;; Blue modeline, but not the one set by `doom-dark+-blue-modeline'
@@ -530,25 +528,10 @@ logical line. This is useful, e.g., for use with
   ;; https://github.com/Alexander-Miller/treemacs
   :ensure t
   :config
-  ;; (treemacs-follow-mode t)
-  ;; (treemacs-filewatch-mode t)
-  ;; (treemacs-fringe-indicator-mode t)
+  (treemacs-follow-mode t)
+  (treemacs-project-follow-mode t)
   :bind
   (:map global-map ("C-x t t"   . treemacs)))
-
-(use-package treemacs-icons-dired
-  ;; Treemacs icons for dired.
-  ;; https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-icons-dired.el
-  :ensure t
-  :after treemacs dired
-  :config (treemacs-icons-dired-mode))
-
-(use-package treemacs-all-the-icons
-  ;; `all-the-icons' integration for treemacs.
-  ;; https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-all-the-icons.el
-  :ensure t
-  :after treemacs
-  :config (treemacs-load-theme 'all-the-icons))
 
 (use-package recentf
   ;; Setup a menu of recently opened files.
