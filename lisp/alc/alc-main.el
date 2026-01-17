@@ -348,7 +348,7 @@ logical line. This is useful, e.g., for use with
   :defer 5
   :delight
   :init
-  (setq undo-tree-history-directory-alist `(("." . ,alc-tmp-dir)))
+  (setq undo-tree-auto-save-history nil)
   :config
   (global-undo-tree-mode))
 
