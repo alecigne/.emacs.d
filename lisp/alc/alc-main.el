@@ -494,7 +494,8 @@ logical line. This is useful, e.g., for use with
   :config
   (projectile-mode +1)
   (setq projectile-mode-line-function
-        (lambda () (format " π[%s]" (projectile-project-name)))))
+        (lambda () (format " π[%s]" (projectile-project-name))))
+  (setq projectile-switch-project-action #'projectile-commander))
 
 (use-package perspective
   ;; The Perspective package provides multiple named workspaces (or
