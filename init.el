@@ -57,7 +57,30 @@
         auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
-;; * Loading my init code
+;; * Directories
+
+(use-package f
+  ;; f.el, a library for working with files and directories
+  ;; https://github.com/rejeep/f.el
+  :ensure t
+  :demand t)
+
+;; On Windows, I want the homedir to be `C:\Users\<username>' and not
+;; `C:\Users\<username>\AppData\Roaming'.
+(setq alc-home-dir
+      (if (eq system-type 'windows-nt)
+          (getenv "USERPROFILE")
+        (getenv "HOME")))
+
+(setq alc-tmp-dir (f-join alc-home-dir "tmp"))
+
+(defun alc-load-secrets ()
+  "Load GPG-encrypted lisp config."
+  (interactive)
+  (load-library (f-join alc-my-lisp-dir "alc-secrets.el.gpg")))
+
+(let ((backup-dir (f-join alc-tmp-dir "emacs-backup")))
+  (setq backup-directory-alist `(("." . ,backup-dir))))
 
 (defvar alc-lisp-dir (expand-file-name "lisp/" user-emacs-directory)
   "Lisp directory.")
@@ -65,9 +88,14 @@
 (defvar alc-my-lisp-dir (expand-file-name "alc/" alc-lisp-dir)
   "My personal lisp directory.")
 
+;; * Loading my init code
+
 (add-to-list 'load-path alc-my-lisp-dir)
-(require 'alc-main)
+(require 'alc-core)
+(require 'alc-tools)
 (require 'alc-org)
+(require 'alc-experimental)
+(require 'alc-local)
 
 ;; * Wrapping up
 

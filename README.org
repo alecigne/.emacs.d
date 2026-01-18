@@ -2,13 +2,13 @@
 #+author: Anthony Le Cigne
 #+options: num:nil
 
-This is my Emacs configuration, compatible with Emacs 29+. It is part
-of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git submodule.
+This is my Emacs configuration. It is part of my [[https://github.com/alecigne/dotfiles][dotfiles]] as a Git
+submodule.
 
-It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] (part of Emacs 29) to make things:
+It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] to make things:
 
 - Neatly organized :: Everything is grouped by package. I also use
-  [[https://github.com/alphapapa/outshine][outshine]] to organize code by sections.
+  [[https://github.com/jdtsmith/outli][outli]] to organize code by sections.
 
 - Readable :: =use-package= offers a large choice of expressive
   keywords.
@@ -27,11 +27,12 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
 - =init.el= loads [[http://wikemacs.org/wiki/Package.el][package.el]], add a few tweaks to =use-package= and
   then loads my personal config files located in =./lisp/alc/=:
 
-  + =alc-main.el= -- my main config.
-
-  + =alc-org.el= -- my Org-mode config.
-
-  + =alc-work.el= -- my work config (not loaded by default).
+  + =alc-core.el= -- the core configuration, shared across all
+    workflows.
+  + =alc-tools.el= -- domain-specific tools and integrations.
+  + =alc-org.el= -- my [[https://orgmode.org/][Org-mode]] config.
+  + =alc-experimental.el= -- experimental and in-progress
+    configuration.
 
 * Local configuration
 
