@@ -1,4 +1,15 @@
-;; * Org
+;;; alc-org.el --- Org-mode configuration -*- lexical-binding: t; -*-
+
+;; Author: Anthony Le Cigne
+
+;;; Commentary:
+
+;; This file contains my Org-mode and Org-related configuration.
+;;
+;; Since Org-mode plays such a central role in the modern Emacs workflow, it was
+;; separated from the tools modules as some kind of "tool of choice" :)
+
+;;; Code:
 
 (use-package org
   ;; Outline-based notes management and organizer.
@@ -15,32 +26,15 @@
          ("C-c C" . alc-org-insert-cookie))
   :config
 
-;; ** Basics
+;; * Basics
 
-  ;; Color palette for headings
-  ;; https://redd.it/rg9ojl
-  (cl-flet ((col-strip (col-str)
-              (butlast (split-string (mapconcat (lambda (x)
-                                                  (concat "#" x " "))
-                                                (split-string col-str "-")
-                                                "") " "))))
-    (let ((theme (col-strip "1c97d9-1fe0da-66e182-efbd71-e84a52")))
-      (set-face-attribute 'org-level-1 nil
-                          :height 1.0
-                          :foreground (nth 0 theme))
-      (set-face-attribute 'org-level-2 nil
-                          :height 1.0
-                          :foreground (nth 1 theme))
-      (set-face-attribute 'org-level-3 nil
-                          :height 1.0
-                          :foreground (nth 2 theme))
-      (set-face-attribute 'org-level-4 nil
-                          :height 1.0
-                          :foreground (nth 3 theme))
-      (set-face-attribute 'org-level-5 nil
-                          :foreground (nth 4 theme))
-      (set-face-attribute 'org-level-6 nil
-                          :foreground (nth 5 theme))))
+  (let* ((theme (alc-hex-from-string-palette alc-heading-palette))
+         (faces '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5)))
+    (cl-mapc (lambda (face color)
+               (set-face-attribute face nil
+                                   :foreground color
+                                   :height 1.0))
+             faces theme))
 
   (setq org-use-speed-commands t
         org-speed-commands-user '(("a" org-archive-subtree))
@@ -90,7 +84,7 @@
   ;; explicitely.
   (add-hook 'org-capture-before-finalize-hook #'alc-org-insert-created)
 
-;; ** Hyperlinks
+;; * Hyperlinks
 
   (add-to-list 'org-modules 'org-id)
   (setq org-id-link-to-org-use-id 'create-if-interactive
@@ -111,7 +105,7 @@ it has none."
             (apply 'delete-region remove)
             (insert description)))))
 
-;; ** Gettings Things Done: todos, agenda, capture
+;; * Gettings Things Done: todos, agenda, capture
 
   (add-to-list 'org-modules 'org-habit t)
 
@@ -219,7 +213,7 @@ time of change will be 23:59 on that day"
           (org-agenda-todo arg)
         (org-todo arg)))))
 
-;; *** Agenda
+;; ** Agenda
 
   (setq org-agenda-format-date "%Y-%m-%d %a")
 
@@ -416,7 +410,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
                #'(lambda () (not (member "cleaning" (org-get-tags))))))))
           ,org-agenda-custom-command-review))
 
-;; ** Babel
+;; * Babel
 
   (setq org-babel-clojure-backend 'cider)
 
@@ -430,7 +424,48 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
      (clojure . t)
      (restclient . t))))
 
-;; * Org-related packages
+;; * Org-roam
+
+(use-package org-roam
+  ;; Org-roam
+  ;; https://github.com/org-roam/org-roam
+  ;; https://www.orgroam.com/manual.html
+  :ensure t
+   :init
+  (setq org-roam-v2-ack t)
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n r" . org-roam-node-random)
+         (:map org-mode-map
+               (("C-c n i" . org-roam-node-insert)
+                ("C-c n o" . org-id-get-create)
+                ("C-c n t" . org-roam-tag-add)
+                ("C-c n a" . org-roam-alias-add)
+                ("C-c n l" . org-roam-buffer-toggle))))
+  :config
+  (setq org-roam-node-display-template
+        (concat "${title:*} "
+                (propertize "${tags:50}" 'face 'org-tag)))
+  (org-roam-setup))
+
+(use-package org-roam-ui
+  ;; A graphical frontend for exploring your org-roam Zettelkasten.
+  ;; https://github.com/org-roam/org-roam-ui
+  :ensure t
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+(use-package consult-org-roam
+  ;; A bunch of convenience functions for operating org-roam with the help of
+  ;; consult.
+  ;; https://github.com/jgru/consult-org-roam
+  :after (consult org-roam)
+  :ensure t)
+
+;; * Other Org-related packages
 
 ;; ** Contrib
 
@@ -487,71 +522,10 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
 
 ;; ** Others
 
-(use-package org-roam
-  ;; Org-roam
-  ;; https://github.com/org-roam/org-roam
-  ;; https://www.orgroam.com/manual.html
-  :ensure t
-  :after org
-  :init
-  (setq org-roam-v2-ack t)
-  :bind (("C-c n f" . org-roam-node-find)
-         ("C-c n r" . org-roam-node-random)
-         (:map org-mode-map
-               (("C-c n i" . org-roam-node-insert)
-                ("C-c n o" . org-id-get-create)
-                ("C-c n t" . org-roam-tag-add)
-                ("C-c n a" . org-roam-alias-add)
-                ("C-c n l" . org-roam-buffer-toggle))))
-  :config
-  (setq org-roam-node-display-template
-        (concat "${title:*} "
-                (propertize "${tags:50}" 'face 'org-tag)))
-  (org-roam-setup))
-
-(use-package org-roam-ui
-  ;; A graphical frontend for exploring your org-roam Zettelkasten.
-  ;; https://github.com/org-roam/org-roam-ui
-  :ensure t
-  :after org-roam
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
-(use-package consult-org-roam
-  ;; A bunch of convenience functions for operating org-roam with the help of
-  ;; consult.
-  ;; https://github.com/jgru/consult-org-roam
-  :ensure t)
-
 (use-package org-ql
   ;; This package provides a query language for Org files.
   ;; https://github.com/alphapapa/org-ql
   :ensure t)
-
-(use-package outline
-  ;; Outline mode is a major mode derived from Text mode, which is specialized
-  ;; for editing outlines.
-  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Mode.html
-  :delight outline-minor-mode)
-
-(use-package outshine
-  ;; Org-mode for non-Org buffers.
-  ;; https://github.com/alphapapa/outshine
-  :ensure t
-  :delight
-  :config
-  (setq outshine-use-speed-commands t)
-  ;; TODO Can it be done better?
-  (set-face-attribute 'outshine-level-1 nil :inherit 'org-level-1)
-  (set-face-attribute 'outshine-level-2 nil :inherit 'org-level-2)
-  (set-face-attribute 'outshine-level-3 nil :inherit 'org-level-3)
-  (set-face-attribute 'outshine-level-4 nil :inherit 'org-level-4)
-  (set-face-attribute 'outshine-level-5 nil :inherit 'org-level-5)
-  (set-face-attribute 'outshine-level-6 nil :inherit 'org-level-6)
-  :hook (emacs-lisp-mode . outshine-mode))
 
 (when (eq system-type 'gnu/linux)
   (use-package org-bullets
