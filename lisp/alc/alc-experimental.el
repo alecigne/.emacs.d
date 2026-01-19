@@ -107,6 +107,13 @@
   :init
   (tab-bar-mode))
 
+;; * consult-projectile
+
+(use-package consult-projectile
+  ;; A package to incorporate projectile into consult.
+  ;; https://gitlab.com/OlMon/consult-projectile
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
