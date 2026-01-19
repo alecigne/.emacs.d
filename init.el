@@ -95,7 +95,6 @@
 (require 'alc-tools)
 (require 'alc-org)
 (require 'alc-experimental)
-(require 'alc-local)
 
 ;; * Wrapping up
 
