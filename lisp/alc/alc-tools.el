@@ -78,7 +78,7 @@
   ;; Highlight todo keywords
   ;; https://github.com/tarsius/hl-todo
   :ensure t
-  :hook prog-mode
+  :hook (prog-mode yaml-mode)
   :config
   ;; Do not highlight TODO keywords that start with a double quote
   ;; https://github.com/tarsius/hl-todo/issues/64#issuecomment-907615685
