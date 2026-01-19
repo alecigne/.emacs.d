@@ -75,4 +75,38 @@
     (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
     (add-hook 'consult-after-jump-hook #'pulsar-pulse-line)))
 
+;; * tab-bar-mode
+
+;; The idea here is to have a tab bar in every frame (I usually have one). I
+;; will use tab bars as workspaces for projects, and this would replace
+;; perspective (which I don't use...). Work in progress!
+
+(use-package tab-bar
+  ;; The Tab Bar is a row of tabs—buttons that you can click to switch between
+  ;; window configurations.
+  ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Bars.html
+  :preface
+  (defun alc-tab-name ()
+    "Tab name = project name when available, otherwise the default tab name."
+    (let* ((proj (cond
+                  ((fboundp 'projectile-project-name)
+                   (projectile-project-name))
+                  ((fboundp 'project-current)
+                   (when-let ((p (project-current nil)))
+                     (file-name-nondirectory
+                      (directory-file-name (project-root p)))))
+                  (t nil))))
+      (if (or (null proj) (string-empty-p proj) (string= proj "-"))
+          (tab-bar-tab-name-current)
+        proj)))
+  :custom
+  (tab-bar-border 2)
+  (tab-bar-tab-name-function #'alc-tab-name)
+  ;; TODO Check if dashboard is available!
+  (tab-bar-new-tab-choice "*dashboard*")
+  :init
+  (tab-bar-mode))
+
+;; * Wrapping up
+
 (provide 'alc-experimental)
