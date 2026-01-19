@@ -47,7 +47,7 @@
   :ensure t
   :bind (("M-o" . ace-window))
   :custom
-  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?m))
   (aw-background t))
 
 ;; * Pulsar
