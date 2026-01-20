@@ -431,7 +431,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; https://github.com/org-roam/org-roam
   ;; https://www.orgroam.com/manual.html
   :ensure t
-   :init
+  :init
   (setq org-roam-v2-ack t)
   :bind (("C-c n f" . org-roam-node-find)
          ("C-c n r" . org-roam-node-random)
