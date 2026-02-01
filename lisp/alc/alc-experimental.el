@@ -14,8 +14,6 @@
 
 ;; * Small tweaks
 
-(window-divider-mode)
-
 ;; * Avy
 
 (use-package avy

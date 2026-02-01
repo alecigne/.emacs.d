@@ -110,6 +110,8 @@ Original idea from https://redd.it/rg9ojl."
 
 ;; * Frames, buffers, windows & files
 
+(window-divider-mode)
+
 (setq frame-title-format
       '("[" invocation-name "@" system-name "] " (:eval (buffer-name))))
 
