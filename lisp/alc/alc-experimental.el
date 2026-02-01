@@ -114,6 +114,14 @@
   ;; https://gitlab.com/OlMon/consult-projectile
   :ensure t)
 
+;; * org-roam-latte
+
+(use-package org-roam-latte
+  ;; Org-roam Latte is a minor mode that automatically highlights unlinked
+  ;; references to existing
+  ;; https://github.com/yad-tahir/org-roam-latte
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
