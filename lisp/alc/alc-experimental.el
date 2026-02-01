@@ -122,6 +122,13 @@
   ;; https://github.com/yad-tahir/org-roam-latte
   :ensure t)
 
+;; * jinja2-mode
+
+(use-package jinja2-mode
+  ;; Jinja2 mode for Emacs.
+  ;; https://github.com/paradoxxxzero/jinja2-mode
+  :ensure t)
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
