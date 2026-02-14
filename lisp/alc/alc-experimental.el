@@ -118,6 +118,7 @@
   ;; Org-roam Latte is a minor mode that automatically highlights unlinked
   ;; references to existing
   ;; https://github.com/yad-tahir/org-roam-latte
+  :after org-roam
   :ensure t)
 
 ;; * jinja2-mode
