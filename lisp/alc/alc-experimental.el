@@ -128,6 +128,31 @@
   ;; https://github.com/paradoxxxzero/jinja2-mode
   :ensure t)
 
+;; * Denote
+
+(use-package denote
+  :ensure t
+  :hook (dired-mode . denote-dired-mode)
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n r" . denote-rename-file)
+   ("C-c n l" . denote-link)
+   ("C-c n b" . denote-backlinks))
+  :config
+  (setq denote-file-type 'org)
+  (setq denote-prompts '(title))
+  (denote-rename-buffer-mode 1))
+
+(use-package consult-denote
+  :ensure t
+  :after denote consult
+  :bind
+  (("C-c n f" . consult-denote-find)
+   ("C-c n s" . consult-denote-grep))
+  :config
+  (setq consult-denote-grep-command #'consult-ripgrep)
+  (consult-denote-mode 1))
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
