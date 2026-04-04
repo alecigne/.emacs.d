@@ -514,9 +514,11 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
 (use-package org-crypt
   ;; Public Key Encryption for Org Entries.
   ;; https://git.savannah.gnu.org/cgit/emacs/org-mode.git/tree/lisp/org-crypt.el
+  :after org
+  :hook (org-mode . (lambda ()
+                      (add-hook 'before-save-hook #'org-encrypt-entries nil t)))
   :bind (("C-c z" . org-decrypt-entry))
   :config
-  (org-crypt-use-before-save-magic)
   (add-to-list 'org-tags-exclude-from-inheritance "crypt")
   (setq org-crypt-key "F62FE7A4"))
 
