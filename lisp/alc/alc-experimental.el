@@ -153,6 +153,27 @@
   (setq consult-denote-grep-command #'consult-ripgrep)
   (consult-denote-mode 1))
 
+;; * which-key
+
+(use-package which-key
+  ;; Display available keybindings in popup.
+  :demand t
+  :delight
+  :custom
+  (which-key-idle-delay 1.0)
+  :custom-face
+  ;; Groups/prefixes
+  (which-key-group-description-face
+   ((t (:foreground "#b35c5c" :weight bold))))
+  ;; Commands
+  (which-key-command-description-face
+   ((t (:inherit font-lock-function-name-face :weight normal))))
+  ;; Local commands
+  (which-key-local-map-description-face
+   ((t (:inherit which-key-command-description-face :slant italic))))
+  :config
+  (which-key-mode 1))
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
