@@ -134,10 +134,13 @@
   :ensure t
   :hook (dired-mode . denote-dired-mode)
   :bind
-  (("C-c n n" . denote)
-   ("C-c n r" . denote-rename-file)
-   ("C-c n l" . denote-link)
-   ("C-c n b" . denote-backlinks))
+  (:prefix-map denote-prefix-map
+   :prefix-docstring "Prefix map for Denote."
+   :prefix "C-c n"
+   ("n" . denote)
+   ("r" . denote-rename-file)
+   ("l" . denote-link)
+   ("b" . denote-backlinks))
   :config
   (setq denote-file-type 'org)
   (setq denote-prompts '(title))
