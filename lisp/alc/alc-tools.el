@@ -32,14 +32,18 @@
 (use-package projectile
   ;; Project Interaction Library for Emacs.
   ;; https://github.com/bbatsov/projectile
+  ;;
+  ;; C-c p is bound as a real named Projectile prefix via keymap autoload.
+  ;; `:bind-keymap' does not do that: it installs a lazy-loading wrapper first.
   :ensure t
-  :defer 1
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
+  :preface
+  (autoload 'projectile-command-map "projectile" nil nil 'keymap)
   :custom
   (projectile-track-known-projects-automatically nil)
+  :init
+  (keymap-set global-map "C-c p" 'projectile-command-map)
   :config
-  (projectile-mode +1)
+  (projectile-mode)
   (setq projectile-mode-line-function
         (lambda () (format " π[%s]" (projectile-project-name))))
   (setq projectile-switch-project-action #'projectile-commander))
