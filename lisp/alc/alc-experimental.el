@@ -177,6 +177,48 @@
   :config
   (which-key-mode 1))
 
+;; * "Consult Org titles"
+;; This lists all Org files in a project and display their titles with consult.
+
+;; Quick, fast, dirty. In particular, this doesn't load Org mode in every file
+;; (which could be necessary e.g. with org-collect-keywords)
+(defun alc-org-project-pages--title (file)
+  "Return FILE's Org title, or its base name."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((case-fold-search t))
+      (goto-char (point-min))
+      (if (re-search-forward "^[ \t]*#\\+title:[ \t]*\\(.*\\)$" nil t)
+          (string-trim (match-string-no-properties 1))
+        (file-name-base file)))))
+
+(defun alc-org-project-pages--files ()
+  "Return absolute paths of .org files in the current project."
+  (let* ((project (or (project-current) (user-error "Not inside a project")))
+         (root (project-root project)))
+    (mapcar (lambda (f)
+              (if (file-name-absolute-p f) f (expand-file-name f root)))
+            (seq-filter
+             (lambda (f) (string-match-p "\\.org\\(?:_archive\\)?\\'" f))
+             (project-files project)))))
+
+(defun alc-consult-org-project-page ()
+  "Open an Org file from the current project, completing on Org title."
+  (interactive)
+  (let ((file
+         (consult--read
+          (mapcar
+           (lambda (file)
+             (cons (alc-org-project-pages--title file) file))
+           (alc-org-project-pages--files))
+          :prompt "Org page: "
+          :sort nil
+          :require-match t
+          :lookup #'consult--lookup-cdr
+          :category 'file
+          :history 'file-name-history)))
+    (find-file file)))
+
 ;; * Wrapping up
 
 (provide 'alc-experimental)
