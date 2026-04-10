@@ -160,7 +160,7 @@ the date DATE."
    (format-time-string "%V" (if date (date-to-time (concat date "T00:00:00"))
                               (current-time)))))
 
-(global-set-key (kbd "H-SPC w") #'alc-insert-week-number)
+(keymap-global-set "H-SPC w" 'alc-insert-week-number)
 
 (defun alc-insert-iso-date (arg)
   (interactive "P")

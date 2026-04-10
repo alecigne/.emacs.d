@@ -532,8 +532,8 @@ Original idea from https://redd.it/rg9ojl."
   :delight)
 
 ;; Jump to directly to function/variable
-(global-set-key (kbd "C-h C-f") 'find-function)
-(global-set-key (kbd "C-h C-v") 'find-variable)
+(keymap-global-set "C-h C-f" 'find-function)
+(keymap-global-set "C-h C-v" 'find-variable)
 
 ;; * Performance/debugging
 
