@@ -521,6 +521,25 @@ Original idea from https://redd.it/rg9ojl."
 
 ;; * Help
 
+(use-package which-key
+  ;; Display available keybindings in popup.
+  :demand t
+  :delight
+  :custom
+  (which-key-idle-delay 1.0)
+  :custom-face
+  ;; Groups/prefixes
+  (which-key-group-description-face
+   ((t (:foreground "#b35c5c" :weight bold))))
+  ;; Commands
+  (which-key-command-description-face
+   ((t (:inherit font-lock-function-name-face :weight normal))))
+  ;; Local commands
+  (which-key-local-map-description-face
+   ((t (:inherit which-key-command-description-face :slant italic))))
+  :config
+  (which-key-mode))
+
 (use-package help-mode
   ;; The mode used by *Help* buffers.
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Help-Mode.html
