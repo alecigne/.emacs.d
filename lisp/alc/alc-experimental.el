@@ -136,7 +136,7 @@
   :bind
   (:prefix-map denote-prefix-map
    :prefix-docstring "Prefix map for Denote."
-   :prefix "C-c n"
+   :prefix "C-c o"
    ("n" . denote)
    ("r" . denote-rename-file)
    ("l" . denote-link)
@@ -150,8 +150,8 @@
   :ensure t
   :after denote consult
   :bind
-  (("C-c n f" . consult-denote-find)
-   ("C-c n s" . consult-denote-grep))
+  (("C-c o f" . consult-denote-find)
+   ("C-c o s" . consult-denote-grep))
   :config
   (setq consult-denote-grep-command #'consult-ripgrep)
   (consult-denote-mode 1))
