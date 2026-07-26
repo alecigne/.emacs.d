@@ -46,7 +46,7 @@
   (projectile-mode)
   (setq projectile-mode-line-function
         (lambda () (format " π[%s]" (projectile-project-name))))
-  (setq projectile-switch-project-action #'projectile-commander))
+  (setq projectile-switch-project-action #'projectile-dispatch))
 
 (use-package ibuffer-projectile
   ;; Group buffers in ibuffer list by projectile project
