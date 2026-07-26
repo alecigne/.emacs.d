@@ -108,6 +108,7 @@ it has none."
 ;; * Gettings Things Done: todos, agenda, capture
 
   (add-to-list 'org-modules 'org-habit t)
+  (setq org-habit-graph-column 100)
 
   (setq org-treat-S-cursor-todo-selection-as-state-change nil
         org-treat-insert-todo-heading-as-state-change t
@@ -215,7 +216,18 @@ time of change will be 23:59 on that day"
 
 ;; ** Agenda
 
-  (setq org-agenda-format-date "%Y-%m-%d %a")
+  (defun alc-org-agenda-switch-to-heading ()
+    "Go to the very beginning of corresponding heading, filling the frame."
+    (interactive)
+    (org-agenda-switch-to)
+    (org-back-to-heading t)
+    (org-reveal))
+
+  (with-eval-after-load 'org-agenda
+    (keymap-set org-agenda-mode-map "<tab>" 'alc-org-agenda-switch-to-heading))
+
+  (setq org-agenda-format-date "%Y-%m-%d %a"
+        org-agenda-window-setup 'only-window)
 
   ;; I don't want to see these tags in the agenda
   (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag
