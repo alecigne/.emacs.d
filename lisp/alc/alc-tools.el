@@ -298,7 +298,9 @@ the date DATE."
   ;; https://github.com/joaotavora/sly
   :ensure t
   :config
-  (setq inferior-lisp-program "sbcl"
+  (setq sly-lisp-implementations '((roswell ("ros" "run"))
+                                   (qlot ("qlot" "exec" "ros" "run")))
+        sly-default-lisp 'roswell
         org-babel-lisp-eval-fn #'sly-eval))
 
 ;; *** Clojure
