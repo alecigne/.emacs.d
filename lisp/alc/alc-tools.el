@@ -138,6 +138,9 @@
   ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Calendar_002fDiary.html
   :custom
   (calendar-week-start-day 1)
+  (calendar-time-display-form
+   '(24-hours ":" minutes
+              (if time-zone " (") time-zone (if time-zone ")")))
   :init
   ;; Display week number
   ;; https://stackoverflow.com/a/21367291
