@@ -277,41 +277,48 @@ time of change will be 23:59 on that day"
   (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag
                                                   ,alc-org-project-tag)))
 
-  (defun alc-org-agenda-delete-empty-blocks ()
-    "Remove empty agenda blocks.
-
-A block is identified as empty if there are fewer than 2
-non-empty lines in the block (excluding the line with
-`org-agenda-block-separator' characters).
-
-Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agenda_sections/gaeh3st"
-    (when org-agenda-compact-blocks
-      (user-error "Cannot delete empty compact blocks"))
-    (setq buffer-read-only nil)
-    (save-excursion
-      (goto-char (point-min))
-      (let* ((blank-line-re "^\\s-*$")
-             (content-line-count (if (looking-at-p blank-line-re) 0 1))
-             (start-pos (point))
-             (block-re (format "%c\\{10,\\}" org-agenda-block-separator)))
-        (while (and (not (eobp)) (forward-line))
-          (cond
-           ((looking-at-p block-re)
-            (when (< content-line-count 2)
-              (delete-region start-pos (1+ (point-at-bol))))
-            (setq start-pos (point))
-            (forward-line)
-            (setq content-line-count (if (looking-at-p blank-line-re) 0 1)))
-           ((not (looking-at-p blank-line-re))
-            (setq content-line-count (1+ content-line-count)))))
-        (when (< content-line-count 2)
-          (delete-region start-pos (point-max)))
+  (defun alc-org-agenda-delete-empty-date-lines ()
+    "Delete date-header rows whose configured text is empty."
+    (let ((inhibit-read-only t))
+      (save-excursion
         (goto-char (point-min))
-        ;; The above strategy can leave a separator line at the beginning of the
-        ;; buffer.
-        (when (looking-at-p block-re)
-          (delete-region (point) (1+ (point-at-eol))))))
-    (setq buffer-read-only t))
+        (while (< (point) (point-max))
+          (if (and (get-text-property (point) 'day)
+                   (looking-at-p "[[:space:]]*$"))
+              (delete-region (point) (line-beginning-position 2))
+            (forward-line))))))
+
+  (defun alc-org-agenda-block-has-entry-p (start end)
+    "Return non-nil when the agenda block between START and END has an entry."
+    (or (text-property-not-all start end 'org-marker nil)
+        (text-property-not-all start end 'org-hd-marker nil)))
+
+  (defun alc-org-agenda-delete-empty-blocks ()
+    "Delete empty blocks from a non-compact composite agenda."
+    (let ((separator-regexp
+           (when (characterp org-agenda-block-separator)
+             (format "^%s\\{10,\\}[[:space:]]*$"
+                     (regexp-quote
+                      (char-to-string org-agenda-block-separator))))))
+      (when (and separator-regexp (not org-agenda-compact-blocks))
+        (let ((inhibit-read-only t)
+              (block-end (point-max)))
+          ;; Work backwards so deletions do not invalidate earlier positions.
+          (save-excursion
+            (goto-char (point-max))
+            (while (re-search-backward separator-regexp nil t)
+              (let ((separator-start (line-beginning-position))
+                    (block-start (progn (forward-line) (point))))
+                (unless (alc-org-agenda-block-has-entry-p
+                         block-start block-end)
+                  (delete-region separator-start block-end))
+                (setq block-end separator-start)
+                (goto-char separator-start)))
+            (unless (alc-org-agenda-block-has-entry-p (point-min) block-end)
+              (goto-char block-end)
+              (when (< (point) (point-max))
+                (forward-line))
+              (delete-region (point-min) (point))))))))
 
   (defun alc-org-skip-subtree-when (func)
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
@@ -324,18 +331,26 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
         entry-end)))
 
   (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
+  (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-date-lines)
 
   ;; Some computed calendar entries are displayed in the agenda
 
-  (defun diary-sunrise ()
-    (replace-regexp-in-string
-     "\\(Sunrise [^ ]*\\).*" "\\1"
-     (diary-sunrise-sunset)))
+  (defvar alc-org-agenda-include-solar t
+    "Non-nil means include daily solar events in agenda views.")
 
-  (defun diary-sunset ()
-    (replace-regexp-in-string
-     ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
-     (diary-sunrise-sunset)))
+  (defun alc-org-diary-sunrise ()
+    "Return today's sunrise as a diary entry when solar events are enabled."
+    (when alc-org-agenda-include-solar
+      (replace-regexp-in-string
+       "\\(Sunrise [^ ]*\\).*" "\\1"
+       (diary-sunrise-sunset))))
+
+  (defun alc-org-diary-sunset ()
+    "Return today's sunset as a diary entry when solar events are enabled."
+    (when alc-org-agenda-include-solar
+      (replace-regexp-in-string
+       ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
+       (diary-sunrise-sunset))))
 
   ;; Events today
   (setq alc-org-agenda-block-events-today

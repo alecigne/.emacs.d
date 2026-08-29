@@ -10,6 +10,6 @@
 
 * Astronomy
 
-%%(diary-sunrise)
-%%(diary-sunset)
+%%(alc-org-diary-sunrise)
+%%(alc-org-diary-sunset)
 %%(diary-lunar-phases)
