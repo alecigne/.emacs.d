@@ -119,6 +119,7 @@ it has none."
         org-confirm-babel-evaluate nil
         org-use-fast-todo-selection 'expert
         org-log-into-drawer t
+        org-log-reschedule 'time
         ;; Recursive statistics cookies
         org-hierarchical-todo-statistics nil
         ;; Block DONE state on parent if a child isn't DONE
@@ -178,6 +179,37 @@ it has none."
           ("DONE" . alc-org-done-kwd)
           ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
+
+;; ** Scheduling history
+
+  (setf (alist-get 'schedule org-log-note-headings)
+        "Scheduled to %s on %t"
+        (alist-get 'delschedule org-log-note-headings)
+        "Unscheduled from %S on %t")
+
+  (defun alc-org-log-initial-schedule (org-schedule-function &rest arguments)
+    "Log the first schedule set by ORG-SCHEDULE-FUNCTION.
+ARGUMENTS are the arguments originally passed to `org-schedule'."
+    (let ((entry-marker (point-marker))
+          (old-schedule (org-entry-get nil "SCHEDULED")))
+      (unwind-protect
+          (prog1 (apply org-schedule-function arguments)
+            (when (and org-log-reschedule
+                       (not old-schedule)
+                       (buffer-live-p (marker-buffer entry-marker)))
+              (with-current-buffer (marker-buffer entry-marker)
+                (save-excursion
+                  (goto-char entry-marker)
+                  (let ((new-schedule (org-entry-get nil "SCHEDULED")))
+                    (when new-schedule
+                      (org-add-log-setup
+                       'schedule new-schedule nil 'time)))))))
+        (set-marker entry-marker nil))))
+
+  (unless (advice-member-p #'alc-org-log-initial-schedule #'org-schedule)
+    (advice-add #'org-schedule :around #'alc-org-log-initial-schedule))
+
+;; ** Capture
 
   ;; The default value for `org-directory', `~/org', will be used.
   (setq org-capture-templates
