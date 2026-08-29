@@ -367,8 +367,22 @@
                      (org-agenda-span 'day)
                      (org-agenda-entry-types '(:scheduled))
                      (org-agenda-skip-function
-                      '(org-agenda-skip-entry-if
-                        'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))))))
+                      '(or (org-agenda-skip-entry-if
+                            'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))
+                           (alc-org-skip-subtree-when
+                            #'(lambda ()
+                                (member "cleaning" (org-get-tags)))))))))
+    (cleaning
+     :title "Cleaning tasks"
+     :renderer agenda
+     :block (agenda ""
+                    ((org-agenda-overriding-header "Cleaning tasks")
+                     (org-agenda-span 'day)
+                     (org-agenda-time-grid nil)
+                     (org-agenda-skip-function
+                      '(alc-org-skip-subtree-when
+                        #'(lambda ()
+                            (not (member "cleaning" (org-get-tags)))))))))
     (upcoming-deadlines
      :title "Upcoming deadlines"
      :renderer agenda
@@ -464,6 +478,11 @@
   (interactive)
   (alc-powerorg-open-view 'scheduled-today))
 
+(defun alc-powerorg-view-cleaning (&optional _match)
+  "Show today's cleaning tasks."
+  (interactive)
+  (alc-powerorg-open-view 'cleaning))
+
 (defun alc-powerorg-view-upcoming-deadlines (&optional _match)
   "Show unfinished tasks with approaching deadlines."
   (interactive)
@@ -488,6 +507,7 @@
     ("pt" "Planning today" alc-powerorg-view-planning-today "")
     ("pe" "Events today" alc-powerorg-view-events-today "")
     ("ps" "Scheduled today" alc-powerorg-view-scheduled-today "")
+    ("pl" "Cleaning tasks" alc-powerorg-view-cleaning "")
     ("pd" "Upcoming deadlines" alc-powerorg-view-upcoming-deadlines "")
     ("pm" "Planning this month" alc-powerorg-view-planning-this-month ""))
   "PowerOrg entries added to the Org agenda dispatcher.")
