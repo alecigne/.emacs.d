@@ -1,0 +1,15 @@
+#+title: Calendar
+#+category: Calendar
+
+# This is a SwanEmacs configuration asset, not personal Org data. It
+# declares computed calendar events as an agenda source.
+
+* Holidays
+
+%%(org-calendar-holiday)
+
+* Astronomy
+
+%%(diary-sunrise)
+%%(diary-sunset)
+%%(diary-lunar-phases)

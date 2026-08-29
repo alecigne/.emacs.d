@@ -24,6 +24,14 @@
          :map org-mode-map
          ("C-c f" . org-footnote-new)
          ("C-c C" . alc-org-insert-cookie))
+  :init
+
+  (defconst alc-org-calendar-file
+    (expand-file-name "alc-calendar.org" alc-my-lisp-dir)
+    "SwanEmacs-owned source of computed calendar events.")
+
+  (setq org-agenda-files (list alc-org-calendar-file))
+
   :config
 
 ;; * Basics
@@ -317,7 +325,7 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
 
   (add-hook 'org-agenda-finalize-hook #'alc-org-agenda-delete-empty-blocks)
 
-  ;; Some diary entries are displayed in the agenda
+  ;; Some computed calendar entries are displayed in the agenda
 
   (defun diary-sunrise ()
     (replace-regexp-in-string
