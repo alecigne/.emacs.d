@@ -219,13 +219,25 @@ ARGUMENTS are the arguments originally passed to `org-schedule'."
 
 ;; ** Capture
 
+  (defun alc-org-capture-finalize-task ()
+    "Enter TODO and finish its log before finalizing a task capture."
+    (save-excursion
+      (org-back-to-heading t)
+      (unless (org-get-todo-state)
+        (org-todo "TODO")
+        ;; `org-todo' normally defers this to `post-command-hook', but the
+        ;; temporary capture buffer and its log marker are gone by then.
+        (when org-log-setup
+          (org-add-log-note)))))
+
   ;; The default value for `org-directory', `~/org', will be used.
   (setq org-capture-templates
         `(;; New task
           ("t" "Capture [t]ask"
            entry
            (file ,alc-org-inbox-file)
-           "* TODO %?"
+           "* %?"
+           :prepare-finalize alc-org-capture-finalize-task
            :kill-buffer t)
           ;; New note
           ("n" "Capture [n]ote"
