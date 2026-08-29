@@ -271,6 +271,11 @@ time of change will be 23:59 on that day"
     (keymap-set org-agenda-mode-map "<tab>" 'alc-org-agenda-switch-to-heading))
 
   (setq org-agenda-format-date "%Y-%m-%d %a"
+        org-agenda-prefix-format
+        '((agenda . " %i %-16:c%?-12t% s")
+          (todo . " %i %-16:c")
+          (tags . " %i %-16:c")
+          (search . " %i %-16:c"))
         org-agenda-window-setup 'only-window)
 
   ;; I don't want to see these tags in the agenda
