@@ -28,6 +28,10 @@
 
 ;; * Basics
 
+  (defconst alc-org-inbox-file
+    (expand-file-name "inbox.org" org-directory)
+    "File receiving unprocessed PowerOrg captures.")
+
   (let* ((theme (alc-hex-from-string-palette alc-heading-palette))
          (faces '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5)))
     (cl-mapc (lambda (face color)
@@ -180,13 +184,13 @@ it has none."
         `(;; New task
           ("t" "Capture [t]ask"
            entry
-           (file "inbox.org")
+           (file ,alc-org-inbox-file)
            "* TODO %?"
            :kill-buffer t)
           ;; New note
           ("n" "Capture [n]ote"
            entry
-           (file "inbox.org")
+           (file ,alc-org-inbox-file)
            ,(concat "* Note (taken from %a)\n" "\n" "%?\n")
            :kill-buffer t)))
 
