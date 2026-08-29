@@ -291,7 +291,11 @@ time of change will be 23:59 on that day"
   (defun alc-org-agenda-block-has-entry-p (start end)
     "Return non-nil when the agenda block between START and END has an entry."
     (or (text-property-not-all start end 'org-marker nil)
-        (text-property-not-all start end 'org-hd-marker nil)))
+        (text-property-not-all start end 'org-hd-marker nil)
+        ;; Diary-style Org sexps, including computed calendar events, are
+        ;; identified by their agenda entry type even when their marker does
+        ;; not survive every rendering path.
+        (text-property-not-all start end 'type nil)))
 
   (defun alc-org-agenda-delete-empty-blocks ()
     "Delete empty blocks from a non-compact composite agenda."
