@@ -663,11 +663,25 @@ Taken from https://www.reddit.com/r/emacs/comments/jjrk2o/hide_empty_custom_agen
   ;; [1] https://github.com/krisbalintona/org-hide-drawers
   ;; [2] https://github.com/jxq0/org-tidy
   :hook (org-mode . org-hide-drawers-mode)
-  :bind (:map org-mode-map ("C-c h" . org-hide-drawers-toggle))
+  :bind (:map org-mode-map ("C-c h" . alc-org-hide-drawers-toggle))
   :ensure t
   :delight
   :config
-  (setq org-hide-drawers-hide-top-level-properties-drawer nil))
+  (setq org-hide-drawers-hide-top-level-properties-drawer nil)
+
+  (defun alc-org-hide-drawers-toggle (&optional all)
+    "Toggle drawers in the current heading.
+With prefix argument ALL, toggle drawers in the entire buffer."
+    (interactive "P")
+    (if all
+        (org-hide-drawers-toggle)
+      (save-excursion
+        (org-back-to-heading t)
+        (let ((begin (point))
+              (end (org-entry-end-position)))
+          (save-restriction
+            (narrow-to-region begin end)
+            (org-hide-drawers-toggle)))))))
 
 (use-package demo-it
   ;; An Emacs package for running demonstrations, screencasts and presentations
