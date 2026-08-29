@@ -127,13 +127,13 @@ it has none."
         ;; Do not dim DONE items
         org-fontify-done-headline nil)
 
+  ;; Workflow tags
   (setq alc-org-next-tag "next"
         alc-org-project-tag "project")
 
-  ;; Exclude the project tag from inheritance
+  (add-to-list 'org-tag-alist `(,alc-org-project-tag . nil))
+  (add-to-list 'org-tag-alist `(,alc-org-next-tag . nil))
   (add-to-list 'org-tags-exclude-from-inheritance alc-org-project-tag)
-
-  ;; Do not mark all tasks in a project as being "next"
   (add-to-list 'org-tags-exclude-from-inheritance alc-org-next-tag)
 
   (setq org-todo-keywords
