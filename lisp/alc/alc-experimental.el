@@ -303,7 +303,7 @@
      :title "Purchases"
      :renderer org-ql
      :query (and (todo)
-                 (property "TYPE" "purchase")))
+                 (property "TYPE" "buy")))
     (in-progress
      :title "In progress"
      :renderer agenda
@@ -371,7 +371,8 @@
                             'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))
                            (alc-org-skip-subtree-when
                             #'(lambda ()
-                                (member "cleaning" (org-get-tags)))))))))
+                                (equal (org-entry-get nil "TYPE")
+                                       "clean"))))))))
     (cleaning
      :title "Cleaning tasks"
      :renderer agenda
@@ -382,7 +383,8 @@
                      (org-agenda-skip-function
                       '(alc-org-skip-subtree-when
                         #'(lambda ()
-                            (not (member "cleaning" (org-get-tags)))))))))
+                            (not (equal (org-entry-get nil "TYPE")
+                                        "clean"))))))))
     (upcoming-deadlines
      :title "Upcoming deadlines"
      :renderer agenda

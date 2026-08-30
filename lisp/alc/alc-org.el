@@ -145,6 +145,10 @@ it has none."
   (add-to-list 'org-tags-exclude-from-inheritance alc-org-project-tag)
   (add-to-list 'org-tags-exclude-from-inheritance alc-org-next-tag)
 
+  ;; Task types are deliberately local properties: child tasks may represent
+  ;; dependencies of a different type.
+  (add-to-list 'org-global-properties '("TYPE_ALL" . "buy clean"))
+
   (setq org-todo-keywords
         '((sequence "TODO(t!)"
                     "MAYB(m!)"
@@ -395,7 +399,8 @@ time of change will be 23:59 on that day"
                    '(or (org-agenda-skip-entry-if
                          'todo '("WAIT" "HOLD" "DONE" "CNCL"))
                         (alc-org-skip-subtree-when
-                         #'(lambda () (member "cleaning" (org-get-tags)))))))))
+                         #'(lambda ()
+                             (equal (org-entry-get nil "TYPE") "clean"))))))))
 
   ;; Tasks in the inbox
   (setq alc-org-agenda-block-inbox
@@ -499,7 +504,8 @@ time of change will be 23:59 on that day"
             (org-agenda-overriding-header "Cleaning tasks\n")
             (org-agenda-skip-function
              '(alc-org-skip-subtree-when
-               #'(lambda () (not (member "cleaning" (org-get-tags))))))))
+               #'(lambda ()
+                   (not (equal (org-entry-get nil "TYPE") "clean")))))))
           ,org-agenda-custom-command-review))
 
 ;; * Babel
