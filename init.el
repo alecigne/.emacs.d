@@ -88,13 +88,14 @@
 (defvar alc-my-lisp-dir (expand-file-name "alc/" alc-lisp-dir)
   "My personal lisp directory.")
 
-;; * Loading my init code
+;; * Loading init code
 
 (add-to-list 'load-path alc-my-lisp-dir)
 (require 'alc-core)
 (require 'alc-tools)
 (require 'alc-org)
 (require 'alc-experimental)
+(load custom-file 'noerror 'nomessage)
 
 ;; * Wrapping up
 
