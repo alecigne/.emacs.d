@@ -222,7 +222,7 @@
   (let ((definition (alc-powerorg-block-definition name)))
     (pcase (plist-get definition :renderer)
       ('org-ql
-       (require 'org-ql)
+       (require 'org-ql-search)
        `(org-ql-block ',(plist-get definition :query)
                       ((org-ql-block-header
                         ,(plist-get definition :title)))))
@@ -246,20 +246,10 @@
          (blocks (plist-get view :blocks)))
     (unless blocks
       (error "PowerOrg view has no blocks: %s" name))
-    (let ((first-block (alc-powerorg-block-definition (car blocks))))
-      ;; Preserve the richer standalone Org QL interface for one-block views.
-      (if (and (null (cdr blocks))
-               (eq (plist-get first-block :renderer) 'org-ql))
-          (progn
-            (require 'org-ql)
-            (org-ql-search (org-agenda-files)
-              (plist-get first-block :query)
-              :title title
-              :sort (plist-get first-block :sort)))
-        (let ((org-agenda-custom-commands
-               `(("P" ,title
-                  ,(mapcar #'alc-powerorg-block-agenda-form blocks)))))
-          (org-agenda nil "P"))))))
+    (let ((org-agenda-custom-commands
+           `(("P" ,title
+              ,(mapcar #'alc-powerorg-block-agenda-form blocks)))))
+      (org-agenda nil "P"))))
 
 ;; ** Blocks
 

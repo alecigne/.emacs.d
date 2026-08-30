@@ -292,7 +292,8 @@ time of change will be 23:59 on that day"
           (todo . " %i %-16:c")
           (tags . " %i %-16:c")
           (search . " %i %-16:c"))
-        org-agenda-window-setup 'only-window)
+        org-agenda-window-setup 'only-window
+        org-agenda-restore-windows-after-quit t)
 
   ;; I don't want to see these tags in the agenda
   (setq org-agenda-hide-tags-regexp (regexp-opt `(,alc-org-next-tag
