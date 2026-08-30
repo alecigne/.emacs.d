@@ -416,11 +416,11 @@
    "Get Things Done"
    '(events-today
      scheduled-today
-     in-progress
-     next-actions
+     in-progress     
      upcoming-deadlines
      waiting
-     inbox)))
+     inbox
+     next-actions)))
 
 (defun alc-powerorg-view-weekly-review (&optional _match)
   "Review the full task inventory without recording review state."
