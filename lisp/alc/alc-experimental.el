@@ -339,8 +339,8 @@
     (inbox
      :title "Inbox"
      :renderer agenda
-     :block (tags "inbox"
-                  ((org-agenda-overriding-header "Inbox"))))
+     :block (tags-todo "inbox"
+                       ((org-agenda-overriding-header "Inbox"))))
     (planning-today
      :title "Planning today"
      :renderer agenda
