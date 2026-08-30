@@ -206,57 +206,62 @@
 
 ;; ** Machinery
 
-(defun alc-powerorg-view-definition (name)
-  "Return the resolved PowerOrg view definition named NAME."
+(defun alc-powerorg-block-definition (name)
+  "Return the resolved PowerOrg block definition named NAME."
   (let* ((definition (copy-sequence
-                      (or (alist-get name alc-powerorg-view-definitions)
-                          (error "Unknown PowerOrg view: %s" name))))
+                      (or (alist-get name alc-powerorg-block-definitions)
+                          (error "Unknown PowerOrg block: %s" name))))
          (block-function (plist-get definition :block-function)))
     (when block-function
       (setq definition
             (plist-put definition :block (funcall block-function))))
     definition))
 
-(defun alc-powerorg-open-view (name)
-  "Open the named PowerOrg view NAME with its configured renderer."
-  (let ((definition (alc-powerorg-view-definition name)))
+(defun alc-powerorg-block-agenda-form (name)
+  "Return the Org agenda form for the PowerOrg block named NAME."
+  (let ((definition (alc-powerorg-block-definition name)))
     (pcase (plist-get definition :renderer)
       ('org-ql
        (require 'org-ql)
-       (org-ql-search (org-agenda-files)
-         (plist-get definition :query)
-         :title (plist-get definition :title)
-         :sort (plist-get definition :sort)))
-      ('agenda
-       (let ((org-agenda-custom-commands
-              (list (list "P"
-                          (plist-get definition :title)
-                          (list (plist-get definition :block))))))
-         (org-agenda nil "P")))
-      (renderer
-       (error "Unknown PowerOrg view renderer: %s" renderer)))))
-
-(defun alc-powerorg-view-agenda-block (name)
-  "Return an Org agenda block for the PowerOrg view NAME."
-  (let ((definition (alc-powerorg-view-definition name)))
-    (pcase (plist-get definition :renderer)
-      ('org-ql
        `(org-ql-block ',(plist-get definition :query)
                       ((org-ql-block-header
                         ,(plist-get definition :title)))))
       ('agenda (plist-get definition :block))
       (renderer
-       (error "Unknown PowerOrg view renderer: %s" renderer)))))
+       (error "Unknown PowerOrg block renderer: %s" renderer)))))
 
-(defun alc-powerorg-open-composite-view (title view-names)
-  "Open TITLE as an agenda composed from the named VIEW-NAMES."
-  (require 'org-ql)
-  (let ((org-agenda-custom-commands
-         `(("P" ,title
-            ,(mapcar #'alc-powerorg-view-agenda-block view-names)))))
-    (org-agenda nil "P")))
+(defun alc-powerorg-view-definition (name)
+  "Return the explicit or block-synthesized PowerOrg view named NAME."
+  (or (alist-get name alc-powerorg-view-definitions)
+      (let ((block (alist-get name alc-powerorg-block-definitions)))
+        (when (plist-get block :view)
+          (list :title (plist-get block :title)
+                :blocks (list name))))
+      (error "Unknown PowerOrg view: %s" name)))
 
-;; ** Definitions
+(defun alc-powerorg-open-view (name)
+  "Open the named PowerOrg view NAME."
+  (let* ((view (alc-powerorg-view-definition name))
+         (title (plist-get view :title))
+         (blocks (plist-get view :blocks)))
+    (unless blocks
+      (error "PowerOrg view has no blocks: %s" name))
+    (let ((first-block (alc-powerorg-block-definition (car blocks))))
+      ;; Preserve the richer standalone Org QL interface for one-block views.
+      (if (and (null (cdr blocks))
+               (eq (plist-get first-block :renderer) 'org-ql))
+          (progn
+            (require 'org-ql)
+            (org-ql-search (org-agenda-files)
+              (plist-get first-block :query)
+              :title title
+              :sort (plist-get first-block :sort)))
+        (let ((org-agenda-custom-commands
+               `(("P" ,title
+                  ,(mapcar #'alc-powerorg-block-agenda-form blocks)))))
+          (org-agenda nil "P"))))))
+
+;; ** Blocks
 
 (defun alc-powerorg-planning-this-month-block ()
   "Return an agenda block for the current calendar month."
@@ -294,13 +299,14 @@
             (org-agenda-entry-types '(:timestamp :sexp :scheduled))
             (alc-org-agenda-include-solar nil))))
 
-(defconst alc-powerorg-view-definitions
+(defconst alc-powerorg-block-definitions
   '((review-past-week
      :title "Past seven days"
      :renderer agenda
      :block-function alc-powerorg-review-past-week-block)
     (purchases
      :title "Purchases"
+     :view t
      :renderer org-ql
      :query (and (todo)
                  (property "TYPE" "buy")))
@@ -311,6 +317,7 @@
                        ((org-agenda-overriding-header "In progress"))))
     (next-actions
      :title "Next actions"
+     :view t
      :renderer agenda
      :block (tags-todo "next/TODO"
                        ((org-agenda-overriding-header "Next actions")
@@ -318,11 +325,13 @@
                          '(org-agenda-skip-entry-if 'scheduled)))))
     (current-projects
      :title "Current projects"
+     :view t
      :renderer agenda
      :block (tags-todo "project"
                        ((org-agenda-overriding-header "Current projects"))))
     (waiting
      :title "Waiting for something"
+     :view t
      :renderer agenda
      :block (todo "WAIT"
                   ((org-agenda-overriding-header "Waiting for something"))))
@@ -338,17 +347,20 @@
                   ((org-agenda-overriding-header "Maybe"))))
     (inbox
      :title "Inbox"
+     :view t
      :renderer agenda
      :block (tags-todo "inbox"
                        ((org-agenda-overriding-header "Inbox"))))
     (planning-today
      :title "Planning today"
+     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Planning today")
                      (org-agenda-span 'day))))
     (events-today
      :title "Events today"
+     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Events today")
@@ -361,6 +373,7 @@
                         'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))))))
     (scheduled-today
      :title "Scheduled today"
+     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Scheduled today")
@@ -375,6 +388,7 @@
                                        "clean"))))))))
     (cleaning
      :title "Cleaning tasks"
+     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Cleaning tasks")
@@ -387,6 +401,7 @@
                                         "clean"))))))))
     (upcoming-deadlines
      :title "Upcoming deadlines"
+     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Upcoming deadlines")
@@ -401,117 +416,60 @@
                         'todo '("DONE" "GIVN" "CNCL"))))))
     (planning-this-month
      :title "Planning this month"
+     :view t
      :renderer agenda
      :block-function alc-powerorg-planning-this-month-block)
     (review-next-four-weeks
      :title "Next four weeks"
      :renderer agenda
      :block-function alc-powerorg-review-next-four-weeks-block))
-  "Named experimental PowerOrg views available in SwanEmacs.")
+  "Reusable blocks for experimental PowerOrg views in SwanEmacs.
+Blocks marked with `:view t' also provide an implicit one-block view.")
 
-;; ** Commands
+;; ** Views
 
-(defun alc-powerorg-view-gtd (&optional _match)
-  "Show the current sections of the evolving PowerOrg GTD view."
-  (interactive)
-  (alc-powerorg-open-composite-view
-   "Get Things Done"
-   '(events-today
-     scheduled-today
-     in-progress     
-     upcoming-deadlines
-     waiting
-     inbox
-     next-actions)))
-
-(defun alc-powerorg-view-weekly-review (&optional _match)
-  "Review the full task inventory without recording review state."
-  (interactive)
-  (alc-powerorg-open-composite-view
-   "Weekly review"
-   '(review-past-week
-     inbox
-     in-progress
-     current-projects
-     next-actions
-     waiting
-     on-hold
-     maybe
-     upcoming-deadlines
-     review-next-four-weeks)))
-
-(defun alc-powerorg-view-purchases (&optional _match)
-  "Show unfinished purchase tasks in a dedicated Org QL view."
-  (interactive)
-  (alc-powerorg-open-view 'purchases))
-
-(defun alc-powerorg-view-current-projects (&optional _match)
-  "Show unfinished tasks explicitly tagged as projects."
-  (interactive)
-  (alc-powerorg-open-view 'current-projects))
-
-(defun alc-powerorg-view-next-actions (&optional _match)
-  "Show reviewed tasks selected as possible next actions."
-  (interactive)
-  (alc-powerorg-open-view 'next-actions))
-
-(defun alc-powerorg-view-waiting (&optional _match)
-  "Show tasks waiting for something."
-  (interactive)
-  (alc-powerorg-open-view 'waiting))
-
-(defun alc-powerorg-view-inbox (&optional _match)
-  "Show captured tasks and notes awaiting processing."
-  (interactive)
-  (alc-powerorg-open-view 'inbox))
-
-(defun alc-powerorg-view-planning-today (&optional _match)
-  "Show today's events and planning timestamps in an agenda."
-  (interactive)
-  (alc-powerorg-open-view 'planning-today))
-
-(defun alc-powerorg-view-events-today (&optional _match)
-  "Show today's active events."
-  (interactive)
-  (alc-powerorg-open-view 'events-today))
-
-(defun alc-powerorg-view-scheduled-today (&optional _match)
-  "Show active tasks scheduled for today."
-  (interactive)
-  (alc-powerorg-open-view 'scheduled-today))
-
-(defun alc-powerorg-view-cleaning (&optional _match)
-  "Show today's cleaning tasks."
-  (interactive)
-  (alc-powerorg-open-view 'cleaning))
-
-(defun alc-powerorg-view-upcoming-deadlines (&optional _match)
-  "Show unfinished tasks with approaching deadlines."
-  (interactive)
-  (alc-powerorg-open-view 'upcoming-deadlines))
-
-(defun alc-powerorg-view-planning-this-month (&optional _match)
-  "Show this month's events and planning timestamps in an agenda."
-  (interactive)
-  (alc-powerorg-open-view 'planning-this-month))
+(defconst alc-powerorg-view-definitions
+  '((gtd
+     :title "Get Things Done"
+     :blocks (events-today
+              scheduled-today
+              in-progress
+              upcoming-deadlines
+              waiting
+              inbox
+              next-actions))
+    (weekly-review
+     :title "Weekly review"
+     :blocks (review-past-week
+              inbox
+              in-progress
+              current-projects
+              next-actions
+              waiting
+              on-hold
+              maybe
+              upcoming-deadlines
+              review-next-four-weeks)))
+  "Named arrangements of PowerOrg blocks available in SwanEmacs.")
 
 ;; ** Dispatcher
 
 (defconst alc-powerorg-agenda-custom-commands
   '(("p" . "PowerOrg")
-    ("pg" "GTD" alc-powerorg-view-gtd "")
-    ("pr" "Weekly review" alc-powerorg-view-weekly-review "")
-    ("pp" "Purchases" alc-powerorg-view-purchases "")
-    ("pc" "Current projects" alc-powerorg-view-current-projects "")
-    ("pn" "Next actions" alc-powerorg-view-next-actions "")
-    ("pw" "Waiting" alc-powerorg-view-waiting "")
-    ("pi" "Inbox" alc-powerorg-view-inbox "")
-    ("pt" "Planning today" alc-powerorg-view-planning-today "")
-    ("pe" "Events today" alc-powerorg-view-events-today "")
-    ("ps" "Scheduled today" alc-powerorg-view-scheduled-today "")
-    ("pl" "Cleaning tasks" alc-powerorg-view-cleaning "")
-    ("pd" "Upcoming deadlines" alc-powerorg-view-upcoming-deadlines "")
-    ("pm" "Planning this month" alc-powerorg-view-planning-this-month ""))
+    ("pg" "GTD" alc-powerorg-open-view 'gtd)
+    ("pr" "Weekly review" alc-powerorg-open-view 'weekly-review)
+    ("pp" "Purchases" alc-powerorg-open-view 'purchases)
+    ("pc" "Current projects" alc-powerorg-open-view 'current-projects)
+    ("pn" "Next actions" alc-powerorg-open-view 'next-actions)
+    ("pw" "Waiting" alc-powerorg-open-view 'waiting)
+    ("pi" "Inbox" alc-powerorg-open-view 'inbox)
+    ("pt" "Planning today" alc-powerorg-open-view 'planning-today)
+    ("pe" "Events today" alc-powerorg-open-view 'events-today)
+    ("ps" "Scheduled today" alc-powerorg-open-view 'scheduled-today)
+    ("pl" "Cleaning tasks" alc-powerorg-open-view 'cleaning)
+    ("pd" "Upcoming deadlines" alc-powerorg-open-view 'upcoming-deadlines)
+    ("pm" "Planning this month" alc-powerorg-open-view
+     'planning-this-month))
   "PowerOrg entries added to the Org agenda dispatcher.")
 
 (with-eval-after-load 'org-agenda
