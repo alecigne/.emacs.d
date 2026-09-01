@@ -34,6 +34,22 @@ It uses John Wiegley's [[https://github.com/jwiegley/use-package][use-package]] 
   + =alc-experimental.el= -- experimental and in-progress
     configuration.
 
+* Preparing and testing
+
+A complete configuration can be run along with its [[https://github.com/jorgenschaefer/emacs-buttercup][Buttercup]] test
+suite (because why not) with:
+
+#+begin_src sh
+  just prepare
+#+end_src
+
+This starts Emacs in batch mode, loads =early-init.el= and the
+complete =init.el=, and then runs the tests. Because it exercises the
+real configuration, the command also installs any missing ELPA
+packages and fetches missing =:vc= dependencies. A first run may
+therefore require network access and take longer; subsequent runs
+reuse the installed packages.
+
 * Local configuration
 
 I usually add a short configuration (=alc-local.el= -- not included on
