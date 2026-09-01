@@ -18,6 +18,19 @@
 ;; Activate deferred configuration before asserting Org-specific behavior.
 (require 'org)
 
+(defmacro alc-test-with-org-buffer (contents &rest body)
+  "Evaluate BODY in a temporary Org buffer containing CONTENTS.
+
+Suppress workflow logging so tests can concentrate on the resulting
+Org structure without creating deferred log-note prompts."
+  (declare (indent 1) (debug t))
+  `(with-temp-buffer
+     (org-mode)
+     (insert ,contents)
+     (goto-char (point-min))
+     (let ((org-inhibit-logging t))
+       ,@body)))
+
 (describe "alc-hex-from-string-palette"
   (it "turns a Coolors palette into hexadecimal colors"
     (expect (alc-hex-from-string-palette "1c97d9-66e182-e84a52")
@@ -126,7 +139,110 @@
     (expect org-tags-exclude-from-inheritance
             :to-contain alc-org-next-tag)
     (expect org-tags-exclude-from-inheritance
-            :to-contain alc-org-project-tag)))
+            :to-contain alc-org-project-tag))
+
+  (it "registers the custom headline speed commands"
+    (expect (cdr (assoc "a" org-speed-commands))
+            :to-be #'org-archive-subtree)
+    (expect (cdr (assoc "x" org-speed-commands))
+            :to-be #'alc-org-cncl-subtree)))
+
+(describe "alc-org-cncl-subtree"
+  (it "cancels all active task states in a subtree"
+    (alc-test-with-org-buffer
+        (concat "* TODO Project\n"
+                "** MAYB Maybe\n"
+                "** PROG In progress\n"
+                "** OPEN Open\n"
+                "** WAIT Waiting\n"
+                "** HOLD On hold\n")
+      (alc-org-cncl-subtree)
+      (expect (buffer-string)
+              :to-equal
+              (concat "* CNCL Project\n"
+                      "** CNCL Maybe\n"
+                      "** CNCL In progress\n"
+                      "** CNCL Open\n"
+                      "** CNCL Waiting\n"
+                      "** CNCL On hold\n"))))
+
+  (it "preserves done states and headings without a task state"
+    (alc-test-with-org-buffer
+        (concat "* TODO Project\n"
+                "** DONE Completed\n"
+                "** GIVN Delegated\n"
+                "** CNCL Already canceled\n"
+                "** Notes\n"
+                "*** TODO Remaining task\n")
+      (alc-org-cncl-subtree)
+      (expect (buffer-string)
+              :to-equal
+              (concat "* CNCL Project\n"
+                      "** DONE Completed\n"
+                      "** GIVN Delegated\n"
+                      "** CNCL Already canceled\n"
+                      "** Notes\n"
+                      "*** CNCL Remaining task\n"))))
+
+  (it "does not change tasks outside the selected subtree"
+    (alc-test-with-org-buffer
+        (concat "* TODO Selected\n"
+                "** TODO Child\n"
+                "* TODO Sibling\n")
+      (alc-org-cncl-subtree)
+      (expect (buffer-string)
+              :to-equal
+              (concat "* CNCL Selected\n"
+                      "** CNCL Child\n"
+                      "* TODO Sibling\n"))))
+
+  (it "cancels descendants beneath an already completed parent"
+    (alc-test-with-org-buffer
+        (concat "* DONE Finished project\n"
+                "** TODO Leftover dependency\n")
+      (alc-org-cncl-subtree)
+      (expect (buffer-string)
+              :to-equal
+              (concat "* DONE Finished project\n"
+                      "** CNCL Leftover dependency\n"))))
+
+  (it "bypasses ordered-task dependency blocking"
+    (alc-test-with-org-buffer
+        (concat "* TODO Ordered project\n"
+                ":PROPERTIES:\n"
+                ":ORDERED: t\n"
+                ":END:\n"
+                "** TODO First dependency\n"
+                "** TODO Second dependency\n")
+      (alc-org-cncl-subtree)
+      (expect (buffer-string)
+              :to-equal
+              (concat "* CNCL Ordered project\n"
+                      ":PROPERTIES:\n"
+                      ":ORDERED: t\n"
+                      ":END:\n"
+                      "** CNCL First dependency\n"
+                      "** CNCL Second dependency\n"))))
+
+  (it "allows one cancellation note instead of one per dependency"
+    (with-temp-buffer
+      (org-mode)
+      (insert "* TODO Project\n"
+              "** TODO Dependency\n")
+      (goto-char (point-min))
+      (let ((org-todo-function (symbol-function #'org-todo))
+            (org-todo-log-states nil)
+            logging)
+        (cl-letf (((symbol-function #'org-todo)
+                   (lambda (state)
+                     (push (list (org-get-heading t t t t)
+                                 org-inhibit-logging)
+                           logging)
+                     (funcall org-todo-function state))))
+          (alc-org-cncl-subtree))
+        (expect logging
+                :to-equal '(("Project" nil)
+                            ("Dependency" t)))))))
 
 (describe "alc-org-delete-link"
   (it "replaces an Org link with its description"

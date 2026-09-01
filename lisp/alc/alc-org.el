@@ -34,7 +34,7 @@
 
   :config
 
-;; * Basics
+  ;; * Basics
 
   (defconst alc-org-inbox-file
     (expand-file-name "inbox.org" org-directory)
@@ -49,12 +49,13 @@
              faces theme))
 
   (setq org-use-speed-commands t
-        org-speed-commands-user '(("a" org-archive-subtree))
         org-startup-indented t
         org-special-ctrl-a/e t
         org-special-ctrl-k t
         org-startup-folded t
         org-image-actual-width nil)
+
+  (add-to-list 'org-speed-commands '("a" . org-archive-subtree))
 
   (delight 'org-indent-mode nil "org-indent")
 
@@ -96,7 +97,7 @@
   ;; explicitely.
   (add-hook 'org-capture-before-finalize-hook #'alc-org-insert-created)
 
-;; * Hyperlinks
+  ;; * Hyperlinks
 
   (add-to-list 'org-modules 'org-id)
   (setq org-id-link-to-org-use-id 'create-if-interactive
@@ -117,7 +118,7 @@ it has none."
             (apply 'delete-region remove)
             (insert description)))))
 
-;; * Gettings Things Done: todos, agenda, capture
+  ;; * Gettings Things Done: todos, agenda, capture
 
   (add-to-list 'org-modules 'org-habit t)
   (setq org-habit-graph-column 100)
@@ -192,7 +193,40 @@ it has none."
           ("GIVN" . alc-org-done-kwd)
           ("CNCL" . alc-org-done-kwd)))
 
-;; ** Scheduling history
+  (defun alc-org-cncl-subtree ()
+    "Mark every active task in the current subtree as CNCL.
+
+Headings without a TODO keyword and tasks already in a done state are
+left unchanged. Ignore dependency blocking because every active task in
+the subtree is being canceled together. When CNCL is configured to
+request a note, log only the first active task in the subtree instead of
+prompting for every canceled dependency."
+    (interactive)
+    (save-excursion
+      (org-back-to-heading t)
+      (let (tasks log-task)
+        ;; `/!' matches active TODO entries only. Pushing each match
+        ;; means descendants are visited before their parents below.
+        (org-map-entries
+         (lambda ()
+           (push (point-marker) tasks))
+         "/!" 'tree)
+        (setq log-task (car (last tasks)))
+        (unwind-protect
+            (let ((org-inhibit-blocking t))
+              (dolist (task tasks)
+                (goto-char task)
+                (let ((org-inhibit-logging
+                       (or org-inhibit-logging
+                           (not (eq task log-task)))))
+                  (org-todo "CNCL"))))
+          (mapc (lambda (task)
+                  (set-marker task nil))
+                tasks)))))
+
+  (add-to-list 'org-speed-commands '("x" . alc-org-cncl-subtree))
+
+  ;; ** Scheduling history
 
   (setf (alist-get 'schedule org-log-note-headings)
         "Scheduled to %s on %t"
@@ -221,7 +255,7 @@ ARGUMENTS are the arguments originally passed to `org-schedule'."
   (unless (advice-member-p #'alc-org-log-initial-schedule #'org-schedule)
     (advice-add #'org-schedule :around #'alc-org-log-initial-schedule))
 
-;; ** Capture
+  ;; ** Capture
 
   (defun alc-org-capture-finalize-task ()
     "Enter TODO and finish its log before finalizing a task capture."
@@ -270,11 +304,11 @@ time of change will be 23:59 on that day"
                  (org-read-date-prefer-future nil)
                  ((symbol-function #'org-current-effective-time)
                   #'(lambda () then)))
-      (if (eq major-mode 'org-agenda-mode)
-          (org-agenda-todo arg)
-        (org-todo arg)))))
+	(if (eq major-mode 'org-agenda-mode)
+            (org-agenda-todo arg)
+          (org-todo arg)))))
 
-;; ** Agenda
+  ;; ** Agenda
 
   (defun alc-org-agenda-switch-to-heading ()
     "Go to the very beginning of corresponding heading, filling the frame."
@@ -387,8 +421,8 @@ time of change will be 23:59 on that day"
                   (org-agenda-overriding-header "Events today")
                   (org-agenda-skip-function
                    '(org-agenda-skip-entry-if
-                         'deadline
-                         'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
+                     'deadline
+                     'todo '("WAIT" "HOLD" "DONE" "CNCL"))))))
 
   ;; Scheduled today
   (setq alc-org-agenda-block-scheduled-today
@@ -509,7 +543,7 @@ time of change will be 23:59 on that day"
                    (not (equal (org-entry-get nil "TYPE") "clean")))))))
           ,org-agenda-custom-command-review))
 
-;; * Babel
+  ;; * Babel
 
   (setq org-babel-clojure-backend 'cider)
 
