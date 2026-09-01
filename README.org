@@ -50,6 +50,8 @@ packages and fetches missing =:vc= dependencies. A first run may
 therefore require network access and take longer; subsequent runs
 reuse the installed packages.
 
+This is why the Just recipe isn't called =test= but =prepare=.
+
 * Local configuration
 
 I usually add a short configuration (=alc-local.el= -- not included on
