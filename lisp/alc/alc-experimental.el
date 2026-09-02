@@ -348,9 +348,16 @@
      :block (agenda ""
                     ((org-agenda-overriding-header "Planning today")
                      (org-agenda-span 'day))))
+    (past-events
+     :title "Past events"
+     :renderer org-ql
+     :query (and (todo)
+                 (not (todo "WAIT" "HOLD"))
+                 (not (scheduled))
+                 (not (deadline))
+                 (ts-active :to -1)))
     (events-today
      :title "Events today"
-     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Events today")
@@ -419,9 +426,13 @@ Blocks marked with `:view t' also provide an implicit one-block view.")
 ;; ** Views
 
 (defconst alc-powerorg-view-definitions
-  '((gtd
+  '((events
+     :title "Events"
+     :blocks (past-events events-today))
+    (gtd
      :title "Get Things Done"
-     :blocks (events-today
+     :blocks (past-events
+              events-today
               scheduled-today
               in-progress
               upcoming-deadlines
@@ -454,7 +465,7 @@ Blocks marked with `:view t' also provide an implicit one-block view.")
     ("pw" "Waiting" alc-powerorg-open-view 'waiting)
     ("pi" "Inbox" alc-powerorg-open-view 'inbox)
     ("pt" "Planning today" alc-powerorg-open-view 'planning-today)
-    ("pe" "Events today" alc-powerorg-open-view 'events-today)
+    ("pe" "Events" alc-powerorg-open-view 'events)
     ("ps" "Scheduled today" alc-powerorg-open-view 'scheduled-today)
     ("pl" "Cleaning tasks" alc-powerorg-open-view 'cleaning)
     ("pd" "Upcoming deadlines" alc-powerorg-open-view 'upcoming-deadlines)

@@ -17,6 +17,7 @@
 
 ;; Activate deferred configuration before asserting Org-specific behavior.
 (require 'org)
+(require 'org-agenda)
 
 (defmacro alc-test-with-org-buffer (contents &rest body)
   "Evaluate BODY in a temporary Org buffer containing CONTENTS.
@@ -28,7 +29,8 @@ Org structure without creating deferred log-note prompts."
      (org-mode)
      (insert ,contents)
      (goto-char (point-min))
-     (let ((org-inhibit-logging t))
+     (let ((org-inhibit-logging t)
+           (inhibit-message t))
        ,@body)))
 
 (describe "alc-hex-from-string-palette"
@@ -104,6 +106,22 @@ Org structure without creating deferred log-note prompts."
            '((inbox :title "Inbox" :view t))))
       (expect (alc-powerorg-view-definition 'inbox)
               :to-equal '(:title "Inbox" :blocks (inbox))))))
+
+(describe "the PowerOrg events view"
+  (it "shows an unfinished event from the past"
+    (let* ((file (make-temp-file
+                  "swanemacs-event-" nil ".org"
+                  "* TODO Past meeting\n<2000-01-01 Sat 10:00>\n"))
+           (org-agenda-files (list file))
+           (org-agenda-buffer-name " *SwanEmacs events test*"))
+      (unwind-protect
+          (save-window-excursion
+            (alc-powerorg-open-view 'events)
+            (with-current-buffer org-agenda-buffer-name
+              (expect (buffer-string) :to-match "Past meeting")))
+        (when (get-buffer org-agenda-buffer-name)
+          (kill-buffer org-agenda-buffer-name))
+        (delete-file file)))))
 
 (describe "SwanEmacs startup"
   (it "loads every public configuration module"
@@ -232,6 +250,7 @@ Org structure without creating deferred log-note prompts."
       (goto-char (point-min))
       (let ((org-todo-function (symbol-function #'org-todo))
             (org-todo-log-states nil)
+            (inhibit-message t)
             logging)
         (cl-letf (((symbol-function #'org-todo)
                    (lambda (state)
