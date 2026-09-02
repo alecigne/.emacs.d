@@ -121,6 +121,63 @@ Org structure without creating deferred log-note prompts."
               (expect (buffer-string) :to-match "Past meeting")))
         (when (get-buffer org-agenda-buffer-name)
           (kill-buffer org-agenda-buffer-name))
+        (delete-file file))))
+
+  (it "shows only relevant events from tomorrow through the next seven days"
+    (let* ((yesterday (format-time-string
+                       "%Y-%m-%d %a"
+                       (time-subtract (current-time) (days-to-time 1))))
+           (today (format-time-string "%Y-%m-%d %a"))
+           (tomorrow-time (time-add (current-time) (days-to-time 1)))
+           (tomorrow (format-time-string "%Y-%m-%d %a" tomorrow-time))
+           (eight-days-away (format-time-string
+                             "%Y-%m-%d %a"
+                             (time-add (current-time) (days-to-time 8))))
+           (birthday
+            (concat "%%(org-anniversary 2000 "
+                    (number-to-string
+                     (string-to-number
+                      (format-time-string "%m" tomorrow-time)))
+                    " "
+                    (number-to-string
+                     (string-to-number
+                      (format-time-string "%d" tomorrow-time)))
+                    ") Test birthday\n"))
+           (file (make-temp-file
+                  "swanemacs-event-" nil ".org"
+                  (concat
+                   (format (concat "* TODO Yesterday meeting\n<%s 10:00>\n"
+                                   "* TODO Today meeting\n<%s 10:00>\n"
+                                   "* TODO Upcoming meeting\n<%s 10:00>\n"
+                                   "* TODO Later meeting\n<%s 10:00>\n")
+                           yesterday today tomorrow eight-days-away)
+                   "* Calendar\n"
+                   birthday
+                   "%%(alc-org-diary-holidays)\n"
+                   "%%(alc-org-diary-lunar-phases)\n")))
+           (org-agenda-files (list file))
+           (org-agenda-buffer-name " *SwanEmacs upcoming events test*")
+           (alc-powerorg-view-definitions
+            '((upcoming-test
+               :title "Upcoming test"
+               :blocks (upcoming-events)))))
+      (unwind-protect
+          (cl-letf (((symbol-function 'org-calendar-holiday)
+                     (lambda () "Test holiday"))
+                    ((symbol-function 'diary-lunar-phases)
+                     (lambda () "Test lunar event")))
+            (save-window-excursion
+              (alc-powerorg-open-view 'upcoming-test)
+              (with-current-buffer org-agenda-buffer-name
+                (expect (buffer-string) :to-match "Upcoming meeting")
+                (expect (buffer-string) :to-match "Test birthday")
+                (expect (buffer-string) :not :to-match "Yesterday meeting")
+                (expect (buffer-string) :not :to-match "Today meeting")
+                (expect (buffer-string) :not :to-match "Later meeting")
+                (expect (buffer-string) :not :to-match "Test holiday")
+                (expect (buffer-string) :not :to-match "Test lunar event"))))
+        (when (get-buffer org-agenda-buffer-name)
+          (kill-buffer org-agenda-buffer-name))
         (delete-file file)))))
 
 (describe "SwanEmacs startup"

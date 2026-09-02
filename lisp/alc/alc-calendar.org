@@ -6,10 +6,10 @@
 
 * Holidays
 
-%%(org-calendar-holiday)
+%%(alc-org-diary-holidays)
 
 * Astronomy
 
 %%(alc-org-diary-sunrise)
 %%(alc-org-diary-sunset)
-%%(diary-lunar-phases)
+%%(alc-org-diary-lunar-phases)

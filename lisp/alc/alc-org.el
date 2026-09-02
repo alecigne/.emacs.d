@@ -398,6 +398,17 @@ time of change will be 23:59 on that day"
   (defvar alc-org-agenda-include-solar t
     "Non-nil means include daily solar events in agenda views.")
 
+  (defvar alc-org-agenda-include-lunar t
+    "Non-nil means include lunar events in agenda views.")
+
+  (defvar alc-org-agenda-include-holidays t
+    "Non-nil means include calendar holidays in agenda views.")
+
+  (defun alc-org-diary-holidays ()
+    "Return today's holidays when calendar holidays are enabled."
+    (when alc-org-agenda-include-holidays
+      (org-calendar-holiday)))
+
   (defun alc-org-diary-sunrise ()
     "Return today's sunrise as a diary entry when solar events are enabled."
     (when alc-org-agenda-include-solar
@@ -411,6 +422,11 @@ time of change will be 23:59 on that day"
       (replace-regexp-in-string
        ".*\\(unset [^ ]*\\).*(\\(.*\\)" "S\\1 (after \\2"
        (diary-sunrise-sunset))))
+
+  (defun alc-org-diary-lunar-phases ()
+    "Return today's lunar event when lunar events are enabled."
+    (when alc-org-agenda-include-lunar
+      (diary-lunar-phases)))
 
   ;; Events today
   (setq alc-org-agenda-block-events-today

@@ -273,8 +273,9 @@
            ((org-agenda-overriding-header "Past seven days")
             (org-agenda-start-day "-6d")
             (org-agenda-span 7)
+            (org-agenda-start-on-weekday nil)
             (org-agenda-show-all-dates nil)
-            (org-agenda-start-with-log-mode t)
+            (org-agenda-start-with-log-mode 'only)
             (org-agenda-log-mode-items '(closed state))
             (org-deadline-warning-days 0)
             (alc-org-agenda-include-solar nil))))
@@ -290,21 +291,25 @@
             (alc-org-agenda-include-solar nil))))
 
 (defconst alc-powerorg-block-definitions
-  '((review-past-week
+  '(;; Past-week review: a sparse view of logged task activity.
+    (review-past-week
      :title "Past seven days"
      :renderer agenda
      :block-function alc-powerorg-review-past-week-block)
+    ;; Purchases: actionable items recorded as things to buy.
     (purchases
      :title "Purchases"
      :view t
      :renderer org-ql
      :query (and (todo)
                  (property "TYPE" "buy")))
+    ;; In progress: active tasks that are not project headings.
     (in-progress
      :title "In progress"
      :renderer agenda
      :block (tags-todo "-project/PROG"
                        ((org-agenda-overriding-header "In progress"))))
+    ;; Next actions: unscheduled TODO items tagged as next actions.
     (next-actions
      :title "Next actions"
      :view t
@@ -313,34 +318,40 @@
                        ((org-agenda-overriding-header "Next actions")
                         (org-agenda-skip-function
                          '(org-agenda-skip-entry-if 'scheduled)))))
+    ;; Current projects: actionable project headings.
     (current-projects
      :title "Current projects"
      :view t
      :renderer agenda
      :block (tags-todo "project"
                        ((org-agenda-overriding-header "Current projects"))))
+    ;; Waiting: tasks that depend on something else happening.
     (waiting
      :title "Waiting for something"
      :view t
      :renderer agenda
      :block (todo "WAIT"
                   ((org-agenda-overriding-header "Waiting for something"))))
+    ;; On hold: deliberately paused tasks.
     (on-hold
      :title "On hold"
      :renderer agenda
      :block (todo "HOLD"
                   ((org-agenda-overriding-header "On hold"))))
+    ;; Maybe: deferred ideas that have not been committed to.
     (maybe
      :title "Maybe"
      :renderer agenda
      :block (todo "MAYB"
                   ((org-agenda-overriding-header "Maybe"))))
+    ;; Inbox: unprocessed captured tasks.
     (inbox
      :title "Inbox"
      :view t
      :renderer agenda
      :block (tags-todo "inbox"
                        ((org-agenda-overriding-header "Inbox"))))
+    ;; Planning today: the complete agenda for the current day.
     (planning-today
      :title "Planning today"
      :view t
@@ -348,6 +359,7 @@
      :block (agenda ""
                     ((org-agenda-overriding-header "Planning today")
                      (org-agenda-span 'day))))
+    ;; Past events: unfinished events whose active timestamps have passed.
     (past-events
      :title "Past events"
      :renderer org-ql
@@ -356,6 +368,7 @@
                  (not (scheduled))
                  (not (deadline))
                  (ts-active :to -1)))
+    ;; Events today: today's timestamps and computed calendar events.
     (events-today
      :title "Events today"
      :renderer agenda
@@ -368,6 +381,26 @@
                       '(org-agenda-skip-entry-if
                         'deadline
                         'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))))))
+    ;; Upcoming events: a condensed view of the week to come.
+    (upcoming-events
+     :title "Upcoming events"
+     :renderer agenda
+     :block (agenda ""
+                    ((org-agenda-overriding-header "Upcoming events")
+                     (org-agenda-start-day "+1d")
+                     (org-agenda-span 7)
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-show-all-dates nil)
+                     (org-agenda-use-time-grid nil)
+                     (org-agenda-entry-types '(:timestamp :sexp))
+                     (alc-org-agenda-include-solar nil)
+                     (alc-org-agenda-include-lunar nil)
+                     (alc-org-agenda-include-holidays nil)
+                     (org-agenda-skip-function
+                      '(org-agenda-skip-entry-if
+                        'deadline
+                        'todo '("WAIT" "HOLD" "DONE" "GIVN" "CNCL"))))))
+    ;; Scheduled today: actionable tasks explicitly scheduled for today.
     (scheduled-today
      :title "Scheduled today"
      :view t
@@ -383,6 +416,7 @@
                             #'(lambda ()
                                 (equal (org-entry-get nil "TYPE")
                                        "clean"))))))))
+    ;; Cleaning: today's scheduled tasks classified as cleaning.
     (cleaning
      :title "Cleaning tasks"
      :view t
@@ -396,6 +430,7 @@
                         #'(lambda ()
                             (not (equal (org-entry-get nil "TYPE")
                                         "clean"))))))))
+    ;; Upcoming deadlines: actionable deadlines in the warning window.
     (upcoming-deadlines
      :title "Upcoming deadlines"
      :view t
@@ -411,11 +446,13 @@
                      (org-agenda-skip-function
                       '(org-agenda-skip-entry-if
                         'todo '("DONE" "GIVN" "CNCL"))))))
+    ;; Planning this month: a sparse agenda for the current calendar month.
     (planning-this-month
      :title "Planning this month"
      :view t
      :renderer agenda
      :block-function alc-powerorg-planning-this-month-block)
+    ;; Next-four-weeks review: a sparse forward look at planned work.
     (review-next-four-weeks
      :title "Next four weeks"
      :renderer agenda
@@ -426,19 +463,23 @@ Blocks marked with `:view t' also provide an implicit one-block view.")
 ;; ** Views
 
 (defconst alc-powerorg-view-definitions
-  '((events
+  '(;; Events: overdue, current, and near-future events in one timeline.
+    (events
      :title "Events"
-     :blocks (past-events events-today))
+     :blocks (past-events events-today upcoming-events))
+    ;; GTD: the operational view for events and actionable work.
     (gtd
      :title "Get Things Done"
      :blocks (past-events
               events-today
+              upcoming-events
               scheduled-today
               in-progress
               upcoming-deadlines
               waiting
               inbox
               next-actions))
+    ;; Weekly review: a retrospective and forward-looking system check.
     (weekly-review
      :title "Weekly review"
      :blocks (review-past-week
