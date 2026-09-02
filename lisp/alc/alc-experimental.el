@@ -328,7 +328,6 @@
     ;; Waiting: tasks that depend on something else happening.
     (waiting
      :title "Waiting for something"
-     :view t
      :renderer agenda
      :block (todo "WAIT"
                   ((org-agenda-overriding-header "Waiting for something"))))
@@ -351,14 +350,6 @@
      :renderer agenda
      :block (tags-todo "inbox"
                        ((org-agenda-overriding-header "Inbox"))))
-    ;; Planning today: the complete agenda for the current day.
-    (planning-today
-     :title "Planning today"
-     :view t
-     :renderer agenda
-     :block (agenda ""
-                    ((org-agenda-overriding-header "Planning today")
-                     (org-agenda-span 'day))))
     ;; Past events: unfinished events whose active timestamps have passed.
     (past-events
      :title "Past events"
@@ -403,7 +394,6 @@
     ;; Scheduled today: actionable tasks explicitly scheduled for today.
     (scheduled-today
      :title "Scheduled today"
-     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Scheduled today")
@@ -433,7 +423,6 @@
     ;; Upcoming deadlines: actionable deadlines in the warning window.
     (upcoming-deadlines
      :title "Upcoming deadlines"
-     :view t
      :renderer agenda
      :block (agenda ""
                     ((org-agenda-overriding-header "Upcoming deadlines")
@@ -503,13 +492,9 @@ Blocks marked with `:view t' also provide an implicit one-block view.")
     ("pp" "Purchases" alc-powerorg-open-view 'purchases)
     ("pc" "Current projects" alc-powerorg-open-view 'current-projects)
     ("pn" "Next actions" alc-powerorg-open-view 'next-actions)
-    ("pw" "Waiting" alc-powerorg-open-view 'waiting)
     ("pi" "Inbox" alc-powerorg-open-view 'inbox)
-    ("pt" "Planning today" alc-powerorg-open-view 'planning-today)
     ("pe" "Events" alc-powerorg-open-view 'events)
-    ("ps" "Scheduled today" alc-powerorg-open-view 'scheduled-today)
     ("pl" "Cleaning tasks" alc-powerorg-open-view 'cleaning)
-    ("pd" "Upcoming deadlines" alc-powerorg-open-view 'upcoming-deadlines)
     ("pm" "Planning this month" alc-powerorg-open-view
      'planning-this-month))
   "PowerOrg entries added to the Org agenda dispatcher.")
