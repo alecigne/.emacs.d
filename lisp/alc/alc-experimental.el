@@ -204,6 +204,19 @@
 ;; deliberately reuses SwanEmacs's Org workflow, agenda files, calendar events,
 ;; solar-event switch, and agenda finalizers.
 
+;; ** Recurring appointments
+
+(defun org-edna-action/alc-powerorg-flush-log! (_last-entry)
+  "Store a pending timestamp log before another Edna action replaces it.
+Edna syntax: alc-powerorg-flush-log!().
+Use between state and planning changes in a trigger.  Interactive note
+prompts are not handled by this action; use timestamp logging for the
+automated transitions."
+  (when (and org-log-setup (memq org-log-note-how '(time state)))
+    (save-window-excursion
+      (save-excursion
+        (org-add-log-note)))))
+
 ;; ** Machinery
 
 (defun alc-powerorg-block-definition (name)

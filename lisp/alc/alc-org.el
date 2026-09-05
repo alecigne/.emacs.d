@@ -796,8 +796,9 @@ With prefix argument ALL, toggle drawers in the entire buffer."
   ;; https://savannah.nongnu.org/projects/org-edna-el/
   :ensure t
   :after org
+  :demand t
   :config
-  (org-edna-mode))
+  (org-edna-mode 1))
 
 (use-package org-transclusion
   ;; Org-transclusion lets you insert a copy of text content via a file link or
